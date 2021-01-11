@@ -40,23 +40,6 @@ Promise.all([
     var distTotalCanada = dist_canada.reduce((a, b) => +a + +b.dvaccine, 0);
     var adminTotalCanada = admin_canada.reduce((a, b) => +a + +b.avaccine, 0);
 
-    // summarize population
-    var caseByRegion = d3.nest()
-    .key(function(d) { return d.prov_health_region_case; })
-    .rollup(function(v) { return {
-        case_count: d3.sum(v, function(d) { return d.cases; }),
-        case_new_count: d3.sum(v, function(d) { return d.case_new_count; }) 
-        };
-    })
-    .entries(cases)
-    .map(function(group) {
-        return {
-        case_prov_health_region: group.key,
-        case_count: group.value.case_count,
-        case_new_count: group.value.case_new_count
-        }
-    });
-
     // reformat dates, calculate % dist/admin of population
     dist_prov.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_distributed)
@@ -77,7 +60,70 @@ Promise.all([
         d.population = "31,966,591"
     });
 
+    // population cols: year,geo,age_group,age,population
+    var popCanada = population.reduce((a, b) => +a + +b.population, 0);
+    console.log(population);
+
+    // filter population by age_group
+    var sel_age_group = 14;
+
+    var caseSelectedRegion = caseWithStatscan.filter(function(d) { 
+        //if (sel_age_group === '70+') {
+            return d.age_group > sel_age_group;
+        //} else {
+            //return d.age_group === sel_age_group;
+        //}
+    });
+
+    // summarize population
+    var popByProv = d3.nest()
+    .key(function(d) { return d.geo; })
+    .rollup(function(v) { return {
+        population: d3.sum(v, function(d) { return d.population; })
+        };
+    })
+    .entries(population)
+    .map(function(group) {
+        return {
+        province: group.key,
+        population: group.value.population
+        }
+    });
+
+
+    // left join admin to dist - Canada
+    const distAdminCanada = equijoinWithDefault(
+        dist_canada, admin_canada, 
+        "prov_date", "prov_date", 
+        ({province, report_date, dvaccine, cumulative_dvaccine, population}, {avaccine, cumulative_avaccine}, ) => 
+        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine, population}), 
+        {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
+
+    // left join admin to dist - Provinces
+    const distAdminProv = equijoinWithDefault(
+        dist_prov, admin_prov, 
+        "prov_date", "prov_date", 
+        ({province, report_date, dvaccine, cumulative_dvaccine}, {avaccine, cumulative_avaccine}, ) => 
+        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine}), 
+        {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
+
+    // left join population to distAdminCanada
+
+    // left join population to distAdminProv
+    const distAdminProvPop = equijoinWithDefault(
+        distAdminProv, popByProv, 
+        "province", "province", 
+        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine}, {population}, ) => 
+        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine,population}), 
+        {population:"na"});
+
+
+    // get canada dist & admin max dates
+    maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
+    maxAdminDate = d3.max(admin_canada.map(d=>d.report_date));
+
     ///Functions start ======================
+
     // left join function used to join datasets
     function equijoinWithDefault(xs, ys, primary, foreign, sel, def) {
         const iy = ys.reduce((iy, row) => iy.set(row[foreign], row), new Map);
@@ -109,41 +155,6 @@ Promise.all([
     }
 
     ///Functions end ======================
-
-    // left join admin to dist - Canada
-    const distAdminCanada = equijoinWithDefault(
-        dist_canada, admin_canada, 
-        "prov_date", "prov_date", 
-        ({province, report_date, dvaccine, cumulative_dvaccine, population}, {avaccine, cumulative_avaccine}, ) => 
-        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine, population}), 
-        {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
-
-    // left join admin to dist - Provinces
-    const distAdminProv = equijoinWithDefault(
-        dist_prov, admin_prov, 
-        "prov_date", "prov_date", 
-        ({province, report_date, dvaccine, cumulative_dvaccine}, {avaccine, cumulative_avaccine}, ) => 
-        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine}), 
-        {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
-
-    console.log(distAdminCanada);
-
-    // left join population to distAdminProv
-    const distAdminProv = equijoinWithDefault(
-        dist_prov, admin_prov, 
-        "prov_date", "prov_date", 
-        ({province, report_date, dvaccine, cumulative_dvaccine}, {avaccine, cumulative_avaccine}, ) => 
-        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine}), 
-        {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
-
-    // left join population to distAdminProv
-
-
- 
-
-    // get canada dist & admin max dates
-    maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
-    maxAdminDate = d3.max(admin_canada.map(d=>d.report_date));
 
     // create charts
     function createCharts(statscanRegion) {

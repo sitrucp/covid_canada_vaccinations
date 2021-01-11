@@ -1,0 +1,274 @@
+﻿year,geo,age_group,age,population
+2020,NL,0 to 4 years,0,20402
+2020,NL,5 to 9 years,5,23376
+2020,NL,10 to 14 years,10,26186
+2020,NL,15 to 19 years,15,26994
+2020,NL,20 to 24 years,20,28910
+2020,NL,25 to 29 years,25,28076
+2020,NL,30 to 34 years,30,28942
+2020,NL,35 to 39 years,35,30151
+2020,NL,40 to 44 years,40,31426
+2020,NL,45 to 49 years,45,35754
+2020,NL,50 to 54 years,50,40214
+2020,NL,55 to 59 years,55,43105
+2020,NL,60 to 64 years,60,42339
+2020,NL,65 to 69 years,65,39718
+2020,NL,70 to 74 years,70,33179
+2020,NL,75 to 79 years,75,20458
+2020,NL,80 to 84 years,80,12617
+2020,NL,85 to 89 years,85,6662
+2020,NL,90 to 94 years,90,2715
+2020,NL,95 to 99 years,95,751
+2020,NL,100 years and over,100,128
+2020,PEI,0 to 4 years,0,7199
+2020,PEI,5 to 9 years,5,8248
+2020,PEI,10 to 14 years,10,8966
+2020,PEI,15 to 19 years,15,9340
+2020,PEI,20 to 24 years,20,11577
+2020,PEI,25 to 29 years,25,10321
+2020,PEI,30 to 34 years,30,9212
+2020,PEI,35 to 39 years,35,9314
+2020,PEI,40 to 44 years,40,9586
+2020,PEI,45 to 49 years,45,10231
+2020,PEI,50 to 54 years,50,10319
+2020,PEI,55 to 59 years,55,12005
+2020,PEI,60 to 64 years,60,11350
+2020,PEI,65 to 69 years,65,10116
+2020,PEI,70 to 74 years,70,9106
+2020,PEI,75 to 79 years,75,5589
+2020,PEI,80 to 84 years,80,3641
+2020,PEI,85 to 89 years,85,2244
+2020,PEI,90 to 94 years,90,935
+2020,PEI,95 to 99 years,95,281
+2020,PEI,100 years and over,100,45
+2020,Nova Scotia,0 to 4 years,0,42443
+2020,Nova Scotia,5 to 9 years,5,46177
+2020,Nova Scotia,10 to 14 years,10,48170
+2020,Nova Scotia,15 to 19 years,15,50776
+2020,Nova Scotia,20 to 24 years,20,61556
+2020,Nova Scotia,25 to 29 years,25,63359
+2020,Nova Scotia,30 to 34 years,30,61264
+2020,Nova Scotia,35 to 39 years,35,58683
+2020,Nova Scotia,40 to 44 years,40,56907
+2020,Nova Scotia,45 to 49 years,45,61194
+2020,Nova Scotia,50 to 54 years,50,65276
+2020,Nova Scotia,55 to 59 years,55,78780
+2020,Nova Scotia,60 to 64 years,60,75941
+2020,Nova Scotia,65 to 69 years,65,66676
+2020,Nova Scotia,70 to 74 years,70,57399
+2020,Nova Scotia,75 to 79 years,75,37734
+2020,Nova Scotia,80 to 84 years,80,24225
+2020,Nova Scotia,85 to 89 years,85,14184
+2020,Nova Scotia,90 to 94 years,90,6318
+2020,Nova Scotia,95 to 99 years,95,1930
+2020,Nova Scotia,100 years and over,100,359
+2020,New Brunswick,0 to 4 years,0,33582
+2020,New Brunswick,5 to 9 years,5,38199
+2020,New Brunswick,10 to 14 years,10,40354
+2020,New Brunswick,15 to 19 years,15,40662
+2020,New Brunswick,20 to 24 years,20,43490
+2020,New Brunswick,25 to 29 years,25,43981
+2020,New Brunswick,30 to 34 years,30,44703
+2020,New Brunswick,35 to 39 years,35,46655
+2020,New Brunswick,40 to 44 years,40,48179
+2020,New Brunswick,45 to 49 years,45,51551
+2020,New Brunswick,50 to 54 years,50,54044
+2020,New Brunswick,55 to 59 years,55,63300
+2020,New Brunswick,60 to 64 years,60,61514
+2020,New Brunswick,65 to 69 years,65,55477
+2020,New Brunswick,70 to 74 years,70,46962
+2020,New Brunswick,75 to 79 years,75,30462
+2020,New Brunswick,80 to 84 years,80,19475
+2020,New Brunswick,85 to 89 years,85,11705
+2020,New Brunswick,90 to 94 years,90,5213
+2020,New Brunswick,95 to 99 years,95,1704
+2020,New Brunswick,100 years and over,100,264
+2020,Quebec,0 to 4 years,0,430250
+2020,Quebec,5 to 9 years,5,465890
+2020,Quebec,10 to 14 years,10,457420
+2020,Quebec,15 to 19 years,15,426496
+2020,Quebec,20 to 24 years,20,499370
+2020,Quebec,25 to 29 years,25,564669
+2020,Quebec,30 to 34 years,30,548066
+2020,Quebec,35 to 39 years,35,578273
+2020,Quebec,40 to 44 years,40,581724
+2020,Quebec,45 to 49 years,45,527233
+2020,Quebec,50 to 54 years,50,546847
+2020,Quebec,55 to 59 years,55,637724
+2020,Quebec,60 to 64 years,60,619126
+2020,Quebec,65 to 69 years,65,529279
+2020,Quebec,70 to 74 years,70,440008
+2020,Quebec,75 to 79 years,75,313752
+2020,Quebec,80 to 84 years,80,198497
+2020,Quebec,85 to 89 years,85,128147
+2020,Quebec,90 to 94 years,90,60879
+2020,Quebec,95 to 99 years,95,18086
+2020,Quebec,100 years and over,100,2835
+2020,Ontario,0 to 4 years,0,723016
+2020,Ontario,5 to 9 years,5,762654
+2020,Ontario,10 to 14 years,10,792947
+2020,Ontario,15 to 19 years,15,852405
+2020,Ontario,20 to 24 years,20,1039661
+2020,Ontario,25 to 29 years,25,1077433
+2020,Ontario,30 to 34 years,30,1041952
+2020,Ontario,35 to 39 years,35,992844
+2020,Ontario,40 to 44 years,40,921378
+2020,Ontario,45 to 49 years,45,932058
+2020,Ontario,50 to 54 years,50,968546
+2020,Ontario,55 to 59 years,55,1073519
+2020,Ontario,60 to 64 years,60,961243
+2020,Ontario,65 to 69 years,65,803962
+2020,Ontario,70 to 74 years,70,673546
+2020,Ontario,75 to 79 years,75,461015
+2020,Ontario,80 to 84 years,80,319548
+2020,Ontario,85 to 89 years,85,204227
+2020,Ontario,90 to 94 years,90,98638
+2020,Ontario,95 to 99 years,95,29527
+2020,Ontario,100 years and over,100,3895
+2020,Manitoba,0 to 4 years,0,85220
+2020,Manitoba,5 to 9 years,5,89507
+2020,Manitoba,10 to 14 years,10,86583
+2020,Manitoba,15 to 19 years,15,85808
+2020,Manitoba,20 to 24 years,20,96636
+2020,Manitoba,25 to 29 years,25,97157
+2020,Manitoba,30 to 34 years,30,98789
+2020,Manitoba,35 to 39 years,35,95203
+2020,Manitoba,40 to 44 years,40,86739
+2020,Manitoba,45 to 49 years,45,82541
+2020,Manitoba,50 to 54 years,50,80302
+2020,Manitoba,55 to 59 years,55,89949
+2020,Manitoba,60 to 64 years,60,83163
+2020,Manitoba,65 to 69 years,65,70981
+2020,Manitoba,70 to 74 years,70,57001
+2020,Manitoba,75 to 79 years,75,38329
+2020,Manitoba,80 to 84 years,80,25922
+2020,Manitoba,85 to 89 years,85,16952
+2020,Manitoba,90 to 94 years,90,8968
+2020,Manitoba,95 to 99 years,95,3010
+2020,Manitoba,100 years and over,100,503
+2020,Saskatchewan,0 to 4 years,0,75200
+2020,Saskatchewan,5 to 9 years,5,78696
+2020,Saskatchewan,10 to 14 years,10,76730
+2020,Saskatchewan,15 to 19 years,15,71304
+2020,Saskatchewan,20 to 24 years,20,75402
+2020,Saskatchewan,25 to 29 years,25,77488
+2020,Saskatchewan,30 to 34 years,30,85751
+2020,Saskatchewan,35 to 39 years,35,86664
+2020,Saskatchewan,40 to 44 years,40,76067
+2020,Saskatchewan,45 to 49 years,45,67397
+2020,Saskatchewan,50 to 54 years,50,65716
+2020,Saskatchewan,55 to 59 years,55,77024
+2020,Saskatchewan,60 to 64 years,60,74222
+2020,Saskatchewan,65 to 69 years,65,62071
+2020,Saskatchewan,70 to 74 years,70,46528
+2020,Saskatchewan,75 to 79 years,75,31910
+2020,Saskatchewan,80 to 84 years,80,22791
+2020,Saskatchewan,85 to 89 years,85,15931
+2020,Saskatchewan,90 to 94 years,90,8492
+2020,Saskatchewan,95 to 99 years,95,2773
+2020,Saskatchewan,100 years and over,100,524
+2020,Alberta,0 to 4 years,0,269163
+2020,Alberta,5 to 9 years,5,277785
+2020,Alberta,10 to 14 years,10,276328
+2020,Alberta,15 to 19 years,15,256742
+2020,Alberta,20 to 24 years,20,277328
+2020,Alberta,25 to 29 years,25,314507
+2020,Alberta,30 to 34 years,30,356226
+2020,Alberta,35 to 39 years,35,359301
+2020,Alberta,40 to 44 years,40,319889
+2020,Alberta,45 to 49 years,45,288546
+2020,Alberta,50 to 54 years,50,266489
+2020,Alberta,55 to 59 years,55,284259
+2020,Alberta,60 to 64 years,60,264339
+2020,Alberta,65 to 69 years,65,210073
+2020,Alberta,70 to 74 years,70,157657
+2020,Alberta,75 to 79 years,75,102977
+2020,Alberta,80 to 84 years,80,68565
+2020,Alberta,85 to 89 years,85,44033
+2020,Alberta,90 to 94 years,90,20921
+2020,Alberta,95 to 99 years,95,5746
+2020,Alberta,100 years and over,100,1002
+2020,BC,0 to 4 years,0,225897
+2020,BC,5 to 9 years,5,244206
+2020,BC,10 to 14 years,10,249173
+2020,BC,15 to 19 years,15,272195
+2020,BC,20 to 24 years,20,340325
+2020,BC,25 to 29 years,25,358457
+2020,BC,30 to 34 years,30,376466
+2020,BC,35 to 39 years,35,363871
+2020,BC,40 to 44 years,40,323620
+2020,BC,45 to 49 years,45,325674
+2020,BC,50 to 54 years,50,343894
+2020,BC,55 to 59 years,55,376848
+2020,BC,60 to 64 years,60,360150
+2020,BC,65 to 69 years,65,314021
+2020,BC,70 to 74 years,70,262197
+2020,BC,75 to 79 years,75,174377
+2020,BC,80 to 84 years,80,115218
+2020,BC,85 to 89 years,85,73205
+2020,BC,90 to 94 years,90,35355
+2020,BC,95 to 99 years,95,10613
+2020,BC,100 years and over,100,1950
+2020,Yukon,0 to 4 years,0,2413
+2020,Yukon,5 to 9 years,5,2508
+2020,Yukon,10 to 14 years,10,2246
+2020,Yukon,15 to 19 years,15,2067
+2020,Yukon,20 to 24 years,20,2346
+2020,Yukon,25 to 29 years,25,2828
+2020,Yukon,30 to 34 years,30,3468
+2020,Yukon,35 to 39 years,35,3549
+2020,Yukon,40 to 44 years,40,3050
+2020,Yukon,45 to 49 years,45,2864
+2020,Yukon,50 to 54 years,50,2753
+2020,Yukon,55 to 59 years,55,3233
+2020,Yukon,60 to 64 years,60,3116
+2020,Yukon,65 to 69 years,65,2385
+2020,Yukon,70 to 74 years,70,1532
+2020,Yukon,75 to 79 years,75,862
+2020,Yukon,80 to 84 years,80,464
+2020,Yukon,85 to 89 years,85,246
+2020,Yukon,90 to 94 years,90,84
+2020,Yukon,95 to 99 years,95,31
+2020,Yukon,100 years and over,100,7
+2020,NWT,0 to 4 years,0,2963
+2020,NWT,5 to 9 years,5,3081
+2020,NWT,10 to 14 years,10,3010
+2020,NWT,15 to 19 years,15,2793
+2020,NWT,20 to 24 years,20,3028
+2020,NWT,25 to 29 years,25,3688
+2020,NWT,30 to 34 years,30,3705
+2020,NWT,35 to 39 years,35,3405
+2020,NWT,40 to 44 years,40,3348
+2020,NWT,45 to 49 years,45,2919
+2020,NWT,50 to 54 years,50,3238
+2020,NWT,55 to 59 years,55,3389
+2020,NWT,60 to 64 years,60,2619
+2020,NWT,65 to 69 years,65,1818
+2020,NWT,70 to 74 years,70,1048
+2020,NWT,75 to 79 years,75,603
+2020,NWT,80 to 84 years,80,293
+2020,NWT,85 to 89 years,85,133
+2020,NWT,90 to 94 years,90,57
+2020,NWT,95 to 99 years,95,21
+2020,NWT,100 years and over,100,2
+2020,Nunavut,0 to 4 years,0,4196
+2020,Nunavut,5 to 9 years,5,4276
+2020,Nunavut,10 to 14 years,10,3987
+2020,Nunavut,15 to 19 years,15,3283
+2020,Nunavut,20 to 24 years,20,3173
+2020,Nunavut,25 to 29 years,25,3276
+2020,Nunavut,30 to 34 years,30,3179
+2020,Nunavut,35 to 39 years,35,2767
+2020,Nunavut,40 to 44 years,40,2334
+2020,Nunavut,45 to 49 years,45,2154
+2020,Nunavut,50 to 54 years,50,2277
+2020,Nunavut,55 to 59 years,55,1761
+2020,Nunavut,60 to 64 years,60,1119
+2020,Nunavut,65 to 69 years,65,698
+2020,Nunavut,70 to 74 years,70,459
+2020,Nunavut,75 to 79 years,75,235
+2020,Nunavut,80 to 84 years,80,114
+2020,Nunavut,85 to 89 years,85,41
+2020,Nunavut,90 to 94 years,90,18
+2020,Nunavut,95 to 99 years,95,3
+2020,Nunavut,100 years and over,100,3
