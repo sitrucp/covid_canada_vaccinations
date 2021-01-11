@@ -9,6 +9,8 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
+var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/statscan_population.csv";
+
 var file_update_time = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/update_time.txt";
 
 Promise.all([
@@ -16,6 +18,7 @@ Promise.all([
     d3.csv(file_admin_prov),
     d3.csv(file_dist_canada),
     d3.csv(file_admin_canada),
+    d3.csv(file_population),
     d3.csv(file_update_time)
 ]).then(function(data) {
     //everthing else below is in d3 promise scope
@@ -25,7 +28,8 @@ Promise.all([
     var admin_prov = data[1];
     var dist_canada = data[2];
     var admin_canada = data[3];
-    var updateTime = data[4];
+    var population = data[4];
+    var updateTime = data[5];
 
     // get update time from working group repository
     lastUpdated = updateTime.columns[0];
@@ -35,6 +39,23 @@ Promise.all([
     // ggt case and mortality totals by summing values
     var distTotalCanada = dist_canada.reduce((a, b) => +a + +b.dvaccine, 0);
     var adminTotalCanada = admin_canada.reduce((a, b) => +a + +b.avaccine, 0);
+
+    // summarize population
+    var caseByRegion = d3.nest()
+    .key(function(d) { return d.prov_health_region_case; })
+    .rollup(function(v) { return {
+        case_count: d3.sum(v, function(d) { return d.cases; }),
+        case_new_count: d3.sum(v, function(d) { return d.case_new_count; }) 
+        };
+    })
+    .entries(cases)
+    .map(function(group) {
+        return {
+        case_prov_health_region: group.key,
+        case_count: group.value.case_count,
+        case_new_count: group.value.case_new_count
+        }
+    });
 
     // reformat dates, calculate % dist/admin of population
     dist_prov.forEach(function(d) {
