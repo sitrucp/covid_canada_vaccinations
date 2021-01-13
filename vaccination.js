@@ -9,7 +9,7 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
-var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/statscan_population.csv";
+var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
 
 var file_update_time = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/update_time.txt";
 
@@ -40,6 +40,36 @@ Promise.all([
     var distTotalCanada = dist_canada.reduce((a, b) => +a + +b.dvaccine, 0);
     var adminTotalCanada = admin_canada.reduce((a, b) => +a + +b.avaccine, 0);
 
+    // get canada dist & admin max dates
+    maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
+    maxAdminDate = d3.max(admin_canada.map(d=>d.report_date));
+
+    //==== population data start ====
+    // filter population by age_group
+    var sel_age_group = 14;
+    var populationFiltered = population.filter(function(d) { 
+        return parseInt(d.age_group) > parseInt(sel_age_group);
+    });
+    
+    // summarize population by Canada
+    var popByCanada = populationFiltered.reduce((a, b) => +a + +b.population, 0);
+
+    // summarize population by province
+    var popByProv = d3.nest()
+        .key(function(d) { return d.geo; })
+        .rollup(function(v) { return {
+            population: d3.sum(v, function(d) { return d.population; })
+            };
+        })
+        .entries(populationFiltered)
+        .map(function(group) {
+            return {
+            province: group.key,
+            population: group.value.population
+            }
+        });
+    //==== population data end ====
+
     // reformat dates, calculate % dist/admin of population
     dist_prov.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_distributed)
@@ -52,52 +82,27 @@ Promise.all([
     dist_canada.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_distributed)
         d.prov_date = d.province + '|' + d.date_vaccine_distributed
-        d.population = "31,966,591"
+        d.population = popByCanada
     });
     admin_canada.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_administered)
         d.prov_date = d.province + '|' + d.date_vaccine_administered
-        d.population = "31,966,591"
     });
-
-    // population cols: year,geo,age_group,age,population
-    var popCanada = population.reduce((a, b) => +a + +b.population, 0);
-    console.log(population);
-
-    // filter population by age_group
-    var sel_age_group = 14;
-
-    var caseSelectedRegion = caseWithStatscan.filter(function(d) { 
-        //if (sel_age_group === '70+') {
-            return d.age_group > sel_age_group;
-        //} else {
-            //return d.age_group === sel_age_group;
-        //}
-    });
-
-    // summarize population
-    var popByProv = d3.nest()
-    .key(function(d) { return d.geo; })
-    .rollup(function(v) { return {
-        population: d3.sum(v, function(d) { return d.population; })
-        };
-    })
-    .entries(population)
-    .map(function(group) {
-        return {
-        province: group.key,
-        population: group.value.population
-        }
-    });
-
-
+    
     // left join admin to dist - Canada
-    const distAdminCanada = equijoinWithDefault(
+    const distAdminCanadaPop = equijoinWithDefault(
         dist_canada, admin_canada, 
         "prov_date", "prov_date", 
         ({province, report_date, dvaccine, cumulative_dvaccine, population}, {avaccine, cumulative_avaccine}, ) => 
         ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine, population}), 
         {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
+
+    // add percentages to distAdminCanada
+    distAdminCanadaPop.forEach(function(d) {
+        d.pct_pop_dist = parseInt(d.cumulative_dvaccine) / parseInt(d.population)
+        d.pct_pop_admin = parseInt(d.cumulative_avaccine) / parseInt(d.population)
+        d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
+    });
 
     // left join admin to dist - Provinces
     const distAdminProv = equijoinWithDefault(
@@ -105,24 +110,142 @@ Promise.all([
         "prov_date", "prov_date", 
         ({province, report_date, dvaccine, cumulative_dvaccine}, {avaccine, cumulative_avaccine}, ) => 
         ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine}), 
-        {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
+        {avaccine:"0", cumulative_avaccine:"0"});
 
-    // left join population to distAdminCanada
+    // map population to distAdminProv
+    const distAdminProvPop = distAdminProv.map(t1 => ({...t1, ...popByProv.find(t2 => t2.province === t1.province)}))
 
-    // left join population to distAdminProv
-    const distAdminProvPop = equijoinWithDefault(
-        distAdminProv, popByProv, 
-        "province", "province", 
-        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine}, {population}, ) => 
-        ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine,population}), 
-        {population:"na"});
+    // add percentages to distAdminProvPop
+    distAdminProvPop.forEach(function(d) {
+        d.pct_pop_dist = parseInt(d.cumulative_dvaccine) / parseInt(d.population)
+        d.pct_pop_admin = parseInt(d.cumulative_avaccine) / parseInt(d.population)
+        d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
+    });
 
+    // create charts
+    // call createCharts when page loads, or when user changes age filter
 
-    // get canada dist & admin max dates
-    maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
-    maxAdminDate = d3.max(admin_canada.map(d=>d.report_date));
+    function createCanadaChart() {
 
-    ///Functions start ======================
+        // CREATE CANADA CHART
+
+        // create x and y axis data sets
+        var x = [];
+        var yDistAdmin = [];
+        var yPopAdmin = [];
+        var yPopDist = [];
+
+        // create axes x and y arrays
+        for (var i=0; i<distAdminCanadaPop.length; i++) {
+            var row = distAdminCanadaPop[i];
+            x.push(row['report_date']);
+            yDistAdmin.push(row['pct_dist_admin']);
+            yPopAdmin.push(row['pct_pop_admin']);
+            yPopDist.push(row['pct_pop_dist']);
+        }
+
+        var pctDistAdmin = {
+            name: 'pctDistAdmin',
+            x: x,
+            y: yDistAdmin,
+            type: 'scatter',
+        };
+        
+        var pctPopAdmin = {
+            name: 'pctPopAdmin',
+            x: x,
+            y: yPopAdmin,
+            type: 'scatter'
+        };
+
+        var pctDistAdmin = {
+            name: 'pctPopDist',
+            x: x,
+            y: yPopDist,
+            type: 'scatter'
+        };
+        
+        var data = [pctDistAdmin, pctPopAdmin];
+        
+        Plotly.newPlot('divCanadaChart', data);
+
+    }
+
+    function createProvChart() {
+        // CREATE PROV CHART
+
+        // get list of provinces 
+        provArray = [];
+        for (var i=0; i<distAdminProvPop.length; i++) {
+            provArray.push(distAdminProvPop[i]['province']);
+        }
+        let provList = [...new Set(provArray)];
+
+        // loop through provList to create chart for each prov
+        for (var i=0; i<provList.length; i++) {
+            
+            console.log(provList[i], i);
+
+            var provData = distAdminProvPop.filter(function(d) { 
+                return d.province === provList[i];
+            });
+
+            // create x and y axis data sets
+            var x = [];
+            var yDistAdmin = [];
+            var yPopAdmin = [];
+            var yPopDist = [];
+
+            for (var j=0; j<provData.length; j++) {
+                var row = provData[j];
+                x.push(row['report_date']);
+                yDistAdmin.push(row['pct_dist_admin']);
+                yPopAdmin.push(row['pct_pop_admin']);
+                yPopDist.push(row['pct_pop_dist']);
+            }
+
+            // create Prov chart
+            var pctDistAdmin = {
+                name: 'pctDistAdmin',
+                x: x,
+                y: yDistAdmin,
+                type: 'scatter',
+            };
+            
+            var pctPopAdmin = {
+                name: 'pctPopAdmin',
+                x: x,
+                y: yPopAdmin,
+                type: 'scatter'
+            };
+            
+            var pctDistAdmin = {
+                name: 'pctPopDist',
+                x: x,
+                y: yPopDist,
+                type: 'scatter'
+            };
+            
+            //var data = [pctDistAdmin, pctPopAdmin, pctPopDist];
+            var data = [pctPopAdmin, pctDistAdmin];
+
+            var provDiv = 'provDiv' + i;
+            var provTitle = 'title' + provDiv;
+            var titleProvChart = document.createElement("p");
+            var divProvChartItem = document.createElement("div");
+            
+            divProvChartItem.id = provDiv;
+            titleProvChart.id = provTitle;
+            titleProvChart.textContent = provList[i];
+
+            document.getElementById('divProvChart').append(titleProvChart);
+            document.getElementById('divProvChart').append(divProvChartItem);
+            Plotly.newPlot(provDiv, data);
+        }
+    }
+
+        // ======================
+    // Functions start
 
     // left join function used to join datasets
     function equijoinWithDefault(xs, ys, primary, foreign, sel, def) {
@@ -138,7 +261,7 @@ Promise.all([
         return newDate
     }
 
-    // moving average function
+    // moving average function - used in chart y axis value
     function movingAverage(values, N) {
         let i = 0;
         let sum = 0;
@@ -154,390 +277,11 @@ Promise.all([
         return means;
     }
 
-    ///Functions end ======================
+    createCanadaChart();
 
-    // create charts
-    function createCharts(statscanRegion) {
-        // create region details and charts
-        var regionCaseCount = getCaseCount(statscanRegion);
-        var regionMortCount = getMortCount(statscanRegion);
-        var regionProvince = getProvince(statscanRegion);
-        var casePctCanada = parseFloat(regionCaseCount / caseTotalCanada * 100).toFixed(2)+"%";
-        var mortPctCanada = parseFloat(regionMortCount / mortTotalCanada * 100).toFixed(2)+"%";
-        
-        // filter to case and mort data to selected region
-        var caseSelectedRegion = caseWithStatscan.filter(function(d) { 
-            if (statscanRegion === 'Canada') {
-                return d.statscan_arcgis_health_region !== statscanRegion;
-            } else {
-                return d.statscan_arcgis_health_region === statscanRegion;
-            }
-        });
-        var mortSelectedRegion = mortWithStatscan.filter(function(d) { 
-            if (statscanRegion === 'Canada') {
-                return d.statscan_arcgis_health_region !== statscanRegion;
-            } else {
-                return d.statscan_arcgis_health_region === statscanRegion;
-            } 
-        });
+    createProvChart();
 
-        // get min and max case and mort dates for selected region 
-        caseDates = caseSelectedRegion.map(function(d) {
-            return {"report_date": d.report_date};
-        });
-        minCaseDate = d3.min(caseDates.map(d=>d.report_date));
-        maxCaseDate = d3.max(caseDates.map(d=>d.report_date));
-        mortDates = mortSelectedRegion.map(function(d) {
-            return {"report_date": d.report_date};
-        });
-        minMortDate = d3.min(mortDates.map(d=>d.report_date));
-        maxMortDate = d3.max(mortDates.map(d=>d.report_date));
-
-
-        //create daily cases chart
-        // get max case count for region for y axis
-        if(d3.max(caseRegionByDate.map(d=>d.case_count)) > 5) {
-            var regionMaxDailyCaseCount = d3.max(caseRegionByDate.map(d=>d.case_count));
-        } else {
-            var regionMaxDailyCaseCount = 5;
-        }
-        
-        if (regionCaseCount > 5) {
-            var yAxis2RangeMaxCase = regionCaseCount;
-        } else {
-            var yAxis2RangeMaxCase = 5;
-        }
-        
-        if(regionCaseCount > 0) {
-            // create x and y axis data sets
-            var xCases = [];
-            var yCases = [];
-            var xCasesCum = [];
-            var yCasesCum = [];
-            // create axes x and y arrays
-            for (var i=0; i<caseRegionByDate.length; i++) {
-                row = caseRegionByDate[i];
-                xCases.push( row['report_date']);
-                yCases.push( row['case_count']);
-                xCasesCum.push( row['report_date']);
-                yCasesCum.push( row['cum_case_count']);
-            }
-            // set up plotly chart
-            var casesDaily = {
-                name: 'Daily',
-                //text: 'Daily',
-                x: xCases,
-                y: yCases,
-                type: 'bar',
-                width: 1000*3600*24,
-                marker: {
-                    color: 'rgb(169,169,169)',
-                    line: {
-                    color: 'rgb(169,169,169)',
-                    width: 1
-                    }
-                }
-            };
-            var casesCum = {
-                name: 'Cumulative',
-                //text: 'Cumulative',
-                x: xCasesCum,
-                y: yCasesCum,
-                yaxis: 'y2',
-                type: 'scatter',
-                mode: 'lines',
-                line: {
-                    shape: 'linear', 
-                    color: 'rgb(64,64,64)',
-                    width: 2
-                },
-                connectgaps: true
-            };
-            var casesMA = {
-                name: '7D MA',
-                //text: '7D MA',
-                x: xCases,
-                y: movingAverage(yCases, 7),
-                yaxis: 'y',
-                type: 'scatter',
-                mode: 'lines',
-                line: {
-                    shape: 'linear', 
-                    color: 'rgb(5,113,176)',
-                    width: 2
-                },
-                connectgaps: true
-            };
-            var caseChartData = [casesDaily, casesCum, casesMA];
-            var caseChartLayout = {
-                title: {
-                    text:'Cases',
-                    font: {
-                        weight: "bold",
-                        size: 12
-                    },
-                },
-                showlegend: true,
-                legend: {
-                    "orientation": "h",
-                    x: 0,
-                    xanchor: 'left',
-                    y: 1,
-                    bgcolor: 'rgba(0,0,0,0)',
-                    font: {
-                        //family: 'sans-serif',
-                        size: 10
-                        //color: '#000'
-                    },
-                },
-                autosize: false,
-                autoscale: false,
-                width: 250,
-                height: 150,
-                margin: {
-                    l: 30,
-                    r: 40,
-                    b: 30,
-                    t: 25,
-                    pad: 2
-                },
-                xaxis: { 
-                    //autotick: true,
-                    //mirror: 'allticks',
-                    type: "date",
-                    tickformat: "%b-%d",
-                    tickfont: {
-                        size: 10
-                    },
-                    tickangle: 0,
-                    //autorange: false,
-                    range:[
-                        new Date(minCaseDate).getTime(),
-                        new Date(maxCaseDate).getTime()
-                    ],
-                    //tickmode: 'auto',
-                    //nticks: 5,
-                    //tick0: '2020-03-05',
-                    //dtick: 1209600000.0,
-                    //autotick: false,
-                    //nticks: 5,
-                // autorange: false,
-                },
-                yaxis: { 
-                    //autorange: true, 
-                    tickfont: {
-                        size: 10
-                    },
-                    range:[0, regionMaxDailyCaseCount],
-                    showgrid: false
-                },
-                yaxis2 : {
-                    //autorange: true, 
-                    type: yaxis2_type,
-                    tickfont: {
-                        size: 10
-                    },
-                    range:[0, yAxis2RangeMaxCase],
-                    overlaying: 'y',
-                    side: 'right',
-                    showgrid: false
-                }
-            };
-            Plotly.newPlot('region_daily_cases_chart', caseChartData, caseChartLayout);
-        } else {
-            document.getElementById('region_daily_cases_chart').innerHTML = '';
-        }
-
-        // daily mort chart==================
-        // get max mort count for region for y axis
-        
-        if(d3.max(mortRegionByDate.map(d=>d.mort_count)) > 5) {
-            var regionMaxDailyMortCount = d3.max(mortRegionByDate.map(d=>d.mort_count));
-        } else {
-            var regionMaxDailyMortCount = 5;
-        }
-        
-        if (regionMortCount > 5) {
-            var yAxis2RangeMaxMort = regionMortCount;
-        } else {
-            var yAxis2RangeMaxMort = 5;
-        }
-        
-        if(regionMortCount > 0) {
-            // create x and y axis data sets
-            var xMort = [];
-            var yMort = [];
-            var xMortCum = [];
-            var yMortCum = [];
-
-            for (var i=0; i<mortRegionByDate.length; i++) {
-                row = mortRegionByDate[i];
-                xMort.push( row['report_date'] );
-                yMort.push( row['mort_count'] );
-                xMortCum.push( row['report_date']);
-                yMortCum.push( row['cum_mort_count']);
-            }
-            
-            // set up plotly chart
-            var mortsDaily = {
-                name: 'Daily',
-                //text: 'Daily',
-                x: xMort,
-                y: yMort,
-                type: 'bar',
-                width: 1000*3600*24,
-                marker: {
-                    color: 'rgb(169,169,169)',
-                    line: {
-                    color: 'rgb(169,169,169)',
-                    width: 1
-                    }
-                }
-            };
-            var mortsCum = {
-                name: 'Cumulative',
-                //text: 'Cumulative',
-                x: xMortCum,
-                y: yMortCum,
-                yaxis: 'y2',
-                type: 'scatter',
-                mode: 'lines',
-                line: {
-                    shape: 'linear',
-                    color: 'rgb(64,64,64)',
-                    width: 2
-                },
-                
-                connectgaps: true
-            };
-            var mortsMA = {
-                name: '7D MA',
-                //text: '7D MA',
-                x: xMort,
-                y: movingAverage(yMort, 7),
-                yaxis: 'y',
-                type: 'scatter',
-                mode: 'lines',
-                line: {
-                    shape: 'linear',
-                    color: 'rgb(5,113,176)',
-                    width: 2
-                },
-                connectgaps: true
-            };
-            var mortChartData = [mortsDaily, mortsCum, mortsMA];
-            var mortChartLayout = {
-                title: {
-                    text:'Mortalities',
-                    font: {
-                        weight: "bold",
-                        size: 12
-                    },
-                },
-                showlegend: false,
-                autosize: false,
-                autoscale: false,
-                width: 250,
-                height: 150,
-                margin: {
-                    l: 30,
-                    r: 35,
-                    b: 50,
-                    t: 25,
-                    pad: 5
-                },
-                xaxis: { 
-                    //autotick: true,
-                    //mirror: 'allticks',
-                    type: "date",
-                    tickformat: "%b-%d",
-                    tickfont: {
-                        size: 10
-                    },
-                    tickangle: 0,
-                    range:[
-                        new Date(minCaseDate).getTime(), 
-                        new Date(maxCaseDate).getTime()
-                    ],
-                    //tickmode: 'auto',
-                    //nticks: 5,
-                    //tick0: '2020-03-05',
-                    //dtick: 1209600000.0,
-                    //tickmode: 'linear',
-                    //tick0: '2020-03-05'
-                    //dtick: 432000000,
-                },
-                yaxis: { 
-                    tickfont: {
-                        size: 10
-                    },
-                    tickformat: ',d',
-                    autorange: false, 
-                    range:[0, regionMaxDailyMortCount],
-                    showgrid:false
-                },
-                yaxis2 : {
-                    tickfont: {
-                        size: 10
-                    },
-                    tickformat: ',d',
-                    autorange: false, 
-                    range:[0, yAxis2RangeMaxMort],
-                    overlaying: 'y',
-                    side: 'right',
-                    showgrid:false
-                }
-            };
-            Plotly.newPlot('region_daily_morts_chart', mortChartData, mortChartLayout);
-        } else {
-            document.getElementById('region_daily_morts_chart').innerHTML = '';
-        }
-    }
-        
-    //CREATE TABLE BELOW MAP=================================
-    $(document).ready(function () {
-        var thead;
-        var thead_tr;
-        thead = $("<thead>");
-        thead_tr = $("<tr/>");
-        thead_tr.append("<th>Province</th>");
-        thead_tr.append("<th style='text-align: right';>Case Count</th>");
-        thead_tr.append("<th style='text-align: right';>Doses Distributed</th>");
-        thead_tr.append("<th style='text-align: right';Doses Administered</th>");
-        thead_tr.append("<th style='text-align: right';>Population</th>");
-        thead_tr.append("<th style='text-align: right';>Dist % Pop'n</th>");
-        thead_tr.append("<th style='text-align: right';>Admin % Pop'n</th>");
-        thead_tr.append("<th style='text-align: right';>Dist Rate</th>");thead_tr.append("<th style='text-align: right';>Admin Rate</th>");
-        thead_tr.append("<th style='text-align: right';>Dist Complete Days</th>");
-        thead_tr.append("<th style='text-align: right';>Admin Complete Days</th>");
-        thead_tr.append("</tr>");
-        thead.append(thead_tr);
-        $('table').append(thead);
-        var tbody;
-        var tbody_tr;
-        tbody = $("<tbody>");
-        $('table').append(tbody);
-        for(var i = 0; i < covidData.length; i++) {
-            var obj = covidData[i];
-            tbody_tr = $('<tr/>');
-            tbody_tr.append("<td>" + obj.province + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + obj.case_count + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + obj.mort_count + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + parseFloat(obj.case_count / caseTotalCanada * 100).toFixed(2) + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + parseFloat(obj.mort_count / mortTotalCanada * 100).toFixed(2) + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + getRatioMortCase(obj.mort_count, obj.case_count) + "</td>");
-            tbody.append(tbody_tr);
-            tbody_tr.append("<td style='text-align: right';>" + obj.case_new_count + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + obj.mort_new_count + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + parseFloat(obj.case_new_count / caseNewCanada * 100).toFixed(2) + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + parseFloat(obj.mort_new_count / mortNewCanada * 100).toFixed(2) + "</td>");
-            tbody_tr.append("<td style='text-align: right';>" + parseFloat(obj.mort_new_count / mortNewCanada * 100).toFixed(2) + "</td>");
-        }
-    });
-
-    // add tablesorter js to allow user to sort table by column headers
-    $(document).ready(function($){ 
-        $("#covid_tabular").tablesorter();
-    }); 
+    // Functions end
+    // ======================
 
 });
