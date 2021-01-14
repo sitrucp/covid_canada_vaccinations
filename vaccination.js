@@ -294,6 +294,13 @@ Promise.all([
                 t: 25,
                 pad: 2
             },
+            title: {
+                text:'Canada COVID-19 Vaccine Dose Administration - blue: actual / gray: required to meet Sep 30 goal',
+                font: {
+                    weight: "bold",
+                    size: 14
+                },
+            },
         }
 
         // create divs, para for Canada chart
@@ -303,7 +310,7 @@ Promise.all([
         var divCanadaChartItem = document.createElement("div");
         divCanadaChartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
-        var chartDetails = '<ul class="list-unstyled chart-details"><li><h1>Canada</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>Full Population Doses Required: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + (adminTotalCanada / (population * 2)).toFixed(3) + '% of Full Population Doses Administered</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 full population vaccination goal.</li></ul>';
+        var chartDetails = '<ul class="list-unstyled chart-details"><li><h1>Canada</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>Age 15+ Population Doses Required: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + (adminTotalCanada / (population * 2)).toFixed(3) + '% of Age 15+ Population Doses Administered</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 Age 15+ population vaccination goal.</li></ul>';
 
         titleCanadaChart.innerHTML  = chartDetails;
         document.getElementById('divCanadaChart').append(titleCanadaChart);
@@ -433,6 +440,13 @@ Promise.all([
                     b: 80,
                     t: 25,
                     pad: 2
+                },
+                title: {
+                    text: provList[i] + ' COVID-19 Vaccine Dose Administration - blue: actual / gray: required to meet Sep 30 goal',
+                    font: {
+                        weight: "bold",
+                        size: 14
+                    },
                 },
             }
 
