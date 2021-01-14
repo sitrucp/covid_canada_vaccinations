@@ -118,9 +118,6 @@ Promise.all([
         d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
     });
 
-    // create charts
-    // call createCharts when page loads, or when user changes age filter
-
     // get canada dist & admin max dates
     var maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
     var maxAdminDate = d3.max(admin_canada.map(d=>d.report_date));
@@ -130,19 +127,23 @@ Promise.all([
         // https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html
 
         // calculate daysRemaining (# days) eg maxDate to Sep 30
-        var datex = maxDate.split('-');
-        var startDate = new Date(datex[1] + '/' + datex[2] + '/' + datex[0]);
+        //var datex = maxDate.split('-');
+        //var startDate = new Date(datex[1] + '/' + datex[2] + '/' + datex[0]);
         var endDate = new Date("9/30/2021");
-        var daysRemaining = Math.floor((endDate - startDate) / (1000*60*60*24))
+        //var daysRemaining = Math.floor((endDate - maxDate) / (1000*60*60*24))
+        var daysRemaining = goalDate();
 
         // create future data
         var futureData = [];
         var province = prov;
-        var avaccine = ((pop * 2) - (admin)) / daysRemaining;
-        var dvaccine = ((pop * 2) - (dist)) / daysRemaining;
+        var avaccine_full_req = ((pop * 2) - (admin))
+        var dvaccine_full_req = ((pop * 2) - (dist))
+        var avaccine = avaccine_full_req / daysRemaining;
+        var dvaccine = dvaccine_full_req / daysRemaining;
 
-        for (var i=1; i<daysRemaining; i++) {
-            var report_date = new Date(startDate);
+        for (var i=1; i<daysRemaining; i++) { 
+
+            var report_date = new Date(maxDate);
             report_date.setDate(report_date.getDate() + i);
             var cumulative_avaccine = admin + (avaccine * i);
             var cumulative_dvaccine = dist + (dvaccine * i);
@@ -151,7 +152,7 @@ Promise.all([
             var pct_pop_dist = cumulative_dvaccine / pop;
 
             futureData.push({
-                province, 
+                province,
                 report_date, 
                 avaccine, 
                 dvaccine, 
@@ -162,7 +163,29 @@ Promise.all([
                 pct_pop_dist
             });
         }
+
         return futureData;
+    }
+
+    function goalDate() {
+        var endDate = new Date("9/30/2021");
+        var daysToGoalDate = Math.floor((endDate - maxAdminDate) / (1000*60*60*24))
+        return daysToGoalDate
+    }
+
+    function fillColor(x, maxDate) {
+        
+        colors = [];
+
+        for (var i=0; i<x.length; i++) {
+            if (Date.parse(x[i]) > Date.parse(maxDate)) {
+                colors.push('rgba(204,204,204,1)');
+            } else {
+                colors.push('rgb(49,130,189)');
+            }
+        }
+
+        return colors
     }
 
     function createCanadaChart() {
@@ -232,7 +255,12 @@ Promise.all([
             name: 'adminDaily',
             x: x,
             y: yAdmin,
-            type: 'bar'
+            showgrid:false,
+            fill: 'tozeroy',
+            type: 'bar',
+            marker:{
+                color: fillColor(x, maxAdminDate)
+            },
         };
 
         var admin7DMA = {
@@ -242,6 +270,32 @@ Promise.all([
             type: 'scatter'
         };
 
+        var layout = {
+            yaxis: { 
+                tickfont: {
+                    size: 11
+                },
+                showgrid:false
+            },
+            xaxis: { 
+                tickfont: {
+                    size: 11
+                },
+                showgrid:false
+            },
+            autosize: true,
+            autoscale: false,
+            //width: 600,
+            //height: 300,
+            margin: {
+                l: 30,
+                r: 40,
+                b: 80,
+                t: 25,
+                pad: 2
+            },
+        }
+
         // create divs, para for Canada chart
         var canadaDiv = 'canadaDiv';
         var canadaTitle = 'title' + canadaDiv;
@@ -249,14 +303,14 @@ Promise.all([
         var divCanadaChartItem = document.createElement("div");
         divCanadaChartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
-        var chartDetails = '<ul class="list-unstyled"><li><h1>Canada</h1></li><li>Popluation: ' + population + '</li><li>Received: ' + distTotalCanada + '</li><li>Administered: ' + adminTotalCanada + '</li><li>% Administered: ' + max_pct_dist_admin + '</li></ul>';
+        var chartDetails = '<ul class="list-unstyled chart-details"><li><h1>Canada</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>Full Population Doses Required: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + (adminTotalCanada / (population * 2)).toFixed(3) + '% of Full Population Doses Administered</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 full population vaccination goal.</li></ul>';
 
         titleCanadaChart.innerHTML  = chartDetails;
         document.getElementById('divCanadaChart').append(titleCanadaChart);
         document.getElementById('divCanadaChart').append(divCanadaChartItem);
 
         var data = [adminDaily];
-        Plotly.newPlot('canadaDiv', data);
+        Plotly.newPlot('canadaDiv', data, layout);
 
     }
 
@@ -270,7 +324,6 @@ Promise.all([
             provListTemp.push(province);
         }
         let provList = [...new Set(provListTemp)];
-        console.log(provList);
 
         // create prov charts by loop through provList to create chart for each prov
         for (var i=0; i<provList.length; i++) {
@@ -344,7 +397,10 @@ Promise.all([
                 name: 'adminDaily',
                 x: x,
                 y: yAdmin,
-                type: 'bar'
+                type: 'bar',
+                marker:{
+                    color: fillColor(x, maxAdminDate)
+                },
             };
     
             var admin7DMA = {
@@ -354,6 +410,32 @@ Promise.all([
                 type: 'scatter'
             };
 
+            var layout = {
+                yaxis: { 
+                    tickfont: {
+                        size: 11
+                    },
+                    showgrid:false
+                },
+                xaxis: { 
+                    tickfont: {
+                        size: 11
+                    },
+                    showgrid:false
+                },
+                autosize: true,
+                autoscale: false,
+                //width: 600,
+                //height: 300,
+                margin: {
+                    l: 30,
+                    r: 40,
+                    b: 80,
+                    t: 25,
+                    pad: 2
+                },
+            }
+
             // create divs, para for each province chart
             var provDiv = 'provDiv' + i;
             var provTitle = 'title' + provDiv;
@@ -361,14 +443,14 @@ Promise.all([
             var divProvChartItem = document.createElement("div");
             divProvChartItem.id = provDiv;
             titleProvChart.id = provTitle;
-            var chartDetails = '<ul class="list-unstyled"><li><h1>' + provList[i] + '</h1></li><li>Popluation: ' + population + '</li><li>Received: ' + distTotalProv + '</li><li>Administered: ' + adminTotalProv + '</li><li>% Administered: ' + max_pct_dist_admin + '</li></ul>';
+            var chartDetails = '<ul class="list-unstyled"><li><h1>' + provList[i] + '</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Available Doses Administered</li><li>Full Population Doses Required: ' + ((population * 2) - adminTotalProv).toLocaleString() + '</li><li>' + (adminTotalProv / (population * 2)).toFixed(3) + '% of Full Population Doses Administered</li><li>' + parseInt((((population * 2) - adminTotalProv) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 full population vaccination goal.</li></ul>';
 
             titleProvChart.innerHTML  = chartDetails;
             document.getElementById('divProvChart').append(titleProvChart);
             document.getElementById('divProvChart').append(divProvChartItem);
             
             var data = [adminDaily];
-            Plotly.newPlot(provDiv, data);
+            Plotly.newPlot(provDiv, data, layout);
 
         }
     }
@@ -382,11 +464,11 @@ Promise.all([
         return xs.map(row => typeof iy.get(row[primary]) !== 'undefined' ? sel(row, iy.get(row[primary])): sel(row, def));
     };
 
-    // reformat dates
-    // orig format dd-mm-yyyy, but better as yyyy-mm-dd
+    // reformat date to date object
     function reformatDate(oldDate) {
-        var d = oldDate.split("-")
-        var newDate = d[2] + '-' + d[1] + '-' + d[0]
+        // 17-12-2020 is working group date format
+        var d = (oldDate).split('-');
+        var newDate = new Date(d[1] + '/' + d[0] + '/' + d[2]);
         return newDate
     }
 
@@ -405,6 +487,9 @@ Promise.all([
         }
         return means;
     }
+
+     // create charts
+    // call createCharts when page loads, or when user changes age filter
 
     createCanadaChart();
 
