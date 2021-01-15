@@ -98,6 +98,7 @@ Promise.all([
         d.pct_pop_dist = parseInt(d.cumulative_dvaccine) / parseInt(d.population)
         d.pct_pop_admin = parseInt(d.cumulative_avaccine) / parseInt(d.population)
         d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
+        d.count_type = 'actual'
     });
 
     // left join admin to dist - Provinces
@@ -116,6 +117,7 @@ Promise.all([
         d.pct_pop_dist = parseInt(d.cumulative_dvaccine) / parseInt(d.population)
         d.pct_pop_admin = parseInt(d.cumulative_avaccine) / parseInt(d.population)
         d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
+        d.count_type = 'actual'
     });
 
     // get canada dist & admin max dates
@@ -150,6 +152,7 @@ Promise.all([
             var pct_dist_admin = cumulative_avaccine / cumulative_dvaccine;
             var pct_pop_admin = cumulative_avaccine / pop;
             var pct_pop_dist = cumulative_dvaccine / pop;
+            var count_type = 'calculated';
 
             futureData.push({
                 province,
@@ -160,7 +163,8 @@ Promise.all([
                 cumulative_dvaccine, 
                 pct_dist_admin,
                 pct_pop_admin,
-                pct_pop_dist
+                pct_pop_dist,
+                count_type
             });
         }
 
