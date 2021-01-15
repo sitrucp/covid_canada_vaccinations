@@ -9,7 +9,7 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
-var file_dist_planned = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
+var file_dist_planned = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/dist_planned.csv";
 
 var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
 
@@ -20,6 +20,7 @@ Promise.all([
     d3.csv(file_admin_prov),
     d3.csv(file_dist_canada),
     d3.csv(file_admin_canada),
+    d3.csv(file_dist_planned),
     d3.csv(file_population),
     d3.csv(file_update_time)
 ]).then(function(data) {
@@ -30,8 +31,9 @@ Promise.all([
     var admin_prov = data[1];
     var dist_canada = data[2];
     var admin_canada = data[3];
-    var population = data[4];
-    var updateTime = data[5];
+    var dist_planned = data[4];
+    var population = data[5];
+    var updateTime = data[6];
 
     // get update time from working group repository
     lastUpdated = updateTime.columns[0];
@@ -316,7 +318,7 @@ Promise.all([
         var divCanadaChartItem = document.createElement("div");
         divCanadaChartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
-        var chartDetails = '<ul class="list-unstyled chart-details"><li><h1>Canada</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>Age 15+ Population Doses Required: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + (adminTotalCanada / (population * 2)).toFixed(3) + '% of Age 15+ Population Doses Administered</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 Age 15+ population vaccination goal.</li></ul>';
+        var chartDetails = '<ul class="list-unstyled chart-details"><li><h1>Canada</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>Age 15+ Population Doses Required: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + ((adminTotalCanada / (population * 2)) * 100).toFixed(2) + '% of Age 15+ Population Doses Administered</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 Age 15+ population vaccination goal.</li></ul>';
 
         titleCanadaChart.innerHTML  = chartDetails;
         document.getElementById('divCanadaChart').append(titleCanadaChart);
@@ -463,7 +465,7 @@ Promise.all([
             var divProvChartItem = document.createElement("div");
             divProvChartItem.id = provDiv;
             titleProvChart.id = provTitle;
-            var chartDetails = '<ul class="list-unstyled"><li><h1>' + provList[i] + '</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Available Doses Administered</li><li>Full Population Doses Required: ' + ((population * 2) - adminTotalProv).toLocaleString() + '</li><li>' + (adminTotalProv / (population * 2)).toFixed(3) + '% of Full Population Doses Administered</li><li>' + parseInt((((population * 2) - adminTotalProv) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 full population vaccination goal.</li></ul>';
+            var chartDetails = '<ul class="list-unstyled"><li><h1>' + provList[i] + '</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Available Doses Administered</li><li>Full Population Doses Required: ' + ((population * 2) - adminTotalProv).toLocaleString() + '</li><li>' + ((adminTotalProv / (population * 2)) * 100).toFixed(2) + '% of Full Population Doses Administered</li><li>' + parseInt((((population * 2) - adminTotalProv) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 full population vaccination goal.</li></ul>';
 
             titleProvChart.innerHTML  = chartDetails;
             document.getElementById('divProvChart').append(titleProvChart);
