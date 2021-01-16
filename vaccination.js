@@ -9,7 +9,7 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
-var file_dist_planned = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/dist_planned.csv";
+var file_plan_prov = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/plan_prov.csv";
 
 var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
 
@@ -20,7 +20,7 @@ Promise.all([
     d3.csv(file_admin_prov),
     d3.csv(file_dist_canada),
     d3.csv(file_admin_canada),
-    d3.csv(file_dist_planned),
+    d3.csv(file_plan_prov),
     d3.csv(file_population),
     d3.csv(file_update_time)
 ]).then(function(data) {
@@ -31,7 +31,7 @@ Promise.all([
     var admin_prov = data[1];
     var dist_canada = data[2];
     var admin_canada = data[3];
-    var dist_planned = data[4];
+    var plan_prov = data[4];
     var population = data[5];
     var updateTime = data[6];
 
@@ -43,18 +43,18 @@ Promise.all([
     // ggt dist and admin totals by summing values
     var distTotalCanada = dist_canada.reduce((a, b) => +a + +b.dvaccine, 0);
     var adminTotalCanada = admin_canada.reduce((a, b) => +a + +b.avaccine, 0);
+    var planTotalCanada = plan_prov.reduce((a, b) => +a + +b.avaccine, 0);
 
-    //==== population data start ====
-    // filter population by age_group
+    // filter province population dataset by age_group
     var sel_age_group = 14;
     var populationFiltered = population.filter(function(d) { 
         return parseInt(d.age_group) > parseInt(sel_age_group);
     });
     
-    // summarize population by Canada
+    // summarize population dataset by Canada
     var popCanada = populationFiltered.reduce((a, b) => +a + +b.population, 0);
 
-    // summarize population by province
+    // summarize population dataset by province
     var popProv = d3.nest()
         .key(function(d) { return d.geo; })
         .rollup(function(v) { return {
@@ -68,7 +68,6 @@ Promise.all([
             population: group.value.population
             }
         });
-    //==== population data end ====
 
     // reformat dates, calculate % dist/admin of population
     dist_prov.forEach(function(d) {
@@ -79,6 +78,11 @@ Promise.all([
         d.report_date = reformatDate(d.date_vaccine_administered)
         d.prov_date = d.province + '|' + d.date_vaccine_administered
     });
+    plan_prov.forEach(function(d) {
+        d.report_date = reformatDate(d.report_date)
+        d.prov_date = d.province + '|' + d.report_date
+    });
+
     dist_canada.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_distributed)
         d.prov_date = d.province + '|' + d.date_vaccine_distributed
@@ -88,7 +92,11 @@ Promise.all([
         d.report_date = reformatDate(d.date_vaccine_administered)
         d.prov_date = d.province + '|' + d.date_vaccine_administered
     });
-    
+    //plan_canada.forEach(function(d) {
+    //    d.report_date = reformatDate(d.report_date)
+    //    d.prov_date = d.province + '|' + d.report_date
+    //});
+
     // left join admin to dist - Canada
     const distAdminCanadaPop = equijoinWithDefault(
         dist_canada, admin_canada, 
@@ -123,6 +131,18 @@ Promise.all([
         d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
         d.count_type = 'actual'
     });
+
+    // append planned data, conditionally, if actual then do not append planned
+    var result = $scope.VacanciesWithSavedSearches.filter(t=t.id ==='123');
+    if(result.length === 0)
+    {
+    $scope.VacanciesWithSavedSearches.push({
+        type: "Saved Searches",
+        title: value.title,
+        value: value.id
+    });          
+
+    }
 
     // get canada dist & admin max dates
     var maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
