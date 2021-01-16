@@ -133,16 +133,16 @@ Promise.all([
     });
 
     // append planned data, conditionally, if actual then do not append planned
-    var result = $scope.VacanciesWithSavedSearches.filter(t=t.id ==='123');
-    if(result.length === 0)
-    {
-    $scope.VacanciesWithSavedSearches.push({
-        type: "Saved Searches",
-        title: value.title,
-        value: value.id
-    });          
+    //var result = $scope.VacanciesWithSavedSearches.filter(t=t.id ==='123');
+    //if(result.length === 0)
+    //{
+    //$scope.VacanciesWithSavedSearches.push({
+    //    type: "Saved Searches",
+    //    title: value.title,
+    //    value: value.id
+    //});          
 
-    }
+    //}
 
     // get canada dist & admin max dates
     var maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
