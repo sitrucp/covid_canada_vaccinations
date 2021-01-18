@@ -328,14 +328,14 @@ Promise.all([
         var canadaDiv = 'canadaDiv';
         var canadaTitle = 'title' + canadaDiv;
         var titleCanadaChart = document.createElement("p");
-        var divCanadaChartItem = document.createElement("div");
-        divCanadaChartItem.id = canadaDiv;
+        var div_canada_chartItem = document.createElement("div");
+        div_canada_chartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
         var chartDetails = '<ul class="list-unstyled chart-details"><li><h1>Canada</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>' + ((adminTotalCanada / (population * 2)) * 100).toFixed(2) + '% of Age 15+ Population Doses Administered</li><li>Doses Remaining To Meet Goal: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 Age 15+ population vaccination goal.</li></ul>';
 
         titleCanadaChart.innerHTML  = chartDetails;
-        document.getElementById('divCanadaChart').append(titleCanadaChart);
-        document.getElementById('divCanadaChart').append(divCanadaChartItem);
+        document.getElementById('div_canada_chart').append(titleCanadaChart);
+        document.getElementById('div_canada_chart').append(div_canada_chartItem);
 
         var data = [adminDaily];
         Plotly.newPlot('canadaDiv', data, layout);
@@ -475,14 +475,14 @@ Promise.all([
             var provDiv = 'provDiv' + i;
             var provTitle = 'title' + provDiv;
             var titleProvChart = document.createElement("p");
-            var divProvChartItem = document.createElement("div");
-            divProvChartItem.id = provDiv;
+            var div_prov_chartItem = document.createElement("div");
+            div_prov_chartItem.id = provDiv;
             titleProvChart.id = provTitle;
             var chartDetails = '<ul class="list-unstyled"><li><h1>' + provList[i] + '</h1></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Available Doses Administered</li><li>' + ((adminTotalProv / (population * 2)) * 100).toFixed(2) + '% of Age 15+ Population Doses Administered</li><li>Doses Remaining To Meet Goal: ' + ((population * 2) - adminTotalProv).toLocaleString() + '</li><li>' + parseInt((((population * 2) - adminTotalProv) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 full population vaccination goal.</li></ul>';
 
             titleProvChart.innerHTML  = chartDetails;
-            document.getElementById('divProvChart').append(titleProvChart);
-            document.getElementById('divProvChart').append(divProvChartItem);
+            document.getElementById('div_prov_chart').append(titleProvChart);
+            document.getElementById('div_prov_chart').append(div_prov_chartItem);
             
             var data = [adminDaily];
             Plotly.newPlot(provDiv, data, layout);
@@ -534,3 +534,13 @@ Promise.all([
     // ======================
 
 });
+
+//hideShowDiv('read_more_div');
+
+function hideShowDiv(id) {
+   var e = document.getElementById(id);
+   if(e.style.display == 'block')
+      e.style.display = 'none';
+   else
+      e.style.display = 'block';
+}
