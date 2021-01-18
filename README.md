@@ -4,9 +4,9 @@ This code is used to create visualizations illustrating the huge task to meet th
 
 The visualizations include the following data:
 
-* Count of vaccine dose administered to-date across Canada as reported by provinces (blue bars).
+* Actual count of vaccine doses administered to-date across Canada as reported by provinces (blue bars).
 
-* Calculated count of projected dose administration required to fully vaccinate age 15+ population by Sep 30, 2021 (gray bars). 
+* Calculated count of dose administration remaining that is required to fully vaccinate age 15+ population by Sep 30, 2021 (gray bars).. 
 
 The total calculated count of projected dose administration for Canada and each province is equal to their respective population's x 2, minus the count of doses administered to-date. 
 
