@@ -54,12 +54,26 @@
     <div class="row row-no-gutters">
 
         <div class="col-md-9 project-details">
-            <p>These charts show counts of vaccine doses administered to-date as reported by provinces (blue bars) and a calculated count of dose administration required to fully vaccinate age 15+ population by Sep 30, 2021 (gray bars). Canada's government has stated a goal of providing vaccinations for all age 15+ Canadians by Sep 30, 2021.</p>
 
-            <p>The calculated count of dose administration required to meet the goal is simply the population x 2 minus the count of doses administered to-date. Daily dose counts required to meet the goal is simply the calculated count of dose administration divided by the number of days between the last actual reporting date and Sep 30, 2021.</p>
-            
-            <p>Population x 2 is used because reporting is by dose and two doses are required for full vaccination using the available Pfizer and Moderna vaccines. This would be updated if and when single dose vaccines become available.</p>
-            
+            <p>These visualizations illustrate the huge task to meet the Canadian government's goal of providing vaccinations for all age 15+ Canadians by Sep 30, 2021. They include the following data:</p>
+
+            <ul>
+                <li>Count of vaccine dose administered to-date across Canada as reported by provinces (blue bars).</li>
+
+                <li>Calculated count of projected dose administration required to fully vaccinate age 15+ population by Sep 30, 2021 (gray bars). </li>
+            </ul>
+
+            <p>The total calculated count of projected dose administration for Canada and each province is equal to their respective population's x 2, minus the count of doses administered to-date. A daily dose count is then calculated by dividing the total by the number of days between the last actual reporting date and Sep 30, 2021.</p>
+
+            <p>Population x 2 is used because dose administration reporting records single doses but two doses are required for full vaccination using the available Pfizer and Moderna vaccines. This would be updated if and when single dose vaccines become available.</p>
+
+            <p>It should be noted that the Canadian government has specifically said the goal was to provide vaccinations to "all Canadians who wanted them." Given polling demonstrating vaccine hesitancy by some Canadians, the total vaccine doses required to meet the "all Canadians who want the vaccine" goal will be less than the population x 2, but how much is not yet clear.</p> 
+
+            <p>In addition, "herd immunity" for COVID-19 is thought to be conferred if at least 70% of the population receives a vaccine.  But some fear that the extremely infectious nature of COVID-19 could require a significantly higher threshold.</p>
+
+            <p>Given the uncertainty of both cases above it is better to use vaccination of 100% of age 15+ population as the goal.</p>
+
+                
             <p class="text-muted">COVID-91 vaccine data comes from the <a href = "https://github.com/ishaberry/Covid19Canada" target="blank">COVID-19 Canada Open Data Working Group</a> who are doing an amazing job collating provincial COVID-19 data!</p>
 
             <div id="divCanadaChart"></div>
