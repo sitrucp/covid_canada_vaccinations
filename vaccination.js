@@ -144,12 +144,9 @@ Promise.all([
     function createFutureData(pop, maxDate, dist, admin, prov) {
         // forecast distribution are here: 
         // https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html
+        // maxDate is max date in original data eg last date reported
 
         // calculate daysRemaining (# days) eg maxDate to Sep 30
-        //var datex = maxDate.split('-');
-        //var startDate = new Date(datex[1] + '/' + datex[2] + '/' + datex[0]);
-        var endDate = new Date("9/30/2021");
-        //var daysRemaining = Math.floor((endDate - maxDate) / (1000*60*60*24))
         var daysRemaining = goalDate();
 
         // create future data
@@ -160,6 +157,7 @@ Promise.all([
         var avaccine = avaccine_full_req / daysRemaining;
         var dvaccine = dvaccine_full_req / daysRemaining;
 
+        // loop through days remaining to create new calculated records
         for (var i=1; i<daysRemaining; i++) { 
 
             var report_date = new Date(maxDate);
@@ -188,16 +186,16 @@ Promise.all([
         return futureData;
     }
 
+    // create days remaining
     function goalDate() {
         var endDate = new Date("9/30/2021");
         var daysToGoalDate = Math.floor((endDate - maxAdminDate) / (1000*60*60*24))
         return daysToGoalDate
     }
 
+    // assign bar color for actual and calculated y values
     function fillColor(x, maxDate) {
-        
         colors = [];
-
         for (var i=0; i<x.length; i++) {
             if (Date.parse(x[i]) > Date.parse(maxDate)) {
                 colors.push('rgba(204,204,204,1)');
@@ -205,7 +203,6 @@ Promise.all([
                 colors.push('rgb(49,130,189)');
             }
         }
-
         return colors
     }
 
@@ -490,50 +487,42 @@ Promise.all([
         }
     }
 
-        // ======================
-    // Functions start
-
-    // left join function used to join datasets
-    function equijoinWithDefault(xs, ys, primary, foreign, sel, def) {
-        const iy = ys.reduce((iy, row) => iy.set(row[foreign], row), new Map);
-        return xs.map(row => typeof iy.get(row[primary]) !== 'undefined' ? sel(row, iy.get(row[primary])): sel(row, def));
-    };
-
-    // reformat date to date object
-    function reformatDate(oldDate) {
-        // 17-12-2020 is working group date format
-        var d = (oldDate).split('-');
-        var newDate = new Date(d[1] + '/' + d[0] + '/' + d[2]);
-        return newDate
-    }
-
-    // moving average function - used in chart y axis value
-    function movingAverage(values, N) {
-        let i = 0;
-        let sum = 0;
-        const means = new Float64Array(values.length).fill(NaN);
-        for (let n = Math.min(N - 1, values.length); i < n; ++i) {
-            sum += values[i];
-        }
-        for (let n = values.length; i < n; ++i) {
-            sum += values[i];
-            means[i] = parseInt(sum / N);
-            sum -= values[i - N + 1];
-        }
-        return means;
-    }
-
      // create charts
-    // call createCharts when page loads, or when user changes age filter
-
+    // call createCharts when page loads
     createCanadaChart();
-
     createProvChart();
 
-    // Functions end
-    // ======================
-
 });
+
+// left join function used to join datasets
+function equijoinWithDefault(xs, ys, primary, foreign, sel, def) {
+    const iy = ys.reduce((iy, row) => iy.set(row[foreign], row), new Map);
+    return xs.map(row => typeof iy.get(row[primary]) !== 'undefined' ? sel(row, iy.get(row[primary])): sel(row, def));
+};
+
+// reformat date to date object
+function reformatDate(oldDate) {
+    // 17-12-2020 is working group date format
+    var d = (oldDate).split('-');
+    var newDate = new Date(d[1] + '/' + d[0] + '/' + d[2]);
+    return newDate
+}
+
+// moving average function 
+function movingAverage(values, N) {
+    let i = 0;
+    let sum = 0;
+    const means = new Float64Array(values.length).fill(NaN);
+    for (let n = Math.min(N - 1, values.length); i < n; ++i) {
+        sum += values[i];
+    }
+    for (let n = values.length; i < n; ++i) {
+        sum += values[i];
+        means[i] = parseInt(sum / N);
+        sum -= values[i - N + 1];
+    }
+    return means;
+}
 
 //hideShowDiv('read_more_div');
 
