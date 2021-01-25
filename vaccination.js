@@ -143,7 +143,7 @@ Promise.all([
 
     function createFutureData(pop, maxDate, dist, admin, prov) {
         // forecast distribution are here: 
-        // https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html
+        // https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/COVID-19-vaccine-treatment/vaccine-rollout.html
         // maxDate is max date in original data eg last date reported
 
         // calculate daysRemaining (# days) eg maxDate to Sep 30
