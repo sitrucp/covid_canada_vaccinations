@@ -9,7 +9,7 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
-var file_plan_prov = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/plan_prov.csv";
+var file_planned = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/planned.csv";
 
 var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
 
@@ -20,7 +20,7 @@ Promise.all([
     d3.csv(file_admin_prov),
     d3.csv(file_dist_canada),
     d3.csv(file_admin_canada),
-    d3.csv(file_plan_prov),
+    d3.csv(file_planned),
     d3.csv(file_population),
     d3.csv(file_update_time)
 ]).then(function(data) {
@@ -31,7 +31,7 @@ Promise.all([
     var admin_prov = data[1];
     var dist_canada = data[2];
     var admin_canada = data[3];
-    var plan_prov = data[4];
+    var planned = data[4];
     var population = data[5];
     var updateTime = data[6];
 
@@ -43,7 +43,7 @@ Promise.all([
     // ggt dist and admin totals by summing values
     var distTotalCanada = dist_canada.reduce((a, b) => +a + +b.dvaccine, 0);
     var adminTotalCanada = admin_canada.reduce((a, b) => +a + +b.avaccine, 0);
-    var planTotalCanada = plan_prov.reduce((a, b) => +a + +b.avaccine, 0);
+    var planTotalCanada = planned.reduce((a, b) => +a + +b.avaccine, 0);
 
     // filter province population dataset by age_group
     var sel_age_group = 14;
@@ -78,7 +78,7 @@ Promise.all([
         d.report_date = reformatDate(d.date_vaccine_administered)
         d.prov_date = d.province + '|' + d.date_vaccine_administered
     });
-    plan_prov.forEach(function(d) {
+    planned.forEach(function(d) {
         d.report_date = reformatDate(d.report_date)
         d.prov_date = d.province + '|' + d.report_date
     });
@@ -132,9 +132,21 @@ Promise.all([
         d.count_type = 'actual'
     });
 
-    // append planned to actual but only if no actual data for a given date
+    // parts above for planned:
+    // local csv => file_planned => planned 
+    // planTotalCanada => planned summed to canada planned
+    // plan_canada => create report_date and prov_date elements in planned object
 
-    // create planned cumulative_avaccine and cumulative_dvaccine
+    // step 1 - append planned to actual but only if no actual data for a given date
+
+    // step 2 - create cumulative_avaccine and cumulative_dvaccine for planned using actual as start point
+    // match actual and planned data on province,report_date 
+    // where count_type = planned, use avaccine,dvaccine => add these to actual cumulative_avaccine,cumulative_dvaccine to get cumulative_avaccine,cumulative_dvaccine for planned objects
+
+    // step 3 - use new planned plus actual data to for chart instead
+    // how to add count_type to chart so planned and projected are stacked bars?
+    // var layout = {barmode: 'stack'};
+    // need to create new color for planned dark gray?
 
 
     // get canada dist & admin max dates
