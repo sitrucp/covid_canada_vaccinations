@@ -52,7 +52,7 @@ Promise.all([
     });
     
     // percent population variable, could make user selected eg 100% or 75% etc
-    var popPercent = .75;
+    var popPercent = 1;
 
     // summarize population dataset by Canada
     var popCanada = populationFiltered.reduce((a, b) => +a + +b.population, 0);
@@ -208,7 +208,7 @@ Promise.all([
         var province = "Canada";
         var max_pct_dist_admin = d3.max(distAdminCanadaPop.map(d=>d.pct_dist_admin));
         var population = d3.max(distAdminCanadaPop.map(d=>d.population));
-        var dosePopulation = parseInt((population * 2) * .75);
+        var dosePopulation = parseInt((population * 2) * popPercent);
         var max_pct_dist_admin = d3.max(distAdminCanadaPop.map(d=>d.pct_dist_admin));
 
         // get future data
@@ -329,7 +329,27 @@ Promise.all([
         var div_canada_chartItem = document.createElement("div");
         div_canada_chartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
-        var chartDetails = '<ul class="list-unstyled chart-details"><li><h4>Canada</h4></li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + dosePopulation.toLocaleString() + '</li><li>Doses Distributed: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Distributed Doses Administered</li><li>' + ((adminTotalCanada / dosePopulation) * 100).toFixed(2) + '% of Target Population Doses Administered</li><li>' + (dosePopulation - adminTotalCanada).toLocaleString() + ' doses remaining to fully vaccinate target population by Sep 30</li><li>' + parseInt(((dosePopulation - adminTotalCanada) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
+
+        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + '</h4>' +
+            
+        '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + population.toLocaleString() + '</li>' + 
+
+        '<li>Doses Distributed: ' + distTotalCanada.toLocaleString() + '</li>' +
+
+        '<li>Doses Administered: ' + adminTotalCanada.toLocaleString() + '</li>' +
+
+        '<li>Distributed Doses Administered: ' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '%</li>' +
+
+        '<li>Doses Required To Fully Vaccinate Target Pop: ' + (dosePopulation).toLocaleString() + '</li>' +
+        
+        '<li>Doses Remaining To Fully Vaccinate Target Pop: ' + (dosePopulation - adminTotalCanada).toLocaleString() + ' </li>' +
+
+        '<li>Target Population Doses Administered: ' + ((adminTotalCanada / dosePopulation) * 100).toFixed(2) + '%</li>' +
+        
+        '<li>' + parseInt(((dosePopulation - adminTotalCanada) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li>' +
+
+        '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
+        '</ul>';
 
         titleCanadaChart.innerHTML  = chartDetails;
         document.getElementById('div_canada_chart').append(titleCanadaChart);
@@ -362,7 +382,7 @@ Promise.all([
             var distTotalProv = provData.reduce((a, b) => +a + +b.dvaccine, 0);
             var adminTotalProv = provData.reduce((a, b) => +a + +b.avaccine, 0);
             var population = d3.max(provData.map(d=>d.population));
-            var dosePopulation = parseInt((population * 2) * .75);
+            var dosePopulation = parseInt((population * 2) * popPercent);
             var max_pct_dist_admin = d3.max(provData.map(d=>d.pct_dist_admin));
 
             // get future data 
@@ -478,7 +498,26 @@ Promise.all([
             var div_prov_chartItem = document.createElement("div");
             div_prov_chartItem.id = provDiv;
             titleProvChart.id = provTitle;
-            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + '</h4></li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + dosePopulation.toLocaleString() + '</li><li>Doses Distributed: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Distributed Doses Administered</li><li>' + ((adminTotalProv / dosePopulation) * 100).toFixed(2) + '% of Target Population Doses Administered</li><li>' + (dosePopulation - adminTotalProv).toLocaleString() + ' doses remaining to fully vaccinate target population by Sep 30.</li><li>' + parseInt(((dosePopulation - adminTotalProv) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
+            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + '</h4>' +
+            
+            '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + population.toLocaleString() + '</li>' + 
+
+            '<li>Doses Distributed: ' + distTotalProv.toLocaleString() + '</li>' +
+
+            '<li>Doses Administered: ' + adminTotalProv.toLocaleString() + '</li>' +
+
+            '<li>Distributed Doses Administered: ' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '%</li>' +
+
+            '<li>Doses Required To Fully Vaccinate Target Pop: ' + (dosePopulation).toLocaleString() + '</li>' +
+            
+            '<li>Doses Remaining To Fully Vaccinate Target Pop: ' + (dosePopulation - adminTotalProv).toLocaleString() + ' </li>' +
+
+            '<li>Target Population Doses Administered: ' + ((adminTotalProv / dosePopulation) * 100).toFixed(2) + '%</li>' +
+            
+            '<li>' + parseInt(((dosePopulation - adminTotalProv) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li>' +
+
+            '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
+            '</ul>';
 
             titleProvChart.innerHTML  = chartDetails;
             document.getElementById('div_prov_chart').append(titleProvChart);
