@@ -51,6 +51,9 @@ Promise.all([
         return d.age_group == sel_age_group;
     });
     
+    // percent population variable, could make user selected eg 100% or 75% etc
+    var popPercent = .75;
+
     // summarize population dataset by Canada
     var popCanada = populationFiltered.reduce((a, b) => +a + +b.population, 0);
 
@@ -136,19 +139,18 @@ Promise.all([
     var maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
     var maxAdminDate = d3.max(admin_canada.map(d=>d.report_date));
 
-    function createFutureData(pop, maxDate, dist, admin, prov) {
-        // forecast distribution are here: 
-        // https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/COVID-19-vaccine-treatment/vaccine-rollout.html
+    function createFutureData(popDose, maxDate, dist, admin, prov) {
         // maxDate is max date in original data eg last date reported
+        // this is date that future projected data starts
 
         // calculate daysRemaining (# days) eg maxDate to Sep 30
-        var daysRemaining = goalDate();
+        var daysRemaining = daysToGoalDate();
 
         // create future data
         var futureData = [];
         var province = prov;
-        var avaccine_full_req = ((pop * 2) - (admin))
-        var dvaccine_full_req = ((pop * 2) - (dist))
+        var avaccine_full_req = (popDose - admin)
+        var dvaccine_full_req = (popDose - dist)
         var avaccine = avaccine_full_req / daysRemaining;
         var dvaccine = dvaccine_full_req / daysRemaining;
 
@@ -160,9 +162,9 @@ Promise.all([
             var cumulative_avaccine = admin + (avaccine * i);
             var cumulative_dvaccine = dist + (dvaccine * i);
             var pct_dist_admin = cumulative_avaccine / cumulative_dvaccine;
-            var pct_pop_admin = cumulative_avaccine / pop;
-            var pct_pop_dist = cumulative_dvaccine / pop;
-            var count_type = 'calculated';
+            var pct_pop_admin = cumulative_avaccine / popDose;
+            var pct_pop_dist = cumulative_dvaccine / popDose;
+            var count_type = 'required';
 
             futureData.push({
                 province,
@@ -182,10 +184,9 @@ Promise.all([
     }
 
     // create days remaining
-    function goalDate() {
+    function daysToGoalDate() {
         var endDate = new Date("9/30/2021");
-        var daysToGoalDate = Math.floor((endDate - maxAdminDate) / (1000*60*60*24))
-        return daysToGoalDate
+        return Math.floor((endDate - maxAdminDate) / (1000*60*60*24))
     }
 
     // assign bar color for actual and calculated y values
@@ -207,15 +208,16 @@ Promise.all([
         var province = "Canada";
         var max_pct_dist_admin = d3.max(distAdminCanadaPop.map(d=>d.pct_dist_admin));
         var population = d3.max(distAdminCanadaPop.map(d=>d.population));
+        var dosePopulation = parseInt((population * 2) * .75);
         var max_pct_dist_admin = d3.max(distAdminCanadaPop.map(d=>d.pct_dist_admin));
 
         // get future data
-        var futureData = createFutureData(popCanada, maxAdminDate, distTotalCanada, adminTotalCanada, province);
+        var futureData = createFutureData(dosePopulation, maxAdminDate, distTotalCanada, adminTotalCanada, province);
 
         // CREATE CANADA CHART
 
         // concat actual and future data
-        var dataConcat = distAdminCanadaPop.concat(futureData);
+        //var dataConcat = distAdminCanadaPop.concat(futureData);
 
         // concat planned to future
         // var dataConcat = dataConcatFuture.concat(planned);
@@ -282,11 +284,11 @@ Promise.all([
         var layout = {
             //barmode: 'stack',
             showlegend: true,
-            legend_title_text: "",
-            legend_orientation: "h",
             legend: {
-                "y": 1.00, 
-                "x": 0.3
+                "y": 1.04, 
+                "x": 0.3,
+                legend_title_text: "",
+                orientation: "h",
             },
             yaxis: { 
                 tickfont: {
@@ -308,11 +310,11 @@ Promise.all([
                 l: 30,
                 r: 40,
                 b: 80,
-                t: 25,
+                t: 40,
                 pad: 2
             },
             title: {
-                text:'Canada COVID-19 Vaccine Dose Administration - blue: actual / gray: required to meet Sep 30 goal',
+                text:'Canada COVID-19 Vaccine Dose Administration Required To Meet Sep 30 Goal',
                 font: {
                     weight: "bold",
                     size: 14
@@ -327,7 +329,7 @@ Promise.all([
         var div_canada_chartItem = document.createElement("div");
         div_canada_chartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
-        var chartDetails = '<ul class="list-unstyled chart-details"><li><h4>Canada</h4></li><li>Age 18+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>' + ((adminTotalCanada / (population * 2)) * 100).toFixed(2) + '% of Age 18+ Population Doses Administered</li><li>Doses Remaining To Meet Goal: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
+        var chartDetails = '<ul class="list-unstyled chart-details"><li><h4>Canada</h4></li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + dosePopulation.toLocaleString() + '</li><li>Doses Distributed: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Distributed Doses Administered</li><li>' + ((adminTotalCanada / dosePopulation) * 100).toFixed(2) + '% of Target Population Doses Administered</li><li>' + (dosePopulation - adminTotalCanada).toLocaleString() + ' doses remaining to fully vaccinate target population by Sep 30</li><li>' + parseInt(((dosePopulation - adminTotalCanada) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
 
         titleCanadaChart.innerHTML  = chartDetails;
         document.getElementById('div_canada_chart').append(titleCanadaChart);
@@ -350,91 +352,93 @@ Promise.all([
         let provList = [...new Set(provListTemp)];
 
         // create prov charts by loop through provList to create chart for each prov
-        for (var i=0; i<provList.length; i++) {
+        for (var j=0; j<provList.length; j++) {
 
             var provData = distAdminProvPop.filter(function(d) { 
-                return d.province === provList[i];
+                return d.province === provList[j];
             });
 
             // ggt dist and admin totals by summing values, and population using max
             var distTotalProv = provData.reduce((a, b) => +a + +b.dvaccine, 0);
             var adminTotalProv = provData.reduce((a, b) => +a + +b.avaccine, 0);
             var population = d3.max(provData.map(d=>d.population));
+            var dosePopulation = parseInt((population * 2) * .75);
             var max_pct_dist_admin = d3.max(provData.map(d=>d.pct_dist_admin));
 
             // get future data 
-            var futureData = createFutureData(population, maxAdminDate, distTotalProv, adminTotalProv, provList[i]);
+            var futureData = createFutureData(dosePopulation, maxAdminDate, distTotalProv, adminTotalProv, provList[j]);
 
             // concat actual and future data
-            var dataConcat = provData.concat(futureData);
+            //var dataConcat = provData.concat(futureData);
 
             // CREATE PROV CHART
             // create x and y axis data sets
-            var x = [];
-            var yDist = [];
-            var yAdmin = [];
-            var yPopDist = [];
-            var yPopAdmin = [];
-            var yDistAdmin = [];
+            // create x and y axis data sets
+            var xActual = [];
+            var xFuture = [];
+            var xPlan = [];
+            var yActual = [];
+            var yFuture = [];
+            var yPlan = [];
 
             // create axes x and y arrays
-            for (var j=0; j<dataConcat.length; j++) {
-                var row = dataConcat[j];
-                x.push(row['report_date']);
-                yDist.push(parseInt(row['dvaccine']));
-                yAdmin.push(parseInt(row['avaccine']));
-                yPopDist.push(row['pct_pop_dist']);
-                yPopAdmin.push(row['pct_pop_admin']);
-                yDistAdmin.push(row['pct_dist_admin']);
+            for (var i=0; i<provData.length; i++) {
+                var row = provData[i];
+                xActual.push(row['report_date']);
+                yActual.push(parseInt(row['avaccine']));
+            }
+
+            for (var i=0; i<futureData.length; i++) {
+                var row = futureData[i];
+                xFuture.push(row['report_date']);
+                yFuture.push(parseInt(row['avaccine']));
             }
 
             // create Prov chart
-            var pctDistAdmin = {
-                name: 'pctDistAdmin',
-                x: x,
-                y: yDistAdmin,
-                type: 'bar',
-            };
-            
-            var pctPopAdmin = {
-                name: 'pctPopAdmin',
-                x: x,
-                y: yPopAdmin,
-                type: 'bar'
-            };
-    
-            var pctDistAdmin = {
-                name: 'pctPopDist',
-                x: x,
-                y: yPopDist,
-                type: 'bar'
-            };
-            
-            var dist7DMA = {
-                name: 'admin7DMA',
-                x: x,
-                y: movingAverage(yDist, 10),
-                type: 'scatter'
-            };
-    
-            var adminDaily = {
-                name: 'adminDaily',
-                x: x,
-                y: yAdmin,
+            var actual = {
+                name: 'Actual Doses',
+                x: xActual,
+                y: yActual,
+                showgrid:false,
+                fill: 'tozeroy',
                 type: 'bar',
                 marker:{
-                    color: fillColor(x, maxAdminDate)
+                    color: fillColor(xActual, maxAdminDate)
                 },
             };
     
-            var admin7DMA = {
-                name: 'admin7DMA',
-                x: x,
-                y: movingAverage(yAdmin, 7),
-                type: 'scatter'
+            var future = {
+                name: 'Doses To Meet Goal',
+                x: xFuture,
+                y: yFuture,
+                showgrid:false,
+                fill: 'tozeroy',
+                type: 'bar',
+                marker:{
+                    color: fillColor(xFuture, maxAdminDate)
+                },
+            };
+            
+            var plan = {
+                name: 'Planned Deliveries',
+                x: xPlan,
+                y: yPlan,
+                showgrid:false,
+                fill: 'tozeroy',
+                type: 'bar',
+                marker:{
+                    color: fillColor(xPlan, maxAdminDate)
+                },
             };
 
             var layout = {
+                showlegend: true,
+                legend: {
+                    "y": 1.04, 
+                    "x": 0.3,
+                    legend_title_text: "",
+                    orientation: "h",
+                },
                 yaxis: { 
                     tickfont: {
                         size: 11
@@ -455,11 +459,11 @@ Promise.all([
                     l: 30,
                     r: 40,
                     b: 80,
-                    t: 25,
+                    t: 40,
                     pad: 2
                 },
                 title: {
-                    text: provList[i] + ' COVID-19 Vaccine Dose Administration - blue: actual / gray: required to meet Sep 30 goal',
+                    text: provList[j] + ' COVID-19 Vaccine Dose Administration Required To Meet Sep 30 Goal',
                     font: {
                         weight: "bold",
                         size: 14
@@ -468,19 +472,19 @@ Promise.all([
             }
 
             // create divs, para for each province chart
-            var provDiv = 'provDiv' + i;
+            var provDiv = 'provDiv' + j;
             var provTitle = 'title' + provDiv;
             var titleProvChart = document.createElement("p");
             var div_prov_chartItem = document.createElement("div");
             div_prov_chartItem.id = provDiv;
             titleProvChart.id = provTitle;
-            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[i] + '</h4></li><li>Age 18+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Available Doses Administered</li><li>' + ((adminTotalProv / (population * 2)) * 100).toFixed(2) + '% of Age 18+ Population Doses Administered</li><li>Doses Remaining To Meet Goal: ' + ((population * 2) - adminTotalProv).toLocaleString() + '</li><li>' + parseInt((((population * 2) - adminTotalProv) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
+            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + '</h4></li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + dosePopulation.toLocaleString() + '</li><li>Doses Distributed: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Distributed Doses Administered</li><li>' + ((adminTotalProv / dosePopulation) * 100).toFixed(2) + '% of Target Population Doses Administered</li><li>' + (dosePopulation - adminTotalProv).toLocaleString() + ' doses remaining to fully vaccinate target population by Sep 30.</li><li>' + parseInt(((dosePopulation - adminTotalProv) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
 
             titleProvChart.innerHTML  = chartDetails;
             document.getElementById('div_prov_chart').append(titleProvChart);
             document.getElementById('div_prov_chart').append(div_prov_chartItem);
             
-            var data = [adminDaily];
+            var data = [actual, future];
             Plotly.newPlot(provDiv, data, layout);
 
         }
