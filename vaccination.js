@@ -35,8 +35,6 @@ Promise.all([
     var population = data[5];
     var updateTime = data[6];
 
-    console.log(population);
-
     // get update time from working group repository
     lastUpdated = updateTime.columns[0];
     
@@ -329,7 +327,7 @@ Promise.all([
         var div_canada_chartItem = document.createElement("div");
         div_canada_chartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
-        var chartDetails = '<ul class="list-unstyled chart-details"><li><h4>Canada</h4></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>' + ((adminTotalCanada / (population * 2)) * 100).toFixed(2) + '% of Age 15+ Population Doses Administered</li><li>Doses Remaining To Meet Goal: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
+        var chartDetails = '<ul class="list-unstyled chart-details"><li><h4>Canada</h4></li><li>Age 18+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalCanada.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalCanada.toLocaleString() + '</li><li>' + ((adminTotalCanada/distTotalCanada) * 100).toFixed(1) + '% of Available Doses Administered</li><li>' + ((adminTotalCanada / (population * 2)) * 100).toFixed(2) + '% of Age 18+ Population Doses Administered</li><li>Doses Remaining To Meet Goal: ' + ((population * 2) - adminTotalCanada).toLocaleString() + '</li><li>' + parseInt((((population * 2) - adminTotalCanada) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
 
         titleCanadaChart.innerHTML  = chartDetails;
         document.getElementById('div_canada_chart').append(titleCanadaChart);
@@ -476,7 +474,7 @@ Promise.all([
             var div_prov_chartItem = document.createElement("div");
             div_prov_chartItem.id = provDiv;
             titleProvChart.id = provTitle;
-            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[i] + '</h4></li><li>Age 15+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Available Doses Administered</li><li>' + ((adminTotalProv / (population * 2)) * 100).toFixed(2) + '% of Age 15+ Population Doses Administered</li><li>Doses Remaining To Meet Goal: ' + ((population * 2) - adminTotalProv).toLocaleString() + '</li><li>' + parseInt((((population * 2) - adminTotalProv) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
+            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[i] + '</h4></li><li>Age 18+ Popluation: ' + population.toLocaleString() + '</li><li>Doses Available To-Date: ' + distTotalProv.toLocaleString() + '</li><li>Doses Administered To-Date: ' + adminTotalProv.toLocaleString() + '</li><li>' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '% of Available Doses Administered</li><li>' + ((adminTotalProv / (population * 2)) * 100).toFixed(2) + '% of Age 18+ Population Doses Administered</li><li>Doses Remaining To Meet Goal: ' + ((population * 2) - adminTotalProv).toLocaleString() + '</li><li>' + parseInt((((population * 2) - adminTotalProv) / goalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li><li class="font-italic"">Click "Read More" link above for details on calculations.</li></ul>';
 
             titleProvChart.innerHTML  = chartDetails;
             document.getElementById('div_prov_chart').append(titleProvChart);
