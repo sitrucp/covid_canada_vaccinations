@@ -35,6 +35,8 @@ Promise.all([
     var population = data[5];
     var updateTime = data[6];
 
+    console.log(population);
+
     // get update time from working group repository
     lastUpdated = updateTime.columns[0];
     
@@ -43,12 +45,12 @@ Promise.all([
     // ggt dist and admin totals by summing values
     var distTotalCanada = dist_canada.reduce((a, b) => +a + +b.dvaccine, 0);
     var adminTotalCanada = admin_canada.reduce((a, b) => +a + +b.avaccine, 0);
-    var planTotalCanada = planned.reduce((a, b) => +a + +b.avaccine, 0);
+    var planTotalCanada = planned.reduce((a, b) => +a + +b.avaccine, 0); // use this if planned data is at prov level but currently it is only Canada level
 
     // filter province population dataset by age_group
-    var sel_age_group = 14;
+    var sel_age_group = '18 years and over';
     var populationFiltered = population.filter(function(d) { 
-        return parseInt(d.age_group) > parseInt(sel_age_group);
+        return d.age_group == sel_age_group;
     });
     
     // summarize population dataset by Canada
@@ -131,23 +133,6 @@ Promise.all([
         d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
         d.count_type = 'actual'
     });
-
-    // parts above for planned:
-    // local csv => file_planned => planned 
-    // planTotalCanada => planned summed to canada planned
-    // plan_canada => create report_date and prov_date elements in planned object
-
-    // step 1 - append planned to actual but only if no actual data for a given date
-
-    // step 2 - create cumulative_avaccine and cumulative_dvaccine for planned using actual as start point
-    // match actual and planned data on province,report_date 
-    // where count_type = planned, use avaccine,dvaccine => add these to actual cumulative_avaccine,cumulative_dvaccine to get cumulative_avaccine,cumulative_dvaccine for planned objects
-
-    // step 3 - use new planned plus actual data to for chart instead
-    // how to add count_type to chart so planned and projected are stacked bars?
-    // var layout = {barmode: 'stack'};
-    // need to create new color for planned dark gray?
-
 
     // get canada dist & admin max dates
     var maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
@@ -234,73 +219,77 @@ Promise.all([
         // concat actual and future data
         var dataConcat = distAdminCanadaPop.concat(futureData);
 
+        // concat planned to future
+        // var dataConcat = dataConcatFuture.concat(planned);
+        // for stacked bar, need multiple trace/data set, one for actual, one for planned, one for projected
+
+
         // create x and y axis data sets
-        var x = [];
-        var yDist = [];
-        var yAdmin = [];
-        var yPopDist = [];
-        var yPopAdmin = [];
-        var yDistAdmin = [];
+        var xActual = [];
+        var xFuture = [];
+        var xPlan = [];
+        var yActual = [];
+        var yFuture = [];
+        var yPlan = [];
 
         // create axes x and y arrays
-        for (var i=0; i<dataConcat.length; i++) {
-            var row = dataConcat[i];
-            x.push(row['report_date']);
-            yDist.push(parseInt(row['dvaccine']));
-            yAdmin.push(parseInt(row['avaccine']));
-            yPopDist.push(row['pct_pop_dist']);
-            yPopAdmin.push(row['pct_pop_admin']);
-            yDistAdmin.push(row['pct_dist_admin']);
+        for (var i=0; i<distAdminCanadaPop.length; i++) {
+            var row = distAdminCanadaPop[i];
+            xActual.push(row['report_date']);
+            yActual.push(parseInt(row['avaccine']));
         }
 
-        var pctDistAdmin = {
-            name: 'pctDistAdmin',
-            x: x,
-            y: yDistAdmin,
-            type: 'bar',
-        };
-        
-        var pctPopAdmin = {
-            name: 'pctPopAdmin',
-            x: x,
-            y: yPopAdmin,
-            type: 'bar'
-        };
+        for (var i=0; i<futureData.length; i++) {
+            var row = futureData[i];
+            xFuture.push(row['report_date']);
+            yFuture.push(parseInt(row['avaccine']));
+        }
 
-        var pctDistAdmin = {
-            name: 'pctPopDist',
-            x: x,
-            y: yPopDist,
-            type: 'bar'
-        };
-        
-        var dist7DMA = {
-            name: 'admin7DMA',
-            x: x,
-            y: movingAverage(yDist, 10),
-            type: 'scatter'
-        };
-
-        var adminDaily = {
-            name: 'adminDaily',
-            x: x,
-            y: yAdmin,
+        var actual = {
+            name: 'Actual Doses',
+            x: xActual,
+            y: yActual,
             showgrid:false,
             fill: 'tozeroy',
             type: 'bar',
             marker:{
-                color: fillColor(x, maxAdminDate)
+                color: fillColor(xActual, maxAdminDate)
             },
         };
 
-        var admin7DMA = {
-            name: 'admin7DMA',
-            x: x,
-            y: movingAverage(yAdmin, 7),
-            type: 'scatter'
+        var future = {
+            name: 'Doses To Meet Goal',
+            x: xFuture,
+            y: yFuture,
+            showgrid:false,
+            fill: 'tozeroy',
+            type: 'bar',
+            marker:{
+                color: fillColor(xFuture, maxAdminDate)
+            },
+        };
+        
+        var plan = {
+            name: 'Planned Deliveries',
+            x: xPlan,
+            y: yPlan,
+            showgrid:false,
+            fill: 'tozeroy',
+            type: 'bar',
+            marker:{
+                color: fillColor(xPlan, maxAdminDate)
+            },
         };
 
         var layout = {
+            //barmode: 'stack',
+            showlegend: true,
+            legend_title_text: "",
+            legend_orientation: "h",
+            legend: {
+                "y": 1.00, 
+                "x": 0.3
+            },
             yaxis: { 
                 tickfont: {
                     size: 11
@@ -346,7 +335,7 @@ Promise.all([
         document.getElementById('div_canada_chart').append(titleCanadaChart);
         document.getElementById('div_canada_chart').append(div_canada_chartItem);
 
-        var data = [adminDaily];
+        var data = [actual, future];
         Plotly.newPlot('canadaDiv', data, layout);
 
     }
