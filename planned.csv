@@ -1,4 +1,4 @@
-location,report_date,daily_moderna,daily_pfizer,daily_astrazenaca,daily_total,weekly_moderna,weekly_pfizer,weekly_astrazenaca,weekly_total,moderna_cumulative,pfizer_cumulative,astrazenaca_cumulative,total_cumulative
+province,report_date,daily_moderna,daily_pfizer,daily_astrazenaca,daily_total,weekly_moderna,weekly_pfizer,weekly_astrazenaca,weekly_total,moderna_cumulative,pfizer_cumulative,astrazenaca_cumulative,total_cumulative
 Canada,04-02-2011,"25,714","11,286",0,"37,000","180,000","79,000",,"259,000","340,200","858,000",0,"1,198,200"
 Canada,05-02-2011,"25,714","11,286",0,"37,000","180,000","79,000",,"259,000","365,914","869,286",0,"1,235,200"
 Canada,06-02-2011,"25,714","11,286",0,"37,000","180,000","79,000",,"259,000","391,629","880,571",0,"1,272,200"
