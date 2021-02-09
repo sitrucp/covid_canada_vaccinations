@@ -214,15 +214,22 @@ Promise.all([
         // get future data
         var futureData = createFutureData(dosePopulation, maxAdminDate, distTotalCanada, adminTotalCanada, province);
 
-        // CREATE CANADA CHART
-
-        // concat actual and future data
-        //var dataConcat = distAdminCanadaPop.concat(futureData);
-
         // concat planned to future
         // var dataConcat = dataConcatFuture.concat(planned);
         // for stacked bar, need multiple trace/data set, one for actual, one for planned, one for projected
 
+        // left join future to planned on date
+        /*
+        const futurePlanned = equijoinWithDefault(
+            futureData, planned, 
+            "report_date", "report_date", 
+            ({province, report_date, count_type, avaccine, dvaccine
+}, {count_type, avaccine, dvaccine}, ) => 
+            ({province, report_date, count_type, avaccine, dvaccine}), 
+            {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
+        */
+
+        // CREATE CANADA CHART
 
         // create x and y axis data sets
         var xActual = [];
