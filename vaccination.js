@@ -101,7 +101,7 @@ Promise.all([
     //});
 
     // left join admin to dist - Canada
-    const distAdminCanadaPop = equijoinWithDefault(
+    const arrDistAdminCanadaPop = equijoinWithDefault(
         arrDistCanada, arrAdminCanada, 
         "prov_date", "prov_date", 
         ({province, report_date, dvaccine, cumulative_dvaccine, population}, {avaccine, cumulative_avaccine}, ) => 
@@ -109,7 +109,7 @@ Promise.all([
         {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
 
     // add percentages to distAdminCanada
-    distAdminCanadaPop.forEach(function(d) {
+    arrDistAdminCanadaPop.forEach(function(d) {
         d.pct_pop_dist = parseInt(d.cumulative_dvaccine) / parseInt(d.population)
         d.pct_pop_admin = parseInt(d.cumulative_avaccine) / parseInt(d.population)
         d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
@@ -117,18 +117,18 @@ Promise.all([
     });
 
     // left join admin to dist - Provinces
-    const distAdminProv = equijoinWithDefault(
+    const arrDistAdminProv = equijoinWithDefault(
         arrDistProv, arrAdminProv, 
         "prov_date", "prov_date", 
         ({province, report_date, dvaccine, cumulative_dvaccine}, {avaccine, cumulative_avaccine}, ) => 
         ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine}), 
         {avaccine:"0", cumulative_avaccine:"0"});
 
-    // map population to distAdminProv
-    const distAdminProvPop = distAdminProv.map(t1 => ({...t1, ...arrPopulationProv.find(t2 => t2.province === t1.province)}))
+    // map population to arrDistAdminProv
+    const arrDistAdminProvPop = arrDistAdminProv.map(t1 => ({...t1, ...arrPopulationProv.find(t2 => t2.province === t1.province)}))
 
-    // add percentages to distAdminProvPop
-    distAdminProvPop.forEach(function(d) {
+    // add percentages to arrDistAdminProvPop
+    arrDistAdminProvPop.forEach(function(d) {
         d.pct_pop_dist = parseInt(d.cumulative_dvaccine) / parseInt(d.population)
         d.pct_pop_admin = parseInt(d.cumulative_avaccine) / parseInt(d.population)
         d.pct_dist_admin = parseInt(d.cumulative_avaccine) / parseInt(d.cumulative_dvaccine)
@@ -147,7 +147,7 @@ Promise.all([
         var daysRemaining = daysToGoalDate();
 
         // create future data
-        var futureData = [];
+        var arrFutureData = [];
         var province = prov;
         var avaccine_full_req = (popDose - admin)
         var dvaccine_full_req = (popDose - dist)
@@ -166,7 +166,7 @@ Promise.all([
             var pct_pop_dist = cumulative_dvaccine / popDose;
             var count_type = 'required';
 
-            futureData.push({
+            arrFutureData.push({
                 province,
                 report_date, 
                 avaccine, 
@@ -180,7 +180,7 @@ Promise.all([
             });
         }
 
-        return futureData;
+        return arrFutureData;
     }
 
     // create days remaining
@@ -206,13 +206,13 @@ Promise.all([
 
         // ggt dist and admin totals by summing values, and population using max
         var province = "Canada";
-        var max_pct_dist_admin = d3.max(distAdminCanadaPop.map(d=>d.pct_dist_admin));
-        var population = d3.max(distAdminCanadaPop.map(d=>d.population));
+        var max_pct_dist_admin = d3.max(arrDistAdminCanadaPop.map(d=>d.pct_dist_admin));
+        var population = d3.max(arrDistAdminCanadaPop.map(d=>d.population));
         var dosePopulation = parseInt((population * 2) * popPercent);
-        var max_pct_dist_admin = d3.max(distAdminCanadaPop.map(d=>d.pct_dist_admin));
+        var max_pct_dist_admin = d3.max(arrDistAdminCanadaPop.map(d=>d.pct_dist_admin));
 
         // get future data
-        var futureData = createFutureData(dosePopulation, maxAdminDate, distTotalCanada, adminTotalCanada, province);
+        var arrFutureData = createFutureData(dosePopulation, maxAdminDate, distTotalCanada, adminTotalCanada, province);
 
         console.log(arrPlanned);
 
@@ -223,7 +223,7 @@ Promise.all([
         // left join future to arrPlanned on date
         /*
         const futurePlanned = equijoinWithDefault(
-            futureData, arrPlanned, 
+            arrFutureData, arrPlanned, 
             "report_date", "report_date", 
             ({province, report_date, count_type, avaccine, dvaccine
 }, {count_type, avaccine, dvaccine}, ) => 
@@ -242,14 +242,14 @@ Promise.all([
         var yPlan = [];
 
         // create axes x and y arrays
-        for (var i=0; i<distAdminCanadaPop.length; i++) {
-            var row = distAdminCanadaPop[i];
+        for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
+            var row = arrDistAdminCanadaPop[i];
             xActual.push(row['report_date']);
             yActual.push(parseInt(row['avaccine']));
         }
 
-        for (var i=0; i<futureData.length; i++) {
-            var row = futureData[i];
+        for (var i=0; i<arrFutureData.length; i++) {
+            var row = arrFutureData[i];
             xFuture.push(row['report_date']);
             yFuture.push(parseInt(row['avaccine']));
         }
@@ -374,8 +374,8 @@ Promise.all([
 
         // get list of provinces 
         provListTemp = [];
-        for (var i=0; i<distAdminProvPop.length; i++) {
-            province = distAdminProvPop[i]['province'];
+        for (var i=0; i<arrDistAdminProvPop.length; i++) {
+            province = arrDistAdminProvPop[i]['province'];
             provListTemp.push(province);
         }
         let provList = [...new Set(provListTemp)];
@@ -383,7 +383,7 @@ Promise.all([
         // create prov charts by loop through provList to create chart for each prov
         for (var j=0; j<provList.length; j++) {
 
-            var provData = distAdminProvPop.filter(function(d) { 
+            var provData = arrDistAdminProvPop.filter(function(d) { 
                 return d.province === provList[j];
             });
 
@@ -395,10 +395,10 @@ Promise.all([
             var max_pct_dist_admin = d3.max(provData.map(d=>d.pct_dist_admin));
 
             // get future data 
-            var futureData = createFutureData(dosePopulation, maxAdminDate, distTotalProv, adminTotalProv, provList[j]);
+            var arrFutureData = createFutureData(dosePopulation, maxAdminDate, distTotalProv, adminTotalProv, provList[j]);
 
             // concat actual and future data
-            //var dataConcat = provData.concat(futureData);
+            //var dataConcat = provData.concat(arrFutureData);
 
             // CREATE PROV CHART
             // create x and y axis data sets
@@ -417,8 +417,8 @@ Promise.all([
                 yActual.push(parseInt(row['avaccine']));
             }
 
-            for (var i=0; i<futureData.length; i++) {
-                var row = futureData[i];
+            for (var i=0; i<arrFutureData.length; i++) {
+                var row = arrFutureData[i];
                 xFuture.push(row['report_date']);
                 yFuture.push(parseInt(row['avaccine']));
             }
