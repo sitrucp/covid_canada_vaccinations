@@ -27,12 +27,12 @@ Promise.all([
     //everthing else below is in d3 promise scope
 
     // get data sets from promise
-    var dist_prov = data[0];
-    var admin_prov = data[1];
-    var dist_canada = data[2];
-    var admin_canada = data[3];
-    var planned = data[4];
-    var population = data[5];
+    var arrDistProv = data[0];
+    var arrAdminProv = data[1];
+    var arrDistCanada = data[2];
+    var arrAdminCanada = data[3];
+    var arrPlanned = data[4];
+    var arrPopulation = data[5];
     var updateTime = data[6];
 
     // get update time from working group repository
@@ -41,13 +41,13 @@ Promise.all([
     document.getElementById('last_update').innerHTML += ' <small class="text-muted">Last updated: ' + lastUpdated + '</small>';
 
     // ggt dist and admin totals by summing values
-    var distTotalCanada = dist_canada.reduce((a, b) => +a + +b.dvaccine, 0);
-    var adminTotalCanada = admin_canada.reduce((a, b) => +a + +b.avaccine, 0);
-    var planTotalCanada = planned.reduce((a, b) => +a + +b.avaccine, 0); // use this if planned data is at prov level but currently it is only Canada level
+    var distTotalCanada = arrDistCanada.reduce((a, b) => +a + +b.dvaccine, 0);
+    var adminTotalCanada = arrAdminCanada.reduce((a, b) => +a + +b.avaccine, 0);
+    var planTotalCanada = arrPlanned.reduce((a, b) => +a + +b.avaccine, 0); // use this if arrPlanned data is at prov level but currently it is only Canada level
 
-    // filter province population dataset by age_group
+    // filter province arrPopulation dataset by age_group
     var sel_age_group = '18 years and over';
-    var populationFiltered = population.filter(function(d) { 
+    var arrPopulationFiltered = arrPopulation.filter(function(d) { 
         return d.age_group == sel_age_group;
     });
     
@@ -55,16 +55,16 @@ Promise.all([
     var popPercent = 1;
 
     // summarize population dataset by Canada
-    var popCanada = populationFiltered.reduce((a, b) => +a + +b.population, 0);
+    var popCanada = arrPopulationFiltered.reduce((a, b) => +a + +b.population, 0);
 
     // summarize population dataset by province
-    var popProv = d3.nest()
+    var arrPopulationProv = d3.nest()
         .key(function(d) { return d.geo; })
         .rollup(function(v) { return {
             population: d3.sum(v, function(d) { return d.population; })
             };
         })
-        .entries(populationFiltered)
+        .entries(arrPopulationFiltered)
         .map(function(group) {
             return {
             province: group.key,
@@ -73,25 +73,25 @@ Promise.all([
         });
 
     // reformat dates, calculate % dist/admin of population
-    dist_prov.forEach(function(d) {
+    arrDistProv.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_distributed)
         d.prov_date = d.province + '|' + d.date_vaccine_distributed
     });
-    admin_prov.forEach(function(d) {
+    arrAdminProv.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_administered)
         d.prov_date = d.province + '|' + d.date_vaccine_administered
     });
-    planned.forEach(function(d) {
+    arrPlanned.forEach(function(d) {
         d.report_date = reformatDate(d.report_date)
         d.prov_date = d.province + '|' + d.report_date
     });
 
-    dist_canada.forEach(function(d) {
+    arrDistCanada.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_distributed)
         d.prov_date = d.province + '|' + d.date_vaccine_distributed
         d.population = popCanada
     });
-    admin_canada.forEach(function(d) {
+    arrAdminCanada.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_administered)
         d.prov_date = d.province + '|' + d.date_vaccine_administered
     });
@@ -102,7 +102,7 @@ Promise.all([
 
     // left join admin to dist - Canada
     const distAdminCanadaPop = equijoinWithDefault(
-        dist_canada, admin_canada, 
+        arrDistCanada, arrAdminCanada, 
         "prov_date", "prov_date", 
         ({province, report_date, dvaccine, cumulative_dvaccine, population}, {avaccine, cumulative_avaccine}, ) => 
         ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine, population}), 
@@ -118,14 +118,14 @@ Promise.all([
 
     // left join admin to dist - Provinces
     const distAdminProv = equijoinWithDefault(
-        dist_prov, admin_prov, 
+        arrDistProv, arrAdminProv, 
         "prov_date", "prov_date", 
         ({province, report_date, dvaccine, cumulative_dvaccine}, {avaccine, cumulative_avaccine}, ) => 
         ({province, report_date, dvaccine, cumulative_dvaccine, avaccine, cumulative_avaccine}), 
         {avaccine:"0", cumulative_avaccine:"0"});
 
     // map population to distAdminProv
-    const distAdminProvPop = distAdminProv.map(t1 => ({...t1, ...popProv.find(t2 => t2.province === t1.province)}))
+    const distAdminProvPop = distAdminProv.map(t1 => ({...t1, ...arrPopulationProv.find(t2 => t2.province === t1.province)}))
 
     // add percentages to distAdminProvPop
     distAdminProvPop.forEach(function(d) {
@@ -136,8 +136,8 @@ Promise.all([
     });
 
     // get canada dist & admin max dates
-    var maxDistDate = d3.max(dist_canada.map(d=>d.report_date));
-    var maxAdminDate = d3.max(admin_canada.map(d=>d.report_date));
+    var maxDistDate = d3.max(arrDistCanada.map(d=>d.report_date));
+    var maxAdminDate = d3.max(arrAdminCanada.map(d=>d.report_date));
 
     function createFutureData(popDose, maxDate, dist, admin, prov) {
         // maxDate is max date in original data eg last date reported
@@ -214,14 +214,16 @@ Promise.all([
         // get future data
         var futureData = createFutureData(dosePopulation, maxAdminDate, distTotalCanada, adminTotalCanada, province);
 
-        // concat planned to future
-        // var dataConcat = dataConcatFuture.concat(planned);
-        // for stacked bar, need multiple trace/data set, one for actual, one for planned, one for projected
+        console.log(arrPlanned);
 
-        // left join future to planned on date
+        // concat arrPlanned to future
+        // var dataConcat = dataConcatFuture.concat(arrPlanned);
+        // for stacked bar, need multiple trace/data set, one for actual, one for arrPlanned, one for projected
+
+        // left join future to arrPlanned on date
         /*
         const futurePlanned = equijoinWithDefault(
-            futureData, planned, 
+            futureData, arrPlanned, 
             "report_date", "report_date", 
             ({province, report_date, count_type, avaccine, dvaccine
 }, {count_type, avaccine, dvaccine}, ) => 
