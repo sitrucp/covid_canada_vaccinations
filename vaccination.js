@@ -77,10 +77,12 @@ Promise.all([
         d.report_date = reformatDate(d.date_vaccine_distributed)
         d.prov_date = d.province + '|' + d.date_vaccine_distributed
     });
+
     arrAdminProv.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_administered)
         d.prov_date = d.province + '|' + d.date_vaccine_administered
     });
+
     arrPlanned.forEach(function(d) {
         d.report_date = reformatDate(d.report_date)
         d.prov_date = d.province + '|' + d.report_date
@@ -91,14 +93,11 @@ Promise.all([
         d.prov_date = d.province + '|' + d.date_vaccine_distributed
         d.population = popCanada
     });
+
     arrAdminCanada.forEach(function(d) {
         d.report_date = reformatDate(d.date_vaccine_administered)
         d.prov_date = d.province + '|' + d.date_vaccine_administered
     });
-    //plan_canada.forEach(function(d) {
-    //    d.report_date = reformatDate(d.report_date)
-    //    d.prov_date = d.province + '|' + d.report_date
-    //});
 
     // left join admin to dist - Canada
     const arrDistAdminCanadaPop = equijoinWithDefault(
@@ -158,7 +157,9 @@ Promise.all([
         for (var i=1; i<daysRemaining; i++) { 
 
             var report_date = new Date(maxDate);
+            
             report_date.setDate(report_date.getDate() + i);
+            var prov_date = province + '|' + report_date;
             var cumulative_avaccine = admin + (avaccine * i);
             var cumulative_dvaccine = dist + (dvaccine * i);
             var pct_dist_admin = cumulative_avaccine / cumulative_dvaccine;
@@ -169,6 +170,7 @@ Promise.all([
             arrFutureData.push({
                 province,
                 report_date, 
+                prov_date,
                 avaccine, 
                 dvaccine, 
                 cumulative_avaccine, 
@@ -214,22 +216,20 @@ Promise.all([
         // get future data
         var arrFutureData = createFutureData(dosePopulation, maxAdminDate, distTotalCanada, adminTotalCanada, province);
 
-        console.log(arrPlanned);
-
         // concat arrPlanned to future
         // var dataConcat = dataConcatFuture.concat(arrPlanned);
         // for stacked bar, need multiple trace/data set, one for actual, one for arrPlanned, one for projected
 
         // left join future to arrPlanned on date
-        /*
-        const futurePlanned = equijoinWithDefault(
+        
+        const arrFuturePlanned = equijoinWithDefault(
             arrFutureData, arrPlanned, 
-            "report_date", "report_date", 
-            ({province, report_date, count_type, avaccine, dvaccine
-}, {count_type, avaccine, dvaccine}, ) => 
-            ({province, report_date, count_type, avaccine, dvaccine}), 
-            {prov_date:null, avaccine:"0", cumulative_avaccine:"0"});
-        */
+            "prov_date", "prov_date", 
+            ({province, report_date, prov_date, count_type, avaccine, dvaccine}, {daily_moderna, daily_pfizer, daily_astrazenaca, daily_total}, ) => 
+            ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_astrazenaca, daily_total}), 
+            {daily_moderna:"0", daily_pfizer:"0", daily_astrazenaca:"0", daily_total:"0"});
+        
+        console.log(arrPlanned);
 
         // CREATE CANADA CHART
 
@@ -556,6 +556,7 @@ function reformatDate(oldDate) {
     // 17-12-2020 is working group date format
     var d = (oldDate).split('-');
     var newDate = new Date(d[1] + '/' + d[0] + '/' + d[2]);
+    //var newDate = d[2] + '-' + d[1] + '-' + d[0]
     return newDate
 }
 
