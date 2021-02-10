@@ -340,8 +340,8 @@ Promise.all([
 
         var astra = {
             name: 'Planned Other',
-            x: xAstra,
-            y: yAstra,
+            x: xOther,
+            y: yOther,
             showgrid:false,
             //fill: 'tozeroy',
             type: 'bar',
