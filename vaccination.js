@@ -204,6 +204,12 @@ Promise.all([
         return colors
     }
 
+    var colActual = '#ffffb2';
+    var colFuture = 'rgba(204,204,204, .9)';
+    var colActual = '#fd8d3c';
+    var colActual = '#f03b20';
+    var colActual = '#bd0026';
+
     function createCanadaChart() {
 
         // ggt dist and admin totals by summing values, and population using max
@@ -231,13 +237,13 @@ Promise.all([
             
         arrFuturePlanned.forEach(function(d) {
             d.required = parseInt(d.avaccine);
-            /*
+            
             if ( parseInt(d.daily_total.replace(/,/g, '')) < parseInt(d.avaccine)) {
                 d.required = parseInt(d.avaccine) - parseInt(d.daily_total.replace(/,/g, ''));
             } else {
                 d.required = 0;
             }
-            */
+            
         });
 
         // CREATE CANADA CHART
@@ -289,7 +295,7 @@ Promise.all([
             name: 'Actual Doses',
             x: xActual,
             y: yActual,
-            showgrid:false,
+            showgrid: false,
             //fill: 'tozeroy',
             type: 'bar',
             marker:{
@@ -301,13 +307,13 @@ Promise.all([
             name: 'Doses To Meet Goal',
             x: xFuture,
             y: yFuture,
-            showgrid:false,
+            showgrid: false,
             //type: 'line',
             type: 'bar',
             //fill: 'tozeroy',
             marker:{
-                //color: 'black'
-                color: fillColor(xFuture, maxAdminDate)
+                color: 'rgba(204,204,204, .9)'
+                //color: fillColor(xFuture, maxAdminDate)
             },
         };
         
@@ -316,7 +322,7 @@ Promise.all([
             name: 'Planned Pfizer',
             x: xPfizer,
             y: yPfizer,
-            showgrid:false,
+            showgrid: false,
             //fill: 'tozeroy',
             type: 'bar',
             marker:{
@@ -329,7 +335,7 @@ Promise.all([
             name: 'Planned Moderna',
             x: xModerna,
             y: yModerna,
-            showgrid:false,
+            showgrid: false,
             //fill: 'tozeroy',
             type: 'bar',
             marker:{
@@ -338,11 +344,11 @@ Promise.all([
             },
         };
 
-        var astra = {
+        var other = {
             name: 'Planned Other',
             x: xOther,
             y: yOther,
-            showgrid:false,
+            showgrid: false,
             //fill: 'tozeroy',
             type: 'bar',
             marker:{
@@ -351,22 +357,21 @@ Promise.all([
             },
         };
 
-        /*
-        #ffffb2
-        #fecc5c
-        #fd8d3c
-        #f03b20
-        #bd0026
-        */
-
         var layout = {
-            //barmode: 'stack',
+            title: {
+                text:'Canada COVID-19 Vaccine Dose Administration <br> Required To Meet Sep 30 Goal',
+                font: {
+                    size: 14
+                },
+            },
+            barmode: 'relative',
             showlegend: true,
             legend: {
-                "y": 1.04, 
-                "x": 0.05,
+                "y": 1.07, 
+                "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
+                bgcolor: 'rgba(0,0,0,0)',
             },
             yaxis: { 
                 tickfont: {
@@ -388,15 +393,8 @@ Promise.all([
                 l: 30,
                 r: 40,
                 b: 80,
-                t: 40,
+                t: 80,
                 pad: 2
-            },
-            title: {
-                text:'Canada COVID-19 Vaccine Dose Administration Required To Meet Sep 30 Goal',
-                font: {
-                    weight: "bold",
-                    size: 14
-                },
             },
         }
 
@@ -433,8 +431,9 @@ Promise.all([
         document.getElementById('div_canada_chart').append(titleCanadaChart);
         document.getElementById('div_canada_chart').append(div_canada_chartItem);
 
-        //var data = [actual, pfizer, moderna, astra, future];
-        var data = [actual, future];
+        var data = [actual, pfizer, moderna, future];
+        //var data = [actual, pfizer, moderna, other, future];
+        //var data = [actual, future];
         Plotly.newPlot('canadaDiv', data, layout);
 
     }
@@ -498,7 +497,7 @@ Promise.all([
                 name: 'Actual Doses',
                 x: xActual,
                 y: yActual,
-                showgrid:false,
+                showgrid: false,
                 fill: 'tozeroy',
                 type: 'bar',
                 marker:{
@@ -510,7 +509,7 @@ Promise.all([
                 name: 'Doses To Meet Goal',
                 x: xFuture,
                 y: yFuture,
-                showgrid:false,
+                showgrid: false,
                 fill: 'tozeroy',
                 type: 'bar',
                 marker:{
@@ -521,10 +520,11 @@ Promise.all([
             var layout = {
                 showlegend: true,
                 legend: {
-                    "y": 1.04, 
+                    "y": 1.07,  
                     "x": 0.3,
                     legend_title_text: "",
                     orientation: "h",
+                    bgcolor: 'rgba(0,0,0,0)',
                 },
                 yaxis: { 
                     tickfont: {
@@ -546,13 +546,12 @@ Promise.all([
                     l: 30,
                     r: 40,
                     b: 80,
-                    t: 40,
+                    t: 80,
                     pad: 2
                 },
                 title: {
-                    text: provList[j] + ' COVID-19 Vaccine Dose Administration Required To Meet Sep 30 Goal',
+                    text: provList[j] + ' COVID-19 Vaccine Dose Administration <br> Required To Meet Sep 30 Goal',
                     font: {
-                        weight: "bold",
                         size: 14
                     },
                 },
