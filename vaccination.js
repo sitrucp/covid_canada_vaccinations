@@ -225,21 +225,34 @@ Promise.all([
         const arrFuturePlanned = equijoinWithDefault(
             arrFutureData, arrPlanned, 
             "prov_date", "prov_date", 
-            ({province, report_date, prov_date, count_type, avaccine, dvaccine}, {daily_moderna, daily_pfizer, daily_astrazenaca, daily_total}, ) => 
-            ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_astrazenaca, daily_total}), 
-            {daily_moderna:"0", daily_pfizer:"0", daily_astrazenaca:"0", daily_total:"0"});
-        
-        console.log(arrPlanned);
+            ({province, report_date, prov_date, count_type, avaccine, dvaccine}, {daily_moderna, daily_pfizer, daily_other, daily_total}, ) => 
+            ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_other, daily_total}), 
+            {daily_moderna:"0", daily_pfizer:"0", daily_other:"0", daily_total:"0"});
+            
+        arrFuturePlanned.forEach(function(d) {
+            d.required = parseInt(d.avaccine);
+            /*
+            if ( parseInt(d.daily_total.replace(/,/g, '')) < parseInt(d.avaccine)) {
+                d.required = parseInt(d.avaccine) - parseInt(d.daily_total.replace(/,/g, ''));
+            } else {
+                d.required = 0;
+            }
+            */
+        });
 
         // CREATE CANADA CHART
 
         // create x and y axis data sets
         var xActual = [];
-        var xFuture = [];
-        var xPlan = [];
         var yActual = [];
+        var xFuture = [];
         var yFuture = [];
-        var yPlan = [];
+        var xPfizer = [];
+        var yPfizer = [];
+        var xModerna = [];
+        var yModerna = [];
+        var xOther = [];
+        var yOther = [];
 
         // create axes x and y arrays
         for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
@@ -248,10 +261,28 @@ Promise.all([
             yActual.push(parseInt(row['avaccine']));
         }
 
-        for (var i=0; i<arrFutureData.length; i++) {
-            var row = arrFutureData[i];
+        for (var i=0; i<arrFuturePlanned.length; i++) {
+            var row = arrFuturePlanned[i];
             xFuture.push(row['report_date']);
-            yFuture.push(parseInt(row['avaccine']));
+            yFuture.push(parseInt(row['required']));
+        }
+
+        for (var i=0; i<arrFuturePlanned.length; i++) {
+            var row = arrFuturePlanned[i];
+            xPfizer.push(row['report_date']);
+            yPfizer.push(parseInt(row['daily_pfizer'].replace(/,/g, '')));
+        }
+
+        for (var i=0; i<arrFuturePlanned.length; i++) {
+            var row = arrFuturePlanned[i];
+            xModerna.push(row['report_date']);
+            yModerna.push(parseInt(row['daily_moderna'].replace(/,/g, '')));
+        }
+
+        for (var i=0; i<arrFuturePlanned.length; i++) {
+            var row = arrFuturePlanned[i];
+            xOther.push(row['report_date']);
+            yOther.push(parseInt(row['daily_other'].replace(/,/g, '')));
         }
 
         var actual = {
@@ -259,7 +290,7 @@ Promise.all([
             x: xActual,
             y: yActual,
             showgrid:false,
-            fill: 'tozeroy',
+            //fill: 'tozeroy',
             type: 'bar',
             marker:{
                 color: fillColor(xActual, maxAdminDate)
@@ -271,31 +302,69 @@ Promise.all([
             x: xFuture,
             y: yFuture,
             showgrid:false,
-            fill: 'tozeroy',
+            //type: 'line',
             type: 'bar',
+            //fill: 'tozeroy',
             marker:{
+                //color: 'black'
                 color: fillColor(xFuture, maxAdminDate)
             },
         };
         
-        var plan = {
-            name: 'Planned Deliveries',
-            x: xPlan,
-            y: yPlan,
+        // optional planned vaccines
+        var pfizer = {
+            name: 'Planned Pfizer',
+            x: xPfizer,
+            y: yPfizer,
             showgrid:false,
-            fill: 'tozeroy',
+            //fill: 'tozeroy',
             type: 'bar',
             marker:{
-                color: fillColor(xPlan, maxAdminDate)
+                color: '#bd0026'
+                //color: fillColor(xPlan, maxAdminDate)
             },
         };
+
+        var moderna = {
+            name: 'Planned Moderna',
+            x: xModerna,
+            y: yModerna,
+            showgrid:false,
+            //fill: 'tozeroy',
+            type: 'bar',
+            marker:{
+                color: '#f03b20'
+                //color: fillColor(xPlan, maxAdminDate)
+            },
+        };
+
+        var astra = {
+            name: 'Planned Other',
+            x: xAstra,
+            y: yAstra,
+            showgrid:false,
+            //fill: 'tozeroy',
+            type: 'bar',
+            marker:{
+                color: '#fd8d3c'
+                //color: fillColor(xPlan, maxAdminDate)
+            },
+        };
+
+        /*
+        #ffffb2
+        #fecc5c
+        #fd8d3c
+        #f03b20
+        #bd0026
+        */
 
         var layout = {
             //barmode: 'stack',
             showlegend: true,
             legend: {
                 "y": 1.04, 
-                "x": 0.3,
+                "x": 0.05,
                 legend_title_text: "",
                 orientation: "h",
             },
@@ -364,6 +433,7 @@ Promise.all([
         document.getElementById('div_canada_chart').append(titleCanadaChart);
         document.getElementById('div_canada_chart').append(div_canada_chartItem);
 
+        //var data = [actual, pfizer, moderna, astra, future];
         var data = [actual, future];
         Plotly.newPlot('canadaDiv', data, layout);
 
@@ -448,18 +518,6 @@ Promise.all([
                 },
             };
             
-            var plan = {
-                name: 'Planned Deliveries',
-                x: xPlan,
-                y: yPlan,
-                showgrid:false,
-                fill: 'tozeroy',
-                type: 'bar',
-                marker:{
-                    color: fillColor(xPlan, maxAdminDate)
-                },
-            };
-
             var layout = {
                 showlegend: true,
                 legend: {
