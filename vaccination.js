@@ -227,7 +227,6 @@ Promise.all([
         // for stacked bar, need multiple trace/data set, one for actual, one for arrPlanned, one for projected
 
         // left join future to arrPlanned on date
-        
         const arrFuturePlanned = equijoinWithDefault(
             arrFutureData, arrPlanned, 
             "prov_date", "prov_date", 
@@ -235,6 +234,7 @@ Promise.all([
             ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_other, daily_total}), 
             {daily_moderna:"0", daily_pfizer:"0", daily_other:"0", daily_total:"0"});
             
+        // create new 'required' value for future minus planned, if any planned
         arrFuturePlanned.forEach(function(d) {
             d.required = parseInt(d.avaccine);
             
@@ -270,7 +270,8 @@ Promise.all([
         for (var i=0; i<arrFuturePlanned.length; i++) {
             var row = arrFuturePlanned[i];
             xFuture.push(row['report_date']);
-            yFuture.push(parseInt(row['required']));
+            //yFuture.push(parseInt(row['required']));
+            yFuture.push(parseInt(row['avaccine']));
         }
 
         for (var i=0; i<arrFuturePlanned.length; i++) {
@@ -431,9 +432,9 @@ Promise.all([
         document.getElementById('div_canada_chart').append(titleCanadaChart);
         document.getElementById('div_canada_chart').append(div_canada_chartItem);
 
-        var data = [actual, pfizer, moderna, future];
+        //var data = [actual, pfizer, moderna, future];
         //var data = [actual, pfizer, moderna, other, future];
-        //var data = [actual, future];
+        var data = [actual, future];
         Plotly.newPlot('canadaDiv', data, layout);
 
     }
