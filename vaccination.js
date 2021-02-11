@@ -10,9 +10,9 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
 //CHANGE
-//var file_planned = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/planned.csv";
+var file_planned = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/planned.csv";
 
-var file_planned = "/ws_covid_vaccination_canada/planned.csv";
+//var file_planned = "/ws_covid_vaccination_canada/planned.csv";
 
 var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
 
@@ -577,7 +577,7 @@ Promise.all([
             
         '<p><strong>COVID-19 Vaccine Roll-Out Forecast</strong></p>' +
 
-        '<p>The Canadian government has said it has committments for delivery of 40m each of Pfizer & Moderna by Sep 30, 2021. Based on this, and other statements, an estimated delivery forecast is provided in the bullet points and visualization below.</p>' +
+        '<p>The Canadian government has said it has commitments for delivery of 40m Pfizer & 40m Moderna by Sep 30, 2021. Based on this, and other statements detailed below, an estimated delivery forecast is provided in the bullet points and visualization below.</p>' +
         
         '<ul>' + 
 
