@@ -575,7 +575,7 @@ Promise.all([
 
         var chartDetails = '<h4>' + province + '</h4>' +
             
-        '<p><strong>Forecast Vaccine Roll-Out Forecast</strong></p>' +
+        '<p><strong>COVID-19 Vaccine Roll-Out Forecast</strong></p>' +
 
         '<p>The Canadian government has said it has committments for delivery of 40m each of Pfizer & Moderna by Sep 30, 2021. Based on this, and other statements, an estimated delivery forecast is provided in the bullet points and visualization below.</p>' +
         
