@@ -10,9 +10,9 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
 //CHANGE
-var file_planned = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/planned.csv";
+//var file_planned = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/planned.csv";
 
-//var file_planned = "/ws_covid_vaccination_canada/planned.csv";
+var file_planned = "/ws_covid_vaccination_canada/planned.csv";
 
 var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
 
@@ -510,7 +510,7 @@ Promise.all([
 
         var layout = {
             title: {
-                text:'Canada COVID-19 Planned Vaccine Dose Administration <br> 40m Pfizer & 40m Moderna By Sep 30',
+                text:'Canada COVID-19 Planned Vaccine Dose Administration <br> 40m Pfizer & 44m Moderna By Sep 30',
                 font: {
                     size: 14
                 },
@@ -577,17 +577,17 @@ Promise.all([
             
         '<p><strong>COVID-19 Pfizer & Moderna Vaccine Roll-Out Forecast</strong></p>' +
 
-        '<p>The Canadian government has said it has commitments for delivery of 40m Pfizer & 40m Moderna by Sep 30, 2021. Based on this, and other statements detailed below, an estimated delivery forecast is provided in the bullet points and visualization below.</p>' +
+        '<p>The Canadian government has said it has commitments for delivery of 40m Pfizer & 44m Moderna by Sep 30, 2021. Based on this, and other statements detailed below, an estimated delivery forecast is provided in the bullet points and visualization below.</p>' +
         
         '<ul>' + 
 
         '<li>By Mar 31: GoC has said it has commitments for 4m Pfizer & 2m Moderna by Mar 31.</li>' +
         
-        '<li>Apr 1 to Jun 30: GoC has said it has commitments for 20m doses to be delivered in this period, though has not specified vaccine allocation. Based on Feb and Mar deliveries, a forecast is 13m Pfizer & 7m Moderna.</li>' +
+        '<li>Apr 1 to Jun 30: GoC has said it has commitments for 23m doses to be delivered in this period, 10.8m Pfizer & 12.2m Moderna.</li>' +
         
-        '<li>Jul 1 to Sep 30: Based on above deliveries, the forecast allocation in this phase is 23m Pfizer & 31m Moderna (amounts remaining to get 40m total each).</li>' +
-        
-        '<li>The daily amounts shown in the visualization are calculated by dividing amounts by number of days in the phase. The cumulative daily amount measure tracks progress towards complete 80m doses. Note that only about 61m doses are needed to vaccinate age 18+ population. The visualization shows 61m doses being achieved by Aug 28, 2021 which is probably a bit too optimistic.</li>' +
+        '<li>Jul 1 to Sep 30: Based on above deliveries, the forecast allocation in this phase is 25.2m Pfizer & 29.8m Moderna (amounts remaining to get 40m Pfizer and 44m Moderna totals).</li>' +
+
+        '<li>The daily amounts shown in the visualization are calculated by dividing amounts by number of days in the phase. The cumulative daily amount measure tracks progress towards complete 80m doses. Note that only about 61m doses are needed to vaccinate age 18+ population. The daily amounts calculated and presented in the visualization has 61m doses being achieved by Aug 23, 2021 which is probably a bit too optimistic. In reality, there will likely be some lag between delivery to province and administration into people\'s arms.</li>' +
 
         '</ul>';
 
