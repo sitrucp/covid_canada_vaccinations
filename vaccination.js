@@ -587,7 +587,7 @@ Promise.all([
         
         '<li>Jul 1 to Sep 30: Based on above deliveries, the forecast allocation in this phase is 23m Pfizer & 31m Moderna (amounts remaining to get 40m total each).</li>' +
         
-        '<li>Visualization daily amounts are simply calculated by dividing amounts by number of days in the phase. The cumulative measure tracks progress to 80m doses. Note that only about 61m doses are needed to vaccinate age 18+ population.</li>' +
+        '<li>The daily amounts shown in the visualization are calculated by dividing amounts by number of days in the phase. The cumulative daily amount measure tracks progress towards complete 80m doses. Note that only about 61m doses are needed to vaccinate age 18+ population. The visualization shows 61m doses being achieved by Aug 28, 2021 which is probably a bit too optimistic.</li>' +
 
         '</ul>';
 
