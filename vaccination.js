@@ -510,7 +510,7 @@ Promise.all([
 
         var layout = {
             title: {
-                text:'Canada COVID-19 Planned Vaccine Dose Administration <br> 40m Pfizer & 44m Moderna By Sep 30',
+                text:'Canada COVID-19 Vaccine Dose Delivery Forecast <br> for 40m Pfizer & 44m Moderna By Sep 30',
                 font: {
                     size: 14
                 },
@@ -575,22 +575,38 @@ Promise.all([
 
         var chartDetails = '<h4>' + province + '</h4>' +
             
-        '<p><strong>COVID-19 Pfizer & Moderna Vaccine Roll-Out Forecast</strong></p>' +
+        '<p><strong>Canada COVID-19 Pfizer & Moderna Vaccine Dose Delivery Forecast By Sep 30</strong></p>' +
 
-        '<p>The Canadian government has said it has commitments for delivery of 40m Pfizer & 44m Moderna by Sep 30, 2021. Based on this, and other statements detailed below, an estimated delivery forecast is provided in the bullet points and visualization below.</p>' +
+        '<p>GoC has commitments for 40m Pfizer & 44m Moderna to be delivered by Sep 30. Based on GoC statements to-date it is possible to create the following vaccine dose delivery phase forecasts in the bullet points and visualization below.</p>' +
         
-        '<ul>' + 
+        '<ul class="list-unstyled">' + 
 
-        '<li>By Mar 31: GoC has said it has commitments for 4m Pfizer & 2m Moderna by Mar 31.</li>' +
+        '<li><strong>To Mar 31, 6 million total:</strong></li>' +
+
+        '<li>Pfizer 4 million</li>' +
+
+        '<li>Moderna 2 million</li>' +
+
+        '<li><strong>Apr 1-Jun 30, 23 million total:</strong></li>' +
+
+        '<li>Pfizer 10.8 million</li>' +
+
+        '<li>Moderna 12.2 million</li>' +
+
+        '<li><strong>Jul 1-Sep 30, 55 million total:</strong></li>' +
+
+        '<li>Pfizer 25.2 million</li>' +
+
+        '<li>Moderna 29.8 million</li>' +
+
+        '<li><strong>By Sep 30, 84 million delivered.</strong></li>' +
+
+        '</ul>' +
         
-        '<li>Apr 1 to Jun 30: GoC has said it has commitments for 23m doses to be delivered in this period, 10.8m Pfizer & 12.2m Moderna.</li>' +
+        '<p>The daily amounts shown in the visualization are calculated by dividing dose amounts by number of days in each phase. The cumulative dose amount visualizes progress towards the complete 84 million doses.<p>' +
         
-        '<li>Jul 1 to Sep 30: Based on above deliveries, the forecast allocation in this phase is 25.2m Pfizer & 29.8m Moderna (amounts remaining to get 40m Pfizer and 44m Moderna totals).</li>' +
-
-        '<li>The daily amounts shown in the visualization are calculated by dividing amounts by number of days in the phase. The cumulative daily amount measure tracks progress towards complete 84m doses. Note that only about 61m doses are needed to vaccinate age 18+ population. The daily amounts calculated and presented in the visualization has 61m doses being achieved by Aug 23, 2021 which is probably a bit too optimistic. In reality, there will likely be some lag between delivery to province and administration into people\'s arms.</li>' +
-
-        '</ul>';
-
+        '<p>Note that only about 61 million doses are needed to vaccinate Canada\'s age 18+ population which is shown as being achieved by Aug 23, 2021. In reality there will be a lag between delivery to Canada and then onwards to provinces and administration into people\'s arms.</p>';
+        
         titleCanadaPlanChart.innerHTML = chartDetails;
         document.getElementById('div_canada_plan_chart').append(titleCanadaPlanChart);
         document.getElementById('div_canada_plan_chart').append(div_canada_plan_chartItem);
