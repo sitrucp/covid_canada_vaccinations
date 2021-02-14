@@ -581,25 +581,37 @@ Promise.all([
         
         '<ul class="list-unstyled">' + 
 
-        '<li><strong>To Mar 31, 6 million total:</strong></li>' +
+        '<li>To Mar 31, 6 million total:</li>' +
 
         '<li>Pfizer 4 million</li>' +
 
         '<li>Moderna 2 million</li>' +
 
-        '<li><strong>Apr 1-Jun 30, 23 million total:</strong></li>' +
+        '</ul>' +
+
+        '<ul class="list-unstyled">' + 
+
+        '<li>Apr 1-Jun 30, 23 million total:</li>' +
 
         '<li>Pfizer 10.8 million</li>' +
 
         '<li>Moderna 12.2 million</li>' +
 
-        '<li><strong>Jul 1-Sep 30, 55 million total:</strong></li>' +
+        '</ul>' +
+
+        '<ul class="list-unstyled">' + 
+
+        '<li>Jul 1-Sep 30, 55 million total:</li>' +
 
         '<li>Pfizer 25.2 million</li>' +
 
         '<li>Moderna 29.8 million</li>' +
 
-        '<li><strong>By Sep 30, 84 million delivered.</strong></li>' +
+        '</ul>' +
+
+        '<ul class="list-unstyled">' + 
+
+        '<li>By Sep 30, 84 million delivered.</li>' +
 
         '</ul>' +
         
