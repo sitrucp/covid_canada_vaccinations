@@ -373,7 +373,10 @@ Promise.all([
         document.getElementById('div_canada_chart').append(div_canada_chartItem);
 
         var data = [actual, future];
-        Plotly.newPlot('canadaDiv', data, layout);
+
+        var config = {responsive: true}
+
+        Plotly.newPlot('canadaDiv', data, layout, config);
 
     }
 
@@ -624,7 +627,10 @@ Promise.all([
         document.getElementById('div_canada_plan_chart').append(div_canada_plan_chartItem);
 
         var data = [actual, pfizer, moderna, cumulative];
-        Plotly.newPlot('canadaPlanDiv', data, layout);
+
+        var config = {responsive: true}
+
+        Plotly.newPlot('canadaPlanDiv', data, layout, config);
 
     }
 
@@ -778,7 +784,10 @@ Promise.all([
             document.getElementById('div_prov_chart').append(div_prov_chartItem);
             
             var data = [actual, future];
-            Plotly.newPlot(provDiv, data, layout);
+
+            var config = {responsive: true}
+
+            Plotly.newPlot(provDiv, data, layout, config);
 
         }
     }
