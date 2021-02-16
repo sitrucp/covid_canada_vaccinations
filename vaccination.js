@@ -41,7 +41,7 @@ Promise.all([
     // get update time from working group repository
     lastUpdated = updateTime.columns[0];
     
-    document.getElementById('last_update').innerHTML += ' <small class="text-muted">Last updated: ' + lastUpdated + '</small>';
+    document.getElementById('last_update').innerHTML += ' <small class="text-muted">Data updated: ' + lastUpdated + '</small>';
 
     // ggt dist and admin totals by summing values
     var distTotalCanada = arrDistCanada.reduce((a, b) => +a + +b.dvaccine, 0);
