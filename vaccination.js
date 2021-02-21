@@ -270,7 +270,7 @@ Promise.all([
                 width: 2
             },
             marker:{
-                color: 'rgba(250, 0, 0, .8)' // '#000000',
+                color: 'rgba(0, 0, 0, .8)' // '#000000',
             },
         };
 
@@ -304,12 +304,14 @@ Promise.all([
             barmode: 'relative',
             showlegend: true,
             legend: {
-                "y": 1.15, 
+                "y": 1.09, 
                 "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
                 bgcolor: 'rgba(0,0,0,0)',
             },
+            //width: 800,
+            height: 600,
             yaxis: { 
                 title: {
                     text: 'daily dose count',
@@ -329,6 +331,9 @@ Promise.all([
                     font: {
                         size: 11,
                     },
+                },
+                tickfont: {
+                    size: 11
                 },
                 overlaying: 'y',
                 side: 'right',
@@ -378,7 +383,7 @@ Promise.all([
             '<ul class="list-unstyled">' + 
             '<li>By Sep 30, 84 million delivered.</li>' +
             '</ul>' + 
-            '<p>The visualization below compares actual doses delivered (black dots) vs  forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (red dot line).</p>';
+            '<p>The visualization below compares actual doses delivered (black dots) vs  forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (dotted black line). Hopefully cumulative actual deliveries follows cumulative forecast deliveries!</p>';
         titleCanadaForecastChart.innerHTML = chartDetails;
         document.getElementById('div_canada_forecast_chart').append(titleCanadaForecastChart);
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
