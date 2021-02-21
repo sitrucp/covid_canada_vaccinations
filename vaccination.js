@@ -191,6 +191,13 @@ Promise.all([
             yCumForecast.push(parseInt(row['total_cumulative'].replace(/,/g, '')));
         }
 
+        // get current yCumForecast value, by get xCumForecast current date index, then find yCumForecast value at that index
+        var currDateIndex = xCumForecast.findIndex(x => x.toISOString().split('T')[0] === new Date().toISOString().split('T')[0]);
+        var maxCumForecast = yCumForecast[currDateIndex];
+
+        // get max yCumActual value
+        var maxCumActual = Math.max(...yCumActual);
+
         // plotly chart trace
         var trActual = {
             name: 'Delivered',
@@ -364,26 +371,31 @@ Promise.all([
         div_canada_forecast_chartItem.id = canadaForecastDiv;
         titleCanadaForecastChart.id = canadaForecastTitle;
         var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Delivery</h4>' + 
-            '<p>Following the Feb 2021 vaccine delivery disruptions, the Government of Canada (GoC) has received delivery schedule commitments for 40m Pfizer & 44m Moderna by Sep 30 which are described in the bullet points below.</p>' +
+            '<p>Following the Feb 2021 vaccine delivery disruptions the Government of Canada (GoC) has received delivery schedule commitments for 84m vaccine doses (40m Pfizer & 44m Moderna) by Sep 30:</p>' +
             '<ul class="list-unstyled">' + 
             '<li>To Mar 31, 6 million total:</li>' +
-            '<li>Pfizer 4 million</li>' +
-            '<li>Moderna 2 million</li>' +
+            '<li>* Pfizer 4 million</li>' +
+            '<li>* Moderna 2 million</li>' +
             '</ul>' +
             '<ul class="list-unstyled">' + 
             '<li>Apr 1-Jun 30, 23 million total:</li>' +
-            '<li>Pfizer 10.8 million</li>' +
-            '<li>Moderna 12.2 million</li>' +
+            '<li>* Pfizer 10.8 million</li>' +
+            '<li>* Moderna 12.2 million</li>' +
             '</ul>' +
             '<ul class="list-unstyled">' + 
             '<li>Jul 1-Sep 30, 55 million total:</li>' +
-            '<li>Pfizer 25.2 million</li>' +
-            '<li>Moderna 29.8 million</li>' +
+            '<li>* Pfizer 25.2 million</li>' +
+            '<li>* Moderna 29.8 million</li>' +
             '</ul>' +
             '<ul class="list-unstyled">' + 
             '<li>By Sep 30, 84 million delivered.</li>' +
             '</ul>' + 
-            '<p>The visualization below compares actual doses delivered (black dots) vs  forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (dotted black line). Hopefully cumulative actual deliveries follows cumulative forecast deliveries!</p>';
+            '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered (black dots) vs  forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (dotted black line). Hopefully cumulative actual deliveries follows cumulative forecast deliveries!</p>' +
+            '<ul class="list-unstyled">' + 
+            '<li>Current Cumulative Delivery Counts:</li>' +
+            '<li>* Forecast: ' + maxCumForecast.toLocaleString() + '</li>' +
+            '<li>* Actual: ' + maxCumActual.toLocaleString() + '</li>' +
+            '</ul>';
         titleCanadaForecastChart.innerHTML = chartDetails;
         document.getElementById('div_canada_forecast_chart').append(titleCanadaForecastChart);
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
@@ -802,7 +814,14 @@ Promise.all([
         // 17-12-2020 is working group date format
         var d = (oldDate).split('-');
         var newDate = new Date(d[1] + '/' + d[0] + '/' + d[2]);
-        //var newDate = d[2] + '-' + d[1] + '-' + d[0]
+        return newDate
+    }
+
+    // reformat date to date object
+    function reformatDate2(oldDate) {
+        // 17-12-2020 is working group date format
+        var d = (oldDate).split('-');
+        var newDate = new Date(d[1] + '/' + d[0] + '/' + d[2]);
         return newDate
     }
 
