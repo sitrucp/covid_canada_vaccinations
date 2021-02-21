@@ -269,7 +269,7 @@ Promise.all([
         }
 
         var actual = {
-            name: 'Administered Doses',
+            name: 'Administered',
             x: xActual,
             y: yActual,
             showgrid: false,
@@ -280,7 +280,7 @@ Promise.all([
         };
 
         var future = {
-            name: 'Doses To Meet Goal',
+            name: 'Remaining To Meet Goal',
             x: xFuture,
             y: yFuture,
             showgrid: false,
@@ -310,7 +310,7 @@ Promise.all([
             },
             yaxis: { 
                 title: {
-                    text: 'daily',
+                    text: 'daily dose count',
                     font: {
                         size: 11,
                     },
@@ -329,11 +329,10 @@ Promise.all([
             autosize: true,
             autoscale: false,
             margin: {
-                l: 60,
-                r: 60,
+                l: 80,
+                r: 80,
                 b: 80,
-                t: 80,
-                pad: 2
+                t: 80
             },
         }
 
@@ -456,7 +455,7 @@ Promise.all([
         }
 
         var actual = {
-            name: 'Administered Doses',
+            name: 'Administered',
             x: xActual,
             y: yActual,
             showgrid: false,
@@ -522,7 +521,7 @@ Promise.all([
         };
 
         var cumActual = {
-            name: 'Actual Cumulative',
+            name: 'Administered Cumulative',
             yaxis: 'y2',
             x: xCumActual,
             y: yCumActual,
@@ -554,7 +553,7 @@ Promise.all([
             },
             yaxis: { 
                 title: {
-                    text: 'daily',
+                    text: 'daily dose count',
                     font: {
                         size: 11,
                     },
@@ -566,7 +565,7 @@ Promise.all([
             },
             yaxis2: {
                 title: {
-                    text: 'cumulative',
+                    text: 'cumulative dose count',
                     font: {
                         size: 11,
                     },
@@ -585,11 +584,10 @@ Promise.all([
             autosize: true,
             autoscale: false,
             margin: {
-                l: 60,
-                r: 60,
+                l: 80,
+                r: 80,
                 b: 80,
-                t: 80,
-                pad: 2
+                t: 80
             },
         }
 
@@ -711,7 +709,7 @@ Promise.all([
 
             // create Prov chart
             var actual = {
-                name: 'Administered Doses',
+                name: 'Administered',
                 x: xActual,
                 y: yActual,
                 showgrid: false,
@@ -723,7 +721,7 @@ Promise.all([
             };
     
             var future = {
-                name: 'Doses To Meet Goal',
+                name: 'Remaining To Meet Goal',
                 x: xFuture,
                 y: yFuture,
                 showgrid: false,
@@ -744,6 +742,12 @@ Promise.all([
                     bgcolor: 'rgba(0,0,0,0)',
                 },
                 yaxis: { 
+                    title: {
+                        text: 'daily dose count',
+                        font: {
+                            size: 11,
+                        },
+                    },
                     tickfont: {
                         size: 11
                     },
@@ -758,11 +762,10 @@ Promise.all([
                 autosize: true,
                 autoscale: false,
                 margin: {
-                    l: 30,
-                    r: 40,
+                    l: 80,
+                    r: 80,
                     b: 80,
-                    t: 80,
-                    pad: 2
+                    t: 80
                 },
                 title: {
                     text: provList[j] + ' COVID-19 Vaccine Dose Administration <br> Required To Meet Sep 30 Goal',
