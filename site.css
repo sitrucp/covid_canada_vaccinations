@@ -1,20 +1,14 @@
-
-
     .container { 
         margin-top: 20px;
         margin-bottom: 40px; 
     }
 
     .modebar{
-    display: none !important;
+        display: none !important;
     }
 
-    #div_canada_chart {
-    margin-top: 20px;
-    }
-    
-    #div_canada_plan_chart {
+    .div_chart {
         margin-top: 20px;
-        }
-    
+    }
+
 
