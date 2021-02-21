@@ -9,7 +9,6 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
-//CHANGE
 var file_forecast = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/forecast.csv";
 
 //var file_forecast = "/ws_covid_vaccination_canada/forecast.csv";
@@ -195,18 +194,27 @@ Promise.all([
         // plotly chart trace
         var trActual = {
             name: 'Delivered',
+            hoverlabel: {
+                namelength :-1
+            },
             x: xActual,
-            y: yActual,
+            y: replaceZeros(yActual),
             showgrid: false,
-            type: 'bar',
-            marker:{
-                color: 'rgba(0, 38, 189, .6)' 
+            mode: 'markers',
+            type: 'scatter',
+            //type: 'bar',
+            marker: {
+                color: 'rgba(0, 0, 0, .6)', // '#000000',
+                size: 5
             },
         };
         
          // plotly chart trace
         var trPfizer = {
             name: 'Pfizer Forecast',
+            hoverlabel: {
+                namelength :-1
+            },
             x: xPfizer,
             y: yPfizer,
             showgrid: false,
@@ -219,6 +227,9 @@ Promise.all([
          // plotly chart trace
         var trModerna = {
             name: 'Moderna Forecast',
+            hoverlabel: {
+                namelength :-1
+            },
             x: xModerna,
             y: yModerna,
             showgrid: false,
@@ -231,6 +242,9 @@ Promise.all([
          // plotly chart trace
         var trOther = {
             name: 'Other Forecast',
+            hoverlabel: {
+                namelength :-1
+            },
             x: xOther,
             y: yOther,
             showgrid: false,
@@ -243,6 +257,9 @@ Promise.all([
          // plotly chart trace
         var trCumForecast = {
             name: 'Forecast Cumulative',
+            hoverlabel: {
+                namelength :-1
+            },
             yaxis: 'y2',
             x: xCumForecast,
             y: yCumForecast,
@@ -250,26 +267,29 @@ Promise.all([
             mode: 'line',
             line: {
                 dash: 'dot',
-                width: 1
+                width: 2
             },
             marker:{
-                color: 'rgba(0, 0, 0, .8)' // '#000000',
+                color: 'rgba(250, 0, 0, .8)' // '#000000',
             },
         };
 
          // plotly chart trace
         var trCumActual = {
             name: 'Delivered Cumulative',
+            hoverlabel: {
+                namelength :-1
+            },
             yaxis: 'y2',
             x: xCumActual,
             y: yCumActual,
             showgrid: false,
             line: {
-               //dash: 'dot',
-                width: 1
+                dash: 'dot',
+                width: 2
             },
             marker:{
-                color: 'rgba(250, 0, 0, .8)' // '#000000',
+                color: 'rgba(0, 0, 0, .8)' // '#000000',
             },
         };
 
@@ -300,7 +320,8 @@ Promise.all([
                 tickfont: {
                     size: 11
                 },
-                showgrid:false
+                showgrid:false,
+                rangemode: 'tozero',
             },
             yaxis2: {
                 title: {
@@ -735,6 +756,32 @@ Promise.all([
             }
         }
         return colors
+    }
+
+    // assign marker color
+    function markerColor(x) {
+        colors = [];
+        for (var i=0; i<x.length; i++) {
+            if (x[i] == 0) {
+                colors.push('rgba(0, 0, 0, 0)'); // black
+            } else {
+                colors.push('rgba(0, 0, 0, .6)'); // black transparent
+            }
+        }
+        return colors
+    }
+
+    // assign marker color
+    function replaceZeros(x) {
+        arrValues = [];
+        for (var i=0; i<x.length; i++) {
+            if (x[i] == 0) {
+                arrValues.push(''); 
+            } else {
+                arrValues.push(x[i]);
+            }
+        }
+        return arrValues
     }
 
     // dataset left join function
