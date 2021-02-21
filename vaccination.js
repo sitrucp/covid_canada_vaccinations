@@ -679,7 +679,7 @@ Promise.all([
                 '<li>' + parseInt(((dosePopulation - adminTotalProv) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li>' +
                 '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
                 '</ul>' +
-                '<p>The visualization below compares the actual count of vaccine doses administered to-date across Canada as reported by provinces (blue bars) vs calculated remaining dose administration required to fully vaccinate age 18+ population by Sep 30, 2021 (gray bars).</p>';
+                '<p>The visualization below compares the actual count of vaccine doses administered to-date as reported by ' + provList[j] + ' (blue bars) vs calculated remaining dose administration required to fully vaccinate age 18+ population by Sep 30, 2021 (gray bars).</p>';
             titleProvChart.innerHTML  = chartDetails;
             document.getElementById('div_prov_remain_chart').append(titleProvChart);
             document.getElementById('div_prov_remain_chart').append(div_prov_chartItem);
