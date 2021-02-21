@@ -240,13 +240,11 @@ Promise.all([
         // create new 'required' value for future minus planned, if any planned
         arrFuturePlanned.forEach(function(d) {
             d.required = parseInt(d.avaccine);
-            
             if ( parseInt(d.daily_total.replace(/,/g, '')) < parseInt(d.avaccine)) {
                 d.required = parseInt(d.avaccine) - parseInt(d.daily_total.replace(/,/g, ''));
             } else {
                 d.required = 0;
             }
-            
         });
 
         // CREATE CANADA CHART
@@ -271,7 +269,7 @@ Promise.all([
         }
 
         var actual = {
-            name: 'Actual Doses',
+            name: 'Administered Doses',
             x: xActual,
             y: yActual,
             showgrid: false,
@@ -347,7 +345,7 @@ Promise.all([
         div_canada_chartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
 
-        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + '</h4>' +
+        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Administered Doses vs Remaining Doses</h4>' +
             
         '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + population.toLocaleString() + '</li>' + 
 
@@ -384,16 +382,19 @@ Promise.all([
 
         // ggt dist and admin totals by summing values, and population using max
         var province = "Canada";
-        var population = d3.max(arrDistAdminCanadaPop.map(d=>d.population));
-        var dosePopulation = parseInt((population * 2) * popPercent);
+        //var population = d3.max(arrDistAdminCanadaPop.map(d=>d.population));
+        //var dosePopulation = parseInt((population * 2) * popPercent);
 
+        /*
         // get future data
         var arrFutureData = createFutureData(dosePopulation, maxAdminDate, distTotalCanada, adminTotalCanada, province);
+        */
 
         // concat arrPlanned to future
         // var dataConcat = dataConcatFuture.concat(arrPlanned);
         // for stacked bar, need multiple trace/data set, one for actual, one for arrPlanned, one for projected
 
+        /*
         // left join future to arrPlanned on date
         const arrFuturePlanned = equijoinWithDefault(
             arrFutureData, arrPlanned, 
@@ -401,18 +402,19 @@ Promise.all([
             ({province, report_date, prov_date, count_type, avaccine, dvaccine}, {daily_moderna, daily_pfizer, daily_other, daily_total, total_cumulative}, ) => 
             ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_other, daily_total, total_cumulative}), 
             {daily_moderna:"0", daily_pfizer:"0", daily_other:"0", daily_total:"0", total_cumulative:"0"});
-            
+        */
+        
+        /*
         // create new 'required' value for future minus planned, if any planned
         arrFuturePlanned.forEach(function(d) {
             d.required = parseInt(d.avaccine);
-            
             if ( parseInt(d.daily_total.replace(/,/g, '')) < parseInt(d.avaccine)) {
                 d.required = parseInt(d.avaccine) - parseInt(d.daily_total.replace(/,/g, ''));
             } else {
                 d.required = 0;
             }
-            
         });
+        */
 
         // CREATE CANADA CHART
 
@@ -425,38 +427,42 @@ Promise.all([
         var yModerna = [];
         var xOther = [];
         var yOther = [];
-        var xCumulative = [];
-        var yCumulative = [];
+        var xCumPlanned = [];
+        var yCumPlanned = [];
+        var xCumActual = [];
+        var yCumActual = [];
 
         // create axes x and y arrays
         for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
             var row = arrDistAdminCanadaPop[i];
             xActual.push(row['report_date']);
             yActual.push(parseInt(row['avaccine']));
-            xCumulative.push(row['report_date']);
-            yCumulative.push(parseInt(row['cumulative_avaccine']));
+            xCumActual.push(row['report_date']);
+            yCumActual.push(parseInt(row['cumulative_avaccine']));
         }
 
-        for (var i=0; i<arrFuturePlanned.length; i++) {
-            var row = arrFuturePlanned[i];
+        // create planned cumulative (planned only) alongside actual cumulative (actual + planned future) - contrast planned against actual
+
+        for (var i=0; i<arrPlanned.length; i++) {
+            var row = arrPlanned[i];
             xPfizer.push(row['report_date']);
             yPfizer.push(parseInt(row['daily_pfizer'].replace(/,/g, '')));
             xModerna.push(row['report_date']);
             yModerna.push(parseInt(row['daily_moderna'].replace(/,/g, '')));
             xOther.push(row['report_date']);
             yOther.push(parseInt(row['daily_other'].replace(/,/g, '')));
-            xCumulative.push(row['report_date']);
-            yCumulative.push(parseInt(row['total_cumulative'].replace(/,/g, '')));
+            xCumPlanned.push(row['report_date']);
+            yCumPlanned.push(parseInt(row['total_cumulative'].replace(/,/g, '')));
         }
 
         var actual = {
-            name: 'Actual Doses',
+            name: 'Administered Doses',
             x: xActual,
             y: yActual,
             showgrid: false,
-            type: 'bar',
+            type: 'line',
             marker:{
-                color: fillColor(xActual, maxAdminDate)
+                color: 'rgba(0, 38, 189, .6)' 
             },
         };
         
@@ -468,7 +474,7 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: '#bd0026'
+                color: 'rgba(189, 0, 38, .6)' // '#bd0026'
                 //color: fillColor(xPlan, maxAdminDate)
             },
         };
@@ -480,7 +486,7 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: '#f03b20'
+                color: 'rgba(240,59,32, .6)' // '#f03b20'
                 //color: fillColor(xPlan, maxAdminDate)
             },
         };
@@ -492,22 +498,41 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: '#fd8d3c'
+                color: 'rgba(253, 141, 60, .6)' // '#fd8d3c'
                 //color: fillColor(xPlan, maxAdminDate)
             },
         };
 
         // add cumulative people vaxxed eg 2x doses
 
-        var cumulative = {
-            name: 'Cumulative Doses',
-            x: xCumulative,
-            y: yCumulative,
+        var cumPlanned = {
+            name: 'Planned Cumulative',
             yaxis: 'y2',
+            x: xCumPlanned,
+            y: yCumPlanned,
             showgrid: false,
-            type: 'line',
+            mode: 'line',
+            line: {
+                dash: 'dot',
+                width: 1
+            },
             marker:{
-                color: '#333',
+                color: 'rgba(0, 0, 0, .8)' // '#000000',
+            },
+        };
+
+        var cumActual = {
+            name: 'Actual Cumulative',
+            yaxis: 'y2',
+            x: xCumActual,
+            y: yCumActual,
+            showgrid: false,
+            line: {
+               //dash: 'dot',
+                width: 1
+            },
+            marker:{
+                color: 'rgba(0, 0, 0, .8)' // '#000000',
             },
         };
 
@@ -549,7 +574,7 @@ Promise.all([
                 overlaying: 'y',
                 side: 'right',
                 showgrid: false,
-                rangemode: 'tozero',
+                //rangemode: 'tozero',
             },
             xaxis: { 
                 tickfont: {
@@ -576,12 +601,10 @@ Promise.all([
         div_canada_plan_chartItem.id = canadaPlanDiv;
         titleCanadaPlanChart.id = canadaPlanTitle;
 
-        var chartDetails = '<h4>' + province + '</h4>' +
-            
-        '<p><strong>Canada COVID-19 Pfizer & Moderna Vaccine Dose Delivery Forecast By Sep 30</strong></p>' +
+        var chartDetails = '<h4>' + province + ' - Doses Administered vs Forecast Dose Delivery</h4>' + 
 
-        '<p>GoC has commitments for 40m Pfizer & 44m Moderna to be delivered by Sep 30. Based on GoC statements to-date it is possible to create the following vaccine dose delivery phase forecasts in the bullet points and visualization below.</p>' +
-        
+        '<p>Following the Feb 2021 vaccine delivery disruptions, the Government of Canada (GoC) has received delivery schedule commitments for 40m Pfizer & 44m Moderna by Sep 30 which are described in the bullet points below.</p>' +
+
         '<ul class="list-unstyled">' + 
 
         '<li>To Mar 31, 6 million total:</li>' +
@@ -616,17 +639,15 @@ Promise.all([
 
         '<li>By Sep 30, 84 million delivered.</li>' +
 
-        '</ul>' +
-        
-        '<p>The daily amounts shown in the visualization are calculated by dividing dose amounts by number of days in each phase. The cumulative dose amount visualizes progress towards the complete 84 million doses.<p>' +
-        
-        '<p>Note that only about 61 million doses are needed to vaccinate Canada\'s age 18+ population which is shown as being achieved by Aug 23, 2021. In reality there will be a lag between delivery to Canada and then onwards to provinces and administration into people\'s arms.</p>';
-        
+        '</ul>' + 
+                
+        '<p>Note that Pfizer delivers doses weekly and Moderna every three weeks. These weekly delivery amounts were equally split into daily dose deliveries in order to visualize them against actual daily dose administration below. The visualization also includes cumulative admninistered doses and cumulative planned dose deliveries.</p>';
+                
         titleCanadaPlanChart.innerHTML = chartDetails;
         document.getElementById('div_canada_plan_chart').append(titleCanadaPlanChart);
         document.getElementById('div_canada_plan_chart').append(div_canada_plan_chartItem);
 
-        var data = [actual, pfizer, moderna, cumulative];
+        var data = [pfizer, moderna, cumPlanned, actual, cumActual];
 
         var config = {responsive: true}
 
@@ -690,7 +711,7 @@ Promise.all([
 
             // create Prov chart
             var actual = {
-                name: 'Actual Doses',
+                name: 'Administered Doses',
                 x: xActual,
                 y: yActual,
                 showgrid: false,
@@ -758,7 +779,7 @@ Promise.all([
             var div_prov_chartItem = document.createElement("div");
             div_prov_chartItem.id = provDiv;
             titleProvChart.id = provTitle;
-            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + '</h4>' +
+            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + ' - Administered Doses vs Remaining Doses</h4>' +
             
             '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + population.toLocaleString() + '</li>' + 
 
