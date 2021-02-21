@@ -67,25 +67,12 @@
 
         <div class="col-md-9">
 
-            <p>These visualizations provide insight into the scheduling required to meet the Canadian government's goal of providing vaccinations for a target population, defined as age 18+ Canadians, by Sep 30, 2021.</p>
+            <p>These visualizations provide insight into the scheduling and effort remaining to meet the Canadian government's goal of providing vaccinations for a target population, defined as age 18+ Canadians, by Sep 30, 2021.</p>
 
-            <ul>
+                <p><span class="font-weight-bold">Actual Dose Delivery vs Forecast Dose Delivery</span> - This visualization tries to create a realistic forecast schedule of vaccine dose deliveries based on available information. It compares actual vs forecast vaccine dose deliveries for Canada. The cumulative amounts track progress towards the complete delivery of 84 million doses.</p>
 
-                <li>Doses Administered vs Forecast Dose Delivery - One chart for Canada that has the following data:
-                    <ul>
-                        <li>Canada Pfizer & Moderna Vaccine Dose Delivery Forecast By Sep 30, 2021. This chart includes estimate forecast of daily vaccine dose deliveries (orange and red bars), actual doses administered (blue line) and cumulative totals for planned and actual vaccine dose (black lines).</li>
-                    </ul>
-                </li>
+                <p><span class="font-weight-bold">Doses Administered vs Remaining Doses To Be Administered</span> - These visualizations try show effort remaining to achieve full vaccination. There is one visualization for Canada and one for each province, comparing actual doses administered vs a calculated count of remaining dose administrations to meet goal of vaccinating 18+ population by Sep 30 (about 30.7 million people requiring 61.5 million doses for full vaccination).</p>
 
-                <li>Doses Administered vs Remaining Doses - Set of charts, one for Canada and one for each province or territory that has the following data:
-                    <ul>
-                        <li>Actual count of vaccine doses administered to-date across Canada as reported by provinces (blue bars).</li>
-
-                        <li>Calculated remaining dose administration required to fully vaccinate age 18+ population by Sep 30, 2021 (gray bars).</li>
-                    </ul>
-                </li>
-                
-            </ul>
 
             <p class="text-muted">COVID-91 actual vaccine data comes from the <a href = "https://github.com/ishaberry/Covid19Canada" target="blank">COVID-19 Canada Open Data Working Group</a> who are doing an amazing job collating provincial COVID-19 data! The vaccine forecast data was created based on Government of Canada delivery and scheduling statements on the <a href = "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html" target="blank">Public Health Roll-Out page</a> as well as variety of other media sources.</p>
 
@@ -96,15 +83,11 @@
                     <h4>Additional Notes</h4>
                 </div>
                 <div class="card-body">
-                    <p class='font-weight-bold'>Actual vs Forecast Doses</p>
+                    <p class='font-weight-bold'>Actual Dose Delivery vs Forecast Dose Delivery</p>
 
-                    <p>The daily amounts shown in the visualization are calculated by dividing dose amounts by number of days in each phase. The cumulative dose amount visualizes progress towards the complete 84 million doses.<p>
+                    <p>Pfizer delivers doses weekly and Moderna every three weeks. For purpose of this visualization, these weekly deliveries were split into daily dose delivery amounts. In practice doses will be delivered across Canada in varying amounts and days so daily deliveries will not likely be equal or within delivery weeks.<p>
         
-                    <p>Note that only about 61 million doses are needed to vaccinate Canada's age 18+ population which is shown as being achieved by Aug 23, 2021. In reality there will be a lag between delivery to Canada and then onwards to provinces and administration into people's arms.</p>
-
-                    <p class='font-weight-bold'>Actual vs Remaining Doses</p>
-
-                    <p>The total calculated count of required dose administration for Canada and each province is equal to their respective population x 2, minus the count of doses administered to-date. A daily dose count is then calculated by dividing the total by the number of days between the last actual reporting date and Sep 30, 2021.</p>
+                    <p class='font-weight-bold'>Doses Administered vs Remaining Doses To Be Administered</p>
 
                     <p>Population x 2 is used because dose administration reporting records single doses but two doses are required for full vaccination using the available Pfizer and Moderna vaccines. This would be updated if and when single dose vaccines become available.</p>
 

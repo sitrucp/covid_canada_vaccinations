@@ -285,7 +285,7 @@ Promise.all([
             y: yCumActual,
             showgrid: false,
             line: {
-                dash: 'dot',
+                //dash: 'dot',
                 width: 2
             },
             marker:{
@@ -296,7 +296,7 @@ Promise.all([
          // plotly chart layout
         var layout = {
             title: {
-                text:'Canada COVID-19 Vaccine Dose Delivery Forecast <br> for 40m Pfizer & 44m Moderna By Sep 30',
+                text:'Canada COVID-19 Vaccine Delivery <br> Actual vs Forecast By Sep 30',
                 font: {
                     size: 14
                 },
@@ -358,7 +358,7 @@ Promise.all([
         var div_canada_forecast_chartItem = document.createElement("div");
         div_canada_forecast_chartItem.id = canadaForecastDiv;
         titleCanadaForecastChart.id = canadaForecastTitle;
-        var chartDetails = '<h4>' + province + ' - Doses Administered vs Forecast Dose Delivery</h4>' + 
+        var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Delivery</h4>' + 
             '<p>Following the Feb 2021 vaccine delivery disruptions, the Government of Canada (GoC) has received delivery schedule commitments for 40m Pfizer & 44m Moderna by Sep 30 which are described in the bullet points below.</p>' +
             '<ul class="list-unstyled">' + 
             '<li>To Mar 31, 6 million total:</li>' +
@@ -378,7 +378,7 @@ Promise.all([
             '<ul class="list-unstyled">' + 
             '<li>By Sep 30, 84 million delivered.</li>' +
             '</ul>' + 
-            '<p>Pfizer delivers doses weekly and Moderna every three weeks. These weekly delivery amounts were equally split into daily dose deliveries in order to visualize them against actual daily dose administration. However, in practice, doses will be delivered across Canada in varying amounts and days, so the visualization is only an approximation for forecast purposes.</p>';
+            '<p>The visualization below compares actual doses delivered (black dots) vs  forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (red dot line).</p>';
         titleCanadaForecastChart.innerHTML = chartDetails;
         document.getElementById('div_canada_forecast_chart').append(titleCanadaForecastChart);
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
@@ -527,7 +527,8 @@ Promise.all([
             '<li>Target Population Doses Administered: ' + ((adminCanadaTotal / dosePopulation) * 100).toFixed(2) + '%</li>' +
             '<li>' + parseInt(((dosePopulation - adminCanadaTotal) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li>' +
             '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
-            '</ul>';
+            '</ul>'  +
+            '<p>The visualization below compares the actual count of vaccine doses administered to-date across Canada as reported by provinces (blue bars) vs calculated remaining dose administration required to fully vaccinate age 18+ population by Sep 30, 2021 (gray bars).</p>';
         titleCanadaChart.innerHTML  = chartDetails;
         document.getElementById('div_canada_remain_chart').append(titleCanadaChart);
         document.getElementById('div_canada_remain_chart').append(div_canada_chartItem);
@@ -677,7 +678,8 @@ Promise.all([
                 '<li>Target Population Doses Administered: ' + ((adminTotalProv / dosePopulation) * 100).toFixed(2) + '%</li>' +
                 '<li>' + parseInt(((dosePopulation - adminTotalProv) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li>' +
                 '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
-                '</ul>';
+                '</ul>' +
+                '<p>The visualization below compares the actual count of vaccine doses administered to-date across Canada as reported by provinces (blue bars) vs calculated remaining dose administration required to fully vaccinate age 18+ population by Sep 30, 2021 (gray bars).</p>';
             titleProvChart.innerHTML  = chartDetails;
             document.getElementById('div_prov_remain_chart').append(titleProvChart);
             document.getElementById('div_prov_remain_chart').append(div_prov_chartItem);
