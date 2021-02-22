@@ -198,6 +198,15 @@ Promise.all([
         // get max yCumActual value
         var maxCumActual = Math.max(...yCumActual);
 
+        // diff between forecast and actual
+        var netCum = parseInt(maxCumActual) - parseInt(maxCumForecast);
+        
+        if (netCum > 0 ) {
+            var netCumString = 'Actual is ahead of forecast by ' + netCum.toLocaleString() + ' doses';
+        } else {
+            var netCumString = 'Actual is behind forecast by ' + (netCum * -1).toLocaleString() + ' doses';
+        }
+        
         // plotly chart trace
         var trActual = {
             name: 'Delivered',
@@ -392,9 +401,11 @@ Promise.all([
             '</ul>' + 
             '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered (black dots) vs  forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (dotted black line). Hopefully cumulative actual deliveries follows cumulative forecast deliveries!</p>' +
             '<ul class="list-unstyled">' + 
-            '<li>Current Cumulative Delivery Counts:</li>' +
+            '<li>Latest Cumulative Dose Delivery Counts:</li>' +
             '<li>* Forecast: ' + maxCumForecast.toLocaleString() + '</li>' +
             '<li>* Actual: ' + maxCumActual.toLocaleString() + '</li>' +
+            '<li>' + netCumString + '</li>' +
+            
             '</ul>';
         titleCanadaForecastChart.innerHTML = chartDetails;
         document.getElementById('div_canada_forecast_chart').append(titleCanadaForecastChart);
@@ -484,7 +495,7 @@ Promise.all([
 
         var layout = {
             title: {
-                text:'Canada Actual vs Remaining Dose Administration <br> Required To Meet Sep 30 Goal',
+                text:'Canada COVID-19 Vaccine Administration <br> Actual vs Remaining Doses To Meet Sep 30 Goal',
                 font: {
                     size: 14
                 },
@@ -670,7 +681,7 @@ Promise.all([
                     t: 80
                 },
                 title: {
-                    text: provList[j] + ' Actual vs Remaining Dose Administration <br> Required To Meet Sep 30 Goal',
+                    text: provList[j] + ' COVID-19 Vaccine Administration <br> Actual vs Remaining Doses To Meet Sep 30 Goal',
                     font: {
                         size: 14
                     },
