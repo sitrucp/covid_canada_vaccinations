@@ -312,7 +312,7 @@ Promise.all([
          // plotly chart layout
         var layout = {
             title: {
-                text:'Canada COVID-19 Vaccine Delivery <br> Actual vs Forecast By Sep 30',
+                text:'Canada COVID-19 Vaccine Delivery <br> Actual vs Forecast Doses By Sep 30',
                 font: {
                     size: 14
                 },
