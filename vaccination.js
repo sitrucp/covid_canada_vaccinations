@@ -409,7 +409,6 @@ Promise.all([
 
 
     function createCanadaChart() {
-
         // ggt dist and admin totals by summing values, and population using max
         var province = "Canada";
         var max_pct_dist_admin = d3.max(arrDistAdminCanadaPop.map(d=>d.pct_dist_admin));
@@ -460,7 +459,7 @@ Promise.all([
         }
 
         var actual = {
-            name: 'Administered',
+            name: 'Actual',
             x: xActual,
             y: yActual,
             showgrid: false,
@@ -471,7 +470,7 @@ Promise.all([
         };
 
         var future = {
-            name: 'Remaining To Meet Goal',
+            name: 'Remaining',
             x: xRemain,
             y: yRemain,
             showgrid: false,
@@ -485,7 +484,7 @@ Promise.all([
 
         var layout = {
             title: {
-                text:'Canada COVID-19 Vaccine Dose Administration <br> Required To Meet Sep 30 Goal',
+                text:'Canada Actual vs Remaining Dose Administration <br> Required To Meet Sep 30 Goal',
                 font: {
                     size: 14
                 },
@@ -494,7 +493,7 @@ Promise.all([
             showlegend: true,
             legend: {
                 "y": 1.07, 
-                "x": 0.15,
+                "x": 0.3,
                 legend_title_text: "",
                 orientation: "h",
                 bgcolor: 'rgba(0,0,0,0)',
@@ -534,7 +533,7 @@ Promise.all([
         var div_canada_chartItem = document.createElement("div");
         div_canada_chartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
-        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Administered Doses vs Remaining Doses</h4>' +
+        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Actual vs Remaining Dose Administration</h4>' +
             '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + population.toLocaleString() + '</li>' + 
             '<li>Doses Distributed: ' + distCanadaTotal.toLocaleString() + '</li>' +
             '<li>Doses Administered: ' + adminCanadaTotal.toLocaleString() + '</li>' +
@@ -612,7 +611,7 @@ Promise.all([
 
             // create Prov chart
             var actual = {
-                name: 'Administered',
+                name: 'Actual',
                 x: xActual,
                 y: yActual,
                 showgrid: false,
@@ -624,7 +623,7 @@ Promise.all([
             };
     
             var future = {
-                name: 'Remaining To Meet Goal',
+                name: 'Remaining',
                 x: xRemain,
                 y: yRemain,
                 showgrid: false,
@@ -638,7 +637,7 @@ Promise.all([
             var layout = {
                 showlegend: true,
                 legend: {
-                    "y": 1.07,  
+                    "y": 1.07,
                     "x": 0.3,
                     legend_title_text: "",
                     orientation: "h",
@@ -671,7 +670,7 @@ Promise.all([
                     t: 80
                 },
                 title: {
-                    text: provList[j] + ' COVID-19 Vaccine Dose Administration <br> Required To Meet Sep 30 Goal',
+                    text: provList[j] + ' Actual vs Remaining Dose Administration <br> Required To Meet Sep 30 Goal',
                     font: {
                         size: 14
                     },
@@ -685,7 +684,7 @@ Promise.all([
             var div_prov_chartItem = document.createElement("div");
             div_prov_chartItem.id = provDiv;
             titleProvChart.id = provTitle;
-            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + ' - Administered Doses vs Remaining Doses</h4>' +
+            var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + ' - Actual vs Remaining Dose Administration</h4>' +
                 '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + population.toLocaleString() + '</li>' + 
                 '<li>Doses Distributed: ' + distTotalProv.toLocaleString() + '</li>' +
                 '<li>Doses Administered: ' + adminTotalProv.toLocaleString() + '</li>' +
