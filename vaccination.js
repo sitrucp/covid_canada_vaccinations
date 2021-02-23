@@ -402,7 +402,7 @@ Promise.all([
         
         // create chart traces
         var trActual = {
-            name: 'Delivered',
+            name: 'Actual Delivered',
             hoverlabel: {
                 namelength :-1
             },
@@ -412,7 +412,7 @@ Promise.all([
             mode: 'markers',
             type: 'bar',
             base: 0, // exclude trace from stacking
-            width: .6*1000*3600*24, // x axis date so multiply width by ms
+            width: .5*1000*3600*24, // x axis date so multiply width by ms
             marker: {
                 color: 'rgba(0, 0, 0, .5)', // '#000000',
                 size: 5
@@ -481,7 +481,7 @@ Promise.all([
         };
 
         var trCumActual = {
-            name: 'Delivered Cumulative',
+            name: 'Actual Delivered Cumulative',
             hoverlabel: {
                 namelength :-1
             },
@@ -588,7 +588,8 @@ Promise.all([
             '<ul class="list-unstyled">' + 
             '<li>By Sep 30, 84 million delivered.</li>' +
             '</ul>' + 
-            '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered (black bars) vs forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (dotted black line). Hopefully cumulative actual delivery line closely tracks the cumulative forecast delivery line.</p>' +
+            '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered ("Actual Delivered" black bars) vs forecast daily dose deliveries ("Pfizer & Moderna Forecast" orange and red bars), and cumulative actual deliveries ("Actual Delivered Cumulative" solid black line) vs cumulative forecast deliveries ("Forecast Cumulative" dotted black line). </p>' +
+            '<p>Successful vaccine delivery is achieved when the Actual Delivered Cumulative line closely tracks or overtakes the Forecast Cumulative line.</p>' +
             '<ul class="list-unstyled">' + 
             '<li>Latest Cumulative Dose Delivery Counts:</li>' +
             '<li>* Forecast: ' + maxCumForecast.toLocaleString() + '</li>' +
