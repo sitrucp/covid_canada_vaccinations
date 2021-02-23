@@ -588,7 +588,7 @@ Promise.all([
             '<ul class="list-unstyled">' + 
             '<li>By Sep 30, 84 million delivered.</li>' +
             '</ul>' + 
-            '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered (black dots) vs  forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (dotted black line). Hopefully cumulative actual deliveries follows cumulative forecast deliveries!</p>' +
+            '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered (black bars) vs forecast daily dose deliveries (orange and red bars), and cumulative actual deliveries (solid black line) vs cumulative forecast deliveries (dotted black line). Hopefully cumulative actual delivery line closely tracks the cumulative forecast delivery line.</p>' +
             '<ul class="list-unstyled">' + 
             '<li>Latest Cumulative Dose Delivery Counts:</li>' +
             '<li>* Forecast: ' + maxCumForecast.toLocaleString() + '</li>' +
