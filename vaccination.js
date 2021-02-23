@@ -52,12 +52,14 @@ Promise.all([
     // define percent population variable - could do dynamic user variable eg to see 70% pop instead of 100% (herd immunity)
     var popPercent = 1;
 
-    // create color variables - not used
-    var colActual = '#ffffb2';
-    var colFuture = 'rgba(204,204,204, .9)';
-    var colActual = '#fd8d3c';
-    var colActual = '#f03b20';
-    var colActual = '#bd0026';
+    // define color variables 
+    var clrBlue = 'rgba(49,130,189,.9)';
+    var clrGray = 'rgba(204,204,204,.9)';
+    var clrBlack = 'rgba(0,0,0,.9)';
+    var clrWhiteTransparent = 'rgba(255,255,255,0)';
+    var clrLightOrange = 'rgba(253,141,60,.6)';
+    var clrCherryRed = 'rgba(189,0,38,.6)';
+    var clrDeepOrange = 'rgba(240,59,32,.6)';
 
     // filter province arrPopulation dataset by age_group
     var sel_age_group = '18 years and over';
@@ -202,7 +204,7 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: 'rgba(49,130,189, .9)'
+                color: clrBlue
             },
         };
 
@@ -216,7 +218,7 @@ Promise.all([
             showgrid: false,
             type: 'line',
             marker:{
-                color: 'rgba(204,204,204, .9)'
+                color: clrGray
             },
         };
 
@@ -235,7 +237,7 @@ Promise.all([
                 width: 2
             },
             marker:{
-                color: 'rgba(0,0,0, .9)'
+                color: clrBlack
             },
         };
 
@@ -253,7 +255,7 @@ Promise.all([
                 width: 2
             },
             marker:{
-                color: 'rgba(0,0,0, .9)'
+                color: clrBlack
             },
         };
 
@@ -272,7 +274,7 @@ Promise.all([
                 "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
-                bgcolor: 'rgba(0,0,0,0)',
+                bgcolor: clrWhiteTransparent
             },
             yaxis: { 
                 title: {
@@ -337,7 +339,7 @@ Promise.all([
         document.getElementById('div_canada_actual_chart').append(div_canada_Actual_chartItem);
 
         // plotly data, config, create chart
-        var data = [trAdmin, trDistCum, trAdminCum];
+        var data = [trAdmin, trAdminCum, trDistCum];
         var config = {responsive: true}
         Plotly.newPlot('canadaActualDiv', data, layout, config);
 
@@ -414,7 +416,7 @@ Promise.all([
             base: 0, // exclude trace from stacking
             width: .5*1000*3600*24, // x axis date so multiply width by ms
             marker: {
-                color: 'rgba(0, 0, 0, .5)', // '#000000',
+                color: clrBlue,
                 size: 5
             },
         };
@@ -429,7 +431,7 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: 'rgba(189, 0, 38, .6)' // '#bd0026'
+                color: clrCherryRed
             },
         };
 
@@ -443,7 +445,7 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: 'rgba(240,59,32, .6)' // '#f03b20'
+                color: clrDeepOrange
             },
         };
 
@@ -457,7 +459,7 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: 'rgba(253, 141, 60, .6)' // '#fd8d3c'
+                color: clrLightOrange
             },
         };
 
@@ -476,7 +478,7 @@ Promise.all([
                 width: 2
             },
             marker:{
-                color: 'rgba(0, 0, 0, .8)' // '#000000',
+                color: clrBlack
             },
         };
 
@@ -494,7 +496,7 @@ Promise.all([
                 width: 2
             },
             marker:{
-                color: 'rgba(0, 0, 0, .8)' // '#000000',
+                color: clrBlack
             },
         };
 
@@ -513,7 +515,7 @@ Promise.all([
                 "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
-                bgcolor: 'rgba(0,0,0,0)',
+                bgcolor: clrWhiteTransparent
             },
             //width: 800,
             height: 600,
@@ -603,7 +605,7 @@ Promise.all([
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
 
         // plotly data, config, create chart
-        var data = [trPfizer, trModerna, trCumForecast, trActual, trCumActual];
+        var data = [trPfizer, trModerna, trActual, trCumForecast, trCumActual];
         var config = {responsive: true}
         Plotly.newPlot('canadaForecastDiv', data, layout, config);
 
@@ -673,10 +675,9 @@ Promise.all([
             x: xRemain,
             y: yRemain,
             showgrid: false,
-            //type: 'line',
             type: 'bar',
             marker:{
-                color: 'rgba(204,204,204, .9)'
+                color: clrGray
                 //color: fillColor(xRemain, maxAdminDate)
             },
         };
@@ -696,7 +697,7 @@ Promise.all([
                 "x": 0.3,
                 legend_title_text: "",
                 orientation: "h",
-                bgcolor: 'rgba(0,0,0,0)',
+                bgcolor: clrWhiteTransparent
             },
             yaxis: { 
                 title: {
@@ -837,7 +838,7 @@ Promise.all([
                     "x": 0.3,
                     legend_title_text: "",
                     orientation: "h",
-                    bgcolor: 'rgba(0,0,0,0)',
+                    bgcolor: clrWhiteTransparent
                 },
                 yaxis: { 
                     title: {
@@ -965,9 +966,9 @@ Promise.all([
         colors = [];
         for (var i=0; i<x.length; i++) {
             if (Date.parse(x[i]) > Date.parse(maxDate)) {
-                colors.push('rgba(204,204,204, .9)'); // gray
+                colors.push(clrGray); // gray
             } else {
-                colors.push('rgba(49,130,189, .9)'); // blue
+                colors.push(clrBlue); // blue
             }
         }
         return colors
@@ -978,9 +979,9 @@ Promise.all([
         colors = [];
         for (var i=0; i<x.length; i++) {
             if (x[i] == 0) {
-                colors.push('rgba(0, 0, 0, 0)'); // black
+                colors.push('rgba(0, 0, 0, 0)'); // black transparent
             } else {
-                colors.push('rgba(0, 0, 0, .6)'); // black transparent
+                colors.push(clrBlack);
             }
         }
         return colors
