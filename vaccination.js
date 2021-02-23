@@ -410,10 +410,11 @@ Promise.all([
             y: replaceZeros(yActual),
             showgrid: false,
             mode: 'markers',
-            type: 'scatter',
-            //type: 'bar',
+            type: 'bar',
+            base: 0, // exclude trace from stacking
+            width: .6*1000*3600*24, // x axis date so multiply width by ms
             marker: {
-                color: 'rgba(0, 0, 0, .6)', // '#000000',
+                color: 'rgba(0, 0, 0, .5)', // '#000000',
                 size: 5
             },
         };
