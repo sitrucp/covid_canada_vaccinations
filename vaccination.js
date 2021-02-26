@@ -397,7 +397,7 @@ Promise.all([
         
         // create chart traces
         var trActual = {
-            name: 'Actual Delivered',
+            name: 'Actual Deliveries',
             hoverlabel: {
                 namelength :-1
             },
@@ -476,7 +476,7 @@ Promise.all([
         };
 
         var trCumActual = {
-            name: 'Actual Delivered Cumulative',
+            name: 'Actual Deliveries Cumulative',
             hoverlabel: {
                 namelength :-1
             },
@@ -564,7 +564,7 @@ Promise.all([
         div_canada_forecast_chartItem.id = canadaForecastDiv;
         titleCanadaForecastChart.id = canadaForecastTitle;
         var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Delivery</h4>' + 
-            '<p>Following the Feb 2021 vaccine delivery disruptions the Government of Canada (GoC) has received delivery schedule commitments for 84m vaccine doses (40m Pfizer & 44m Moderna) by Sep 30:</p>' +
+            '<p>Following the Feb 2021 vaccine delivery disruptions the Government of Canada (GoC) has received delivery schedule commitments for 84m vaccine doses (40m Pfizer & 44m Moderna) by Sep 30.</p>' +
 
             '<div>' +
                 '<div class="box-value">' +
