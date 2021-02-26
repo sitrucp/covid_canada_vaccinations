@@ -11,8 +11,6 @@ var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Cana
 
 var file_forecast = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/forecast.csv";
 
-//var file_forecast = "/ws_covid_vaccination_canada/forecast.csv";
-
 var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
 
 var file_update_time = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/update_time.txt";
@@ -590,7 +588,7 @@ Promise.all([
             '<ul class="list-unstyled">' + 
             '<li>By Sep 30, 84 million delivered.</li>' +
             '</ul>' + 
-            '<p>Note: "Delivery" and "Distribution" are synonymous in usage in reporting of vaccine doses received from manufacturers. "Delivery" is used here to emphasize dose delivery from manufacturers to Canada. "Distribution" is otherwise used to emphasize distribution from Canada to provinces and territories. The key fact is that both signify that the vaccine doses are in Canada but not yet administered.</p>' +
+
             '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered ("Actual Delivered" black bars) vs forecast daily dose deliveries ("Pfizer & Moderna Forecast" orange and red bars), and cumulative actual deliveries ("Actual Delivered Cumulative" solid black line) vs cumulative forecast deliveries ("Forecast Cumulative" dotted black line). </p>' +
             '<p>Successful vaccine delivery is achieved when the Actual Delivered Cumulative line closely tracks or overtakes the Forecast Cumulative line.</p>' +
             '<ul class="list-unstyled">' + 
