@@ -394,11 +394,6 @@ Promise.all([
 
         // create string for diff between forecast and actual
         var netCum = parseInt(maxCumActual) - parseInt(maxCumForecast);
-        if (netCum > 0 ) {
-            var netCumString = 'Actual is ahead of forecast by ' + netCum.toLocaleString() + ' doses';
-        } else {
-            var netCumString = 'Actual is behind forecast by ' + (netCum * -1).toLocaleString() + ' doses';
-        }
         
         // create chart traces
         var trActual = {
@@ -570,33 +565,50 @@ Promise.all([
         titleCanadaForecastChart.id = canadaForecastTitle;
         var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Delivery</h4>' + 
             '<p>Following the Feb 2021 vaccine delivery disruptions the Government of Canada (GoC) has received delivery schedule commitments for 84m vaccine doses (40m Pfizer & 44m Moderna) by Sep 30:</p>' +
-            '<ul class="list-unstyled">' + 
-            '<li>To Mar 31, 6 million total:</li>' +
-            '<li>* Pfizer 4 million</li>' +
-            '<li>* Moderna 2 million</li>' +
-            '</ul>' +
-            '<ul class="list-unstyled">' + 
-            '<li>Apr 1-Jun 30, 23 million total:</li>' +
-            '<li>* Pfizer 10.8 million</li>' +
-            '<li>* Moderna 12.2 million</li>' +
-            '</ul>' +
-            '<ul class="list-unstyled">' + 
-            '<li>Jul 1-Sep 30, 55 million total:</li>' +
-            '<li>* Pfizer 25.2 million</li>' +
-            '<li>* Moderna 29.8 million</li>' +
-            '</ul>' +
-            '<ul class="list-unstyled">' + 
-            '<li>By Sep 30, 84 million delivered.</li>' +
-            '</ul>' + 
+
+            '<div>' +
+                '<div class="box-value">' +
+                    '<ul class="list-unstyled">' + 
+                    '<li class="font-weight-bold">To Mar 31 -> 6 m total</li>' +
+                        '<li>* Pfizer 4 m</li>' +
+                        '<li>* Moderna 2 m</li>' +
+                    '</ul>' +
+                '</div>' + 
+                '<div class="box-value">' +
+                    '<ul class="list-unstyled">' +
+                        '<li class="font-weight-bold">Apr 1-Jun 30 -> 23 m total</li>' +
+                        '<li>* Pfizer 10.8 m</li>' +
+                        '<li>* Moderna 12.2 m</li>' +
+                    '</ul>' +
+                '</div>' + 
+                '<div class="box-value">' +
+                    '<ul class="list-unstyled">' + 
+                        '<li class="font-weight-bold">Jul 1-Sep 30 -> 55 m total</li>' +
+                        '<li>* Pfizer 25.2 m</li>' +
+                        '<li>* Moderna 29.8 m</li>' +
+                    '</ul>' +
+                '</div>' + 
+                '<div class="box-value">' +
+                    '<ul class="list-unstyled">' + 
+                        '<li class="font-weight-bold">By Sep 30 -> 84 m delivered</li>' +
+                    '</ul>' +
+                '</div>' + 
+            '</div>' + 
             '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered ("Actual Delivered" black bars) vs forecast daily dose deliveries ("Pfizer & Moderna Forecast" orange and red bars), and cumulative actual deliveries ("Actual Delivered Cumulative" solid black line) vs cumulative forecast deliveries ("Forecast Cumulative" dotted black line). </p>' +
             '<p>Successful vaccine delivery is achieved when the Actual Delivered Cumulative line closely tracks or overtakes the Forecast Cumulative line.</p>' +
-            '<ul class="list-unstyled">' + 
-            '<li>Latest Cumulative Dose Delivery Counts:</li>' +
-            '<li>* Forecast: ' + maxCumForecast.toLocaleString() + '</li>' +
-            '<li>* Actual: ' + maxCumActual.toLocaleString() + '</li>' +
-            '<li>' + netCumString + '</li>' +
-            
-            '</ul>';
+            '<p class="font-weight-bold">Latest Cumulative Dose Delivery Counts</p>' +
+            '<div>' +
+                '<div class="box-forecast">' +
+                '<p><span class="font-weight-bold">Forecast</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
+                '</div>' + 
+                '<div class="box-forecast">' +
+                '<p><span class="font-weight-bold">Actual</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
+                '</div>' + 
+                '<div class="box-forecast">' +
+                '<p><span class="font-weight-bold">Difference</span> <br>' + netCum.toLocaleString() + '</p>' +
+                '</div>' + 
+            '</div>';
+
         titleCanadaForecastChart.innerHTML = chartDetails;
         document.getElementById('div_canada_forecast_chart').append(titleCanadaForecastChart);
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
