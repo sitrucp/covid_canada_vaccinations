@@ -588,7 +588,6 @@ Promise.all([
             '<ul class="list-unstyled">' + 
             '<li>By Sep 30, 84 million delivered.</li>' +
             '</ul>' + 
-
             '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered ("Actual Delivered" black bars) vs forecast daily dose deliveries ("Pfizer & Moderna Forecast" orange and red bars), and cumulative actual deliveries ("Actual Delivered Cumulative" solid black line) vs cumulative forecast deliveries ("Forecast Cumulative" dotted black line). </p>' +
             '<p>Successful vaccine delivery is achieved when the Actual Delivered Cumulative line closely tracks or overtakes the Forecast Cumulative line.</p>' +
             '<ul class="list-unstyled">' + 
