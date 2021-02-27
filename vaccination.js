@@ -114,8 +114,6 @@ Promise.all([
     var maxDistDate = d3.max(arrDistCanada.map(d=>d.report_date));
     var maxAdminDate = d3.max(arrAdminCanada.map(d=>d.report_date));
 
-    console.log(maxAdminDate);
-    
     // left join admin to dist - Canada
     const arrDistAdminCanadaPop = equijoinWithDefault(
         arrDistCanada, arrAdminCanada, 
@@ -415,7 +413,7 @@ Promise.all([
         };
         
         var trPfizer = {
-            name: 'Pfizer Forecast',
+            name: 'Pfizer Forecast Deliveries',
             hoverlabel: {
                 namelength :-1
             },
@@ -429,7 +427,7 @@ Promise.all([
         };
 
         var trModerna = {
-            name: 'Moderna Forecast',
+            name: 'Moderna Forecast Deliveries',
             hoverlabel: {
                 namelength :-1
             },
@@ -457,7 +455,7 @@ Promise.all([
         };
 
         var trCumForecast = {
-            name: 'Forecast Cumulative',
+            name: 'Forecast Cumulative Deliveries',
             hoverlabel: {
                 namelength :-1
             },
@@ -476,7 +474,7 @@ Promise.all([
         };
 
         var trCumActual = {
-            name: 'Actual Deliveries Cumulative',
+            name: 'Actual Cumulative Deliveries',
             hoverlabel: {
                 namelength :-1
             },
@@ -595,20 +593,20 @@ Promise.all([
                 '</div>' + 
             '</div>' + 
 
-            '<p>This delivery schedule has been modelled in the visualization below which compares actual doses deliveries ("Actual Deliveries" blue bars) vs forecast dose deliveries ("Pfizer & Moderna Forecast" orange and red bars), and cumulative actual deliveries ("Actual Deliveries Cumulative" solid black line) vs cumulative forecast deliveries ("Forecast Cumulative" dotted black line). </p>' +
+            '<p>This delivery schedule has been modelled in the visualization below which compares "Actual Deliveries" (blue bars) vs "Pfizer & Moderna Forecast Deliveries" (orange and red bars), and "Actual Cumulative Deliveries" (solid black line) vs "Forecast Cumulative Deliveries" (dotted black line). </p>' +
 
-            '<p>Vaccine delivery is on-track when the "Actual Deliveries Cumulative" is greater than or equal to "Cumulative Forecast" and when the "Actual Deliveries Cumulative" line closely tracks or overtakes "Forecast Cumulative" line.</p>' +
+            '<p>Vaccine delivery is on-track when the "Actual Cumulative Deliveries" is greater than or equal to "Forecast Cumulative Deliveries" and when the "Actual Cumulative Deliveries" line closely tracks or overtakes "Forecast Cumulative Deliveries" line.</p>' +
 
             '<p class="font-weight-bold">Dose Delivery Counts on: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
             '<div>' +
                 '<div class="box-forecast">' +
-                    '<p><span class="font-weight-bold">Actual Delivered Cumulative</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Actual Cumulative Deliveries</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
                 '</div>' + 
                 '<div class="box-forecast">' +
-                    '<p><span class="font-weight-bold">Forecast Cumulative</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Forecast Cumulative Deliveries</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
                 '</div>' + 
                 '<div class="box-forecast">' +
-                    '<p><span class="font-weight-bold">Difference</span> <br>' + netCum.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Actual minus Forecast</span> <br>' + netCum.toLocaleString() + '</p>' +
                 '</div>' + 
             '</div>';
 
@@ -617,7 +615,7 @@ Promise.all([
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
 
         // plotly data, config, create chart
-        var data = [trPfizer, trModerna, trActual, trCumForecast, trCumActual];
+        var data = [trActual, trPfizer, trModerna, trCumActual, trCumForecast];
         var config = {responsive: true}
         Plotly.newPlot('canadaForecastDiv', data, layout, config);
 
