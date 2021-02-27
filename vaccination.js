@@ -588,6 +588,17 @@ Promise.all([
                 arrowcolor: "rgba(0,0,0,0)",
                 ax: -30,
                 ay: 10},
+                {x: getAnnotationX(xCumForecast, yCumForecast, 61000000),
+                y: 61000000,
+                text: '18+ full vaccination',
+                xref: 'x',
+                yref: 'y2',
+                showarrow: true,
+                arrowhead: 3,
+                arrowsize: 1,
+                arrowcolor: "rgba(0,0,0,.5)",
+                ax: -100,
+                ay: -10},
             ]
         }
 
@@ -1062,6 +1073,11 @@ Promise.all([
     function getAnnotationY(arrX, arrY, d) {
         xIndex = arrX.findIndex(x => x.toISOString().split('T')[0] === d.toISOString().split('T')[0]);
         return arrY[xIndex];
+    }
+
+    function getAnnotationX(arrX, arrY, yValue) {
+        var yIndex = arrY.findIndex(x => x > yValue)
+        return arrX[yIndex];
     }
 
     // reformat date to date object
