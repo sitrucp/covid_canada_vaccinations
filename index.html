@@ -75,7 +75,7 @@
                 <li>Actual vs Remaining Dose Administration</li>
             </ul>
 
-            <p class="font-italic">Data sources: COVID-91 actual vaccine data comes from the <a href = "https://github.com/ishaberry/Covid19Canada" target="blank">COVID-19 Canada Open Data Working Group</a> who are doing an amazing job collating provincial COVID-19 data! The vaccine forecast data was created based on Government of Canada delivery and scheduling statements on the <a href = "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html" target="blank">Public Health Roll-Out page</a> as well as variety of other media sources. <a href="forecast.csv" download>Download detailed forecast csv.</a></p>
+            <p class="font-italic">Data sources: COVID-91 administered and distributed vaccine data comes from the <a href = "https://github.com/ishaberry/Covid19Canada" target="blank">COVID-19 Canada Open Data Working Group</a> who are doing an amazing job collating Canada's COVID-19 data! The vaccine forecast data was created based on Government of Canada delivery and scheduling statements on the <a href = "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html" target="blank">Public Health Roll-Out page</a> as well as variety of other media sources. <a href="forecast.csv" download>Download detailed forecast csv.</a></p>
 
             <a href="#" onclick="hideShowDiv('read_more');">Read more</a>
 
@@ -90,9 +90,11 @@
 
                     <p class='font-weight-bold'>Actual vs Forecast Dose Delivery</p>
 
-                    <p>Pfizer delivers doses weekly and Moderna every three weeks. For purpose of this visualization, these weekly deliveries were split into daily dose delivery amounts. In practice doses will be delivered across Canada in varying amounts and days so daily deliveries will not likely be equal or within delivery weeks.<p>
+                    <p>GoC is releasing detailed distribution schedules for the next month or two, and has provided a high level 'phase' delivery schedule. Therefore for the purpose of the forecast model and visualization it was necessary to split high level delivery schedule dose counts into weekly and daily amounts.</p>
 
-                    <p>"Delivery" and "Distribution" are synonymous in usage in reporting of vaccine doses received from manufacturers. "Delivery" is used here to emphasize dose delivery from manufacturers to Canada. "Distribution" is otherwise used to emphasize distribution from Canada to provinces and territories. The key fact is that both signify that the vaccine doses are in Canada but not yet administered.</p>
+                    <p>However, note that Pfizer delivers doses weekly and Moderna every three weeks. The actual amounts may vary as long as they deliver doses to meet higher level schedule targets. Also, in practice doses will be delivered across Canada in varying amounts and days so daily deliveries will not likely be equal or within delivery weeks.<p>
+
+                    <p>Also note that "Delivery" and "Distribution" are used synonymously in the model and visualizations. "Delivery" is used here to emphasize dose delivery from manufacturers to Canada and is compared to actual doses distributed as reported by provinces (from Canada GoC) to track delivery forecast against actual. "Distribution" is used to emphasize distribution from Canada to provinces and territories and compared to actual doses administered. The key fact is that both signify that the vaccine doses are in Canada but not yet administered.</p>
         
                     <p class='font-weight-bold'>Actual vs Remaining Dose Administration</p>
 
