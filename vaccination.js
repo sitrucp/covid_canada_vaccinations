@@ -113,6 +113,8 @@ Promise.all([
     // get canada dist & admin max dates
     var maxDistDate = d3.max(arrDistCanada.map(d=>d.report_date));
     var maxAdminDate = d3.max(arrAdminCanada.map(d=>d.report_date));
+
+    console.log(maxAdminDate);
     
     // left join admin to dist - Canada
     const arrDistAdminCanadaPop = equijoinWithDefault(
@@ -386,12 +388,10 @@ Promise.all([
         }
 
         // get current yCumForecast value, by get xCumForecast current date index, then find yCumForecast value at that index
-        var currDateIndex = xCumForecast.findIndex(x => x.toISOString().split('T')[0] === new Date().toISOString().split('T')[0]);
+        var currDateIndex = xCumForecast.findIndex(x => x.toISOString().split('T')[0] === maxAdminDate.toISOString().split('T')[0]);
         var maxCumForecast = yCumForecast[currDateIndex];
-
         // get max yCumActual value
         var maxCumActual = Math.max(...yCumActual);
-
         // create string for diff between forecast and actual
         var netCum = parseInt(maxCumActual) - parseInt(maxCumForecast);
         
@@ -594,18 +594,21 @@ Promise.all([
                     '</ul>' +
                 '</div>' + 
             '</div>' + 
-            '<p>This delivery schedule has been modelled in the visualization below which compares actual doses delivered ("Actual Delivered" black bars) vs forecast daily dose deliveries ("Pfizer & Moderna Forecast" orange and red bars), and cumulative actual deliveries ("Actual Delivered Cumulative" solid black line) vs cumulative forecast deliveries ("Forecast Cumulative" dotted black line). </p>' +
-            '<p>Successful vaccine delivery is achieved when the Actual Delivered Cumulative line closely tracks or overtakes the Forecast Cumulative line.</p>' +
-            '<p class="font-weight-bold">Latest Cumulative Dose Delivery Counts</p>' +
+
+            '<p>This delivery schedule has been modelled in the visualization below which compares actual doses deliveries ("Actual Deliveries" blue bars) vs forecast dose deliveries ("Pfizer & Moderna Forecast" orange and red bars), and cumulative actual deliveries ("Actual Deliveries Cumulative" solid black line) vs cumulative forecast deliveries ("Forecast Cumulative" dotted black line). </p>' +
+
+            '<p>Vaccine delivery is on-track when the "Actual Deliveries Cumulative" is greater than or equal to "Cumulative Forecast" and when the "Actual Deliveries Cumulative" line closely tracks or overtakes "Forecast Cumulative" line.</p>' +
+
+            '<p class="font-weight-bold">Dose Delivery Counts on: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
             '<div>' +
                 '<div class="box-forecast">' +
-                '<p><span class="font-weight-bold">Forecast</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Actual Delivered Cumulative</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
                 '</div>' + 
                 '<div class="box-forecast">' +
-                '<p><span class="font-weight-bold">Actual</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Forecast Cumulative</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
                 '</div>' + 
                 '<div class="box-forecast">' +
-                '<p><span class="font-weight-bold">Difference</span> <br>' + netCum.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Difference</span> <br>' + netCum.toLocaleString() + '</p>' +
                 '</div>' + 
             '</div>';
 
