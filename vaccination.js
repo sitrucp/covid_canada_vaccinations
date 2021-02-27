@@ -268,12 +268,14 @@ Promise.all([
             barmode: 'relative',
             showlegend: true,
             legend: {
-                "y": 1.07, 
+                "y": 1.26, 
                 "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
                 bgcolor: clrWhiteTransparent
             },
+            //width: 800,
+            height: 500,
             yaxis: { 
                 title: {
                     text: 'daily dose count',
@@ -314,7 +316,7 @@ Promise.all([
                 l: 80,
                 r: 80,
                 b: 80,
-                t: 80
+                t: 180
             },
         }
 
@@ -502,14 +504,14 @@ Promise.all([
             barmode: 'relative',
             showlegend: true,
             legend: {
-                "y": 1.09, 
+                "y": 1.28, 
                 "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
                 bgcolor: clrWhiteTransparent
             },
             //width: 800,
-            height: 600,
+            height: 620,
             yaxis: { 
                 title: {
                     text: 'daily dose count',
@@ -550,8 +552,43 @@ Promise.all([
                 l: 80,
                 r: 80,
                 b: 80,
-                t: 120
+                t: 220
             },
+            annotations: [ 
+                {x: new Date(("03/31/2021")).getTime(),
+                y: getAnnotationY(xCumForecast, yCumForecast, new Date("03/31/2021")),
+                text: '6m',
+                xref: 'x',
+                yref: 'y2',
+                showarrow: true,
+                arrowhead: 5,
+                arrowsize: 1,
+                arrowcolor: "rgba(0,0,0,0)",
+                ax: -15,
+                ay: -10},
+                {x: new Date(("06/30/2021")).getTime(),
+                y: getAnnotationY(xCumForecast, yCumForecast, new Date("06/30/2021")),
+                text: '29m',
+                xref: 'x',
+                yref: 'y2',
+                showarrow: true,
+                arrowhead: 5,
+                arrowsize: 1,
+                arrowcolor: "rgba(0,0,0,0)",
+                ax: -10,
+                ay: -10},
+                {x: new Date(("09/30/2021")).getTime(),
+                y: getAnnotationY(xCumForecast, yCumForecast, new Date("09/30/2021")),
+                text: '84m',
+                xref: 'x',
+                yref: 'y2',
+                showarrow: true,
+                arrowhead: 5,
+                arrowsize: 1,
+                arrowcolor: "rgba(0,0,0,0)",
+                ax: -30,
+                ay: 10},
+            ]
         }
 
         // create chart section text content
@@ -571,6 +608,7 @@ Promise.all([
                         '<li>* Pfizer 4 m</li>' +
                         '<li>* Moderna 2 m</li>' +
                     '</ul>' +
+                    '<p>Cumulative total: 6 m</p>' +
                 '</div>' + 
                 '<div class="box-value">' +
                     '<ul class="list-unstyled">' +
@@ -578,6 +616,7 @@ Promise.all([
                         '<li>* Pfizer 10.8 m</li>' +
                         '<li>* Moderna 12.2 m</li>' +
                     '</ul>' +
+                    '<p>Cumulative total: 29 m</p>' +
                 '</div>' + 
                 '<div class="box-value">' +
                     '<ul class="list-unstyled">' + 
@@ -585,11 +624,7 @@ Promise.all([
                         '<li>* Pfizer 25.2 m</li>' +
                         '<li>* Moderna 29.8 m</li>' +
                     '</ul>' +
-                '</div>' + 
-                '<div class="box-value">' +
-                    '<ul class="list-unstyled">' + 
-                        '<li class="font-weight-bold">By Sep 30 -> 84 m delivered</li>' +
-                    '</ul>' +
+                    '<p>Cumulative total: 84 m</p>' +
                 '</div>' + 
             '</div>' + 
 
@@ -1017,18 +1052,23 @@ Promise.all([
     };
 
     // reformat date to date object
-    function reformatDate(oldDate) {
+    function reformatDate(d) {
         // 17-12-2020 is working group date format
-        var d = (oldDate).split('-');
-        var newDate = new Date(d[1] + '/' + d[0] + '/' + d[2]);
+        var parts = (d).split('-');
+        var newDate = new Date(parts[1] + '/' + parts[0] + '/' + parts[2]);
         return newDate
     }
 
+    function getAnnotationY(arrX, arrY, d) {
+        xIndex = arrX.findIndex(x => x.toISOString().split('T')[0] === d.toISOString().split('T')[0]);
+        return arrY[xIndex];
+    }
+
     // reformat date to date object
-    function reformatDate2(oldDate) {
+    function reformatDate2(d) {
         // 17-12-2020 is working group date format
-        var d = (oldDate).split('-');
-        var newDate = new Date(d[1] + '/' + d[0] + '/' + d[2]);
+        var parts = (d).split('-');
+        var newDate = new Date(parts[1] + '/' + parts[0] + '/' + parts[2]);
         return newDate
     }
 
