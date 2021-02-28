@@ -11,20 +11,11 @@
         margin-top: 20px;
     }
 
-    .box-forecast {
-        background-color: #F8F8FF;
-        padding: 20px;
-        margin: 5px;
-        display: inline-block;
-        vertical-align:top;
-    }
-
     .box-value {
+        vertical-align:top;
         background-color: #F8F8FF;
         padding: 5px 0px 5px 20px;
-        margin: 5px;
-        width: 50%;
-
+        margin: 5px 10px 5px 20px;
     }
 
 
