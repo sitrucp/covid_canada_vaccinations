@@ -649,11 +649,12 @@ Promise.all([
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
-                    '<li class="font-weight-bold">Dec 14-Mar 31 -> 6 m total</li>' +
+                    '<li class="font-weight-bold">Dec 14-Mar 31 -> 6.5 m total</li>' +
                         '<li>* Pfizer 4 m</li>' +
                         '<li>* Moderna 2 m</li>' +
+                        '<li>* AstraZenaca .5 m</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 6 m</p>' +
+                    '<p>Cumulative total: 6.5 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' +
@@ -661,7 +662,7 @@ Promise.all([
                         '<li>* Pfizer 10.8 m</li>' +
                         '<li>* Moderna 12.2 m</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 29 m</p>' +
+                    '<p>Cumulative total: 29.5 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
@@ -669,7 +670,7 @@ Promise.all([
                         '<li>* Pfizer 25.2 m</li>' +
                         '<li>* Moderna 29.8 m</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 84 m</p>' +
+                    '<p>Cumulative total: 84.5 m</p>' +
                 '</div>' + 
             '</div>' + 
 
