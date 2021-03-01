@@ -71,11 +71,11 @@
 
             <ul>
                 <li>Actual Doses Distributed & Administered</li>
-                <li>Actual vs Forecast Dose Delivery</li>
+                <li>Actual vs Forecast Dose Distribution</li>
                 <li>Actual vs Remaining Dose Administration</li>
             </ul>
 
-            <p class="font-italic">Data sources: COVID-91 administered and distributed vaccine data comes from the <a href = "https://github.com/ishaberry/Covid19Canada" target="blank">COVID-19 Canada Open Data Working Group</a> who are doing an amazing job collating Canada's COVID-19 data! The vaccine forecast data was created based on Government of Canada delivery and scheduling statements on the <a href = "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html" target="blank">Public Health Roll-Out page</a> as well as variety of other media sources. <a href="forecast.csv" download>Download detailed forecast csv.</a></p>
+            <p class="font-italic">Data sources: COVID-91 administered and distributed vaccine data comes from the <a href = "https://github.com/ishaberry/Covid19Canada" target="blank">COVID-19 Canada Open Data Working Group</a> who are doing an amazing job collating Canada's COVID-19 data! The vaccine forecast data was created based on Government of Canada distribution scheduling statements on the <a href = "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html" target="blank">Public Health Roll-Out page</a> as well as variety of other media sources. <a href="forecast.csv" download>Download detailed forecast csv.</a></p>
 
             <a href="#" onclick="hideShowDiv('read_more');">Read more</a>
 
@@ -88,13 +88,21 @@
 
                     <p>This visualization shows actual vaccine doses distribution and administration progress to-date.</p>
 
-                    <p class='font-weight-bold'>Actual vs Forecast Dose Delivery</p>
+                    <p class='font-weight-bold'>Actual vs Forecast Dose Distribution</p>
 
-                    <p>GoC is releasing detailed distribution schedules for the next month or two, and has provided a high level 'phase' delivery schedule. Therefore for the purpose of the forecast model and visualization it was necessary to split high level delivery schedule dose counts into weekly and daily amounts.</p>
+                    <p>GoC is releasing detailed vaccine dose distribution schedules for the next month or two, providing high level 'phases' of vaccine deliveries from manufacturers with contractual requirements only to meet quarterly targets. In addition, Pfizer delivers doses weekly and Moderna every three weeks.</p>
 
-                    <p>However, note that Pfizer delivers doses weekly and Moderna every three weeks. The actual amounts may vary as long as they deliver doses to meet higher level schedule targets. Also, in practice doses will be delivered across Canada in varying amounts and days so daily deliveries will not likely be equal or within delivery weeks.<p>
+                    <p>To create this forecast model it was necessary to split these high level delivery schedule dose counts into estimated weekly and daily amounts.</p>
 
-                    <p>Also note that "Delivery" and "Distribution" are used synonymously in the model and visualizations. "Delivery" is used here to emphasize dose delivery from manufacturers to Canada and is compared to actual doses distributed as reported by provinces (from Canada GoC) to track delivery forecast against actual. "Distribution" is used to emphasize distribution from Canada to provinces and territories and compared to actual doses administered. The key fact is that both signify that the vaccine doses are in Canada but not yet administered.</p>
+                    <p>In reality, actual distribution amounts will vary from the regular, equal distribution amounts used in the model. In practice doses will be distributed across Canada in varying amounts and timeframes. However, distribution trendswill be more immportant than fine-scale accuracy.</p>
+
+                    <p>Note that "distribution" and "delivery" are used synonymously here though they have different meanings in practice.</p>
+                    
+                    <p>"Delivery" refers to dose delivery from manufacturers to GoC, although it's estimate is used here to compare to actual doses distributed from GoC to provinces and territories.</p> 
+                    
+                    <p>"Distribution" refers to doses distributed from GoC to provinces and territories and is used here to compare to actual doses administered. 
+                        
+                    <p>There will likely some lag between time vaccines are delivered to GoC and distribution to provinces and territories. Hoowever, given urgency, in practice this is anticipated to be negligible. The key fact is that both signify that the vaccine doses are in Canada but not yet administered.</p>
         
                     <p class='font-weight-bold'>Actual vs Remaining Dose Administration</p>
 

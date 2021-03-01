@@ -266,6 +266,16 @@ Promise.all([
                 },
             },
             barmode: 'relative',
+            autosize: true,
+            autoscale: false,
+            //width: 800,
+            height: 500,
+            margin: {
+                l: 80,
+                r: 80,
+                b: 80,
+                t: 180
+            },
             showlegend: true,
             legend: {
                 "y": 1.26, 
@@ -274,8 +284,12 @@ Promise.all([
                 orientation: "h",
                 bgcolor: clrWhiteTransparent
             },
-            //width: 800,
-            height: 500,
+            xaxis: { 
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
+            },
             yaxis: { 
                 title: {
                     text: 'daily dose count',
@@ -286,7 +300,7 @@ Promise.all([
                 tickfont: {
                     size: 11
                 },
-                showgrid:false,
+                showgrid: false,
                 rangemode: 'tozero',
             },
             yaxis2: {
@@ -303,21 +317,7 @@ Promise.all([
                 side: 'right',
                 showgrid: false,
                 rangemode: 'tozero',
-            },
-            xaxis: { 
-                tickfont: {
-                    size: 11
-                },
-                showgrid: false,
-            },
-            autosize: true,
-            autoscale: false,
-            margin: {
-                l: 80,
-                r: 80,
-                b: 80,
-                t: 180
-            },
+            }
         }
 
         // create chart section text content
@@ -397,7 +397,7 @@ Promise.all([
         
         // create chart traces
         var trActual = {
-            name: 'Actual Deliveries',
+            name: 'Actual Distribution',
             hoverlabel: {
                 namelength :-1
             },
@@ -415,7 +415,7 @@ Promise.all([
         };
         
         var trPfizer = {
-            name: 'Pfizer Forecast Deliveries',
+            name: 'Pfizer Forecast Distribution',
             hoverlabel: {
                 namelength :-1
             },
@@ -429,7 +429,7 @@ Promise.all([
         };
 
         var trModerna = {
-            name: 'Moderna Forecast Deliveries',
+            name: 'Moderna Forecast Distribution',
             hoverlabel: {
                 namelength :-1
             },
@@ -457,7 +457,7 @@ Promise.all([
         };
 
         var trCumForecast = {
-            name: 'Forecast Cumulative Deliveries',
+            name: 'Forecast Cumulative Distribution',
             hoverlabel: {
                 namelength :-1
             },
@@ -476,7 +476,7 @@ Promise.all([
         };
 
         var trCumActual = {
-            name: 'Actual Cumulative Deliveries',
+            name: 'Actual Cumulative Distribution',
             hoverlabel: {
                 namelength :-1
             },
@@ -496,13 +496,23 @@ Promise.all([
          // create chart layout
         var layout = {
             title: {
-                text:'Canada COVID-19 Vaccine Delivery <br> Actual vs Forecast Doses By Sep 30',
+                text:'Canada COVID-19 Vaccine Distribution <br> Actual vs Forecast Doses By Sep 30',
                 font: {
                     size: 14
                 },
             },
             barmode: 'relative',
+            //width: 800,
+            height: 620,
             showlegend: true,
+            autosize: true,
+            autoscale: false,
+            margin: {
+                l: 80,
+                r: 80,
+                b: 80,
+                t: 220
+            },
             legend: {
                 "y": 1.28, 
                 "x": 0.15,
@@ -510,8 +520,12 @@ Promise.all([
                 orientation: "h",
                 bgcolor: clrWhiteTransparent
             },
-            //width: 800,
-            height: 620,
+            xaxis: { 
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
+            },
             yaxis: { 
                 title: {
                     text: 'daily dose count',
@@ -522,7 +536,7 @@ Promise.all([
                 tickfont: {
                     size: 11
                 },
-                showgrid:false,
+                showgrid: false,
                 rangemode: 'tozero',
             },
             yaxis2: {
@@ -539,20 +553,6 @@ Promise.all([
                 side: 'right',
                 showgrid: false,
                 rangemode: 'tozero',
-            },
-            xaxis: { 
-                tickfont: {
-                    size: 11
-                },
-                showgrid: false,
-            },
-            autosize: true,
-            autoscale: false,
-            margin: {
-                l: 80,
-                r: 80,
-                b: 80,
-                t: 220
             },
             annotations: [ 
                 {x: new Date(("03/31/2021")).getTime(),
@@ -609,8 +609,8 @@ Promise.all([
         var div_canada_forecast_chartItem = document.createElement("div");
         div_canada_forecast_chartItem.id = canadaForecastDiv;
         titleCanadaForecastChart.id = canadaForecastTitle;
-        var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Delivery</h4>' + 
-            '<p>Following the Feb 2021 vaccine delivery disruptions the Government of Canada (GoC) has received delivery schedule commitments for 84m vaccine doses (40m Pfizer & 44m Moderna) by Sep 30.</p>' +
+        var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Distribution</h4>' + 
+            '<p>Following the Feb 2021 vaccine distribution disruptions the Government of Canada (GoC) has received distribution schedule commitments for 84m vaccine doses (40m Pfizer & 44m Moderna) by Sep 30.</p>' +
 
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
@@ -639,17 +639,17 @@ Promise.all([
                 '</div>' + 
             '</div>' + 
 
-            '<p>This delivery schedule has been modelled in the visualization below which compares "Actual Deliveries" (blue bars) vs "Pfizer & Moderna Forecast Deliveries" (orange and red bars), and "Actual Cumulative Deliveries" (solid black line) vs "Forecast Cumulative Deliveries" (dotted black line). </p>' +
+            '<p>This distribution schedule has been modelled in the visualization below which compares "Actual Distribution" (blue bars) vs "Pfizer & Moderna Forecast Distribution" (orange and red bars), and "Actual Cumulative Distribution" (solid black line) vs "Forecast Cumulative Distribution" (dotted black line). </p>' +
 
-            '<p>Vaccine delivery is on-track when the "Actual Cumulative Deliveries" is greater than or equal to "Forecast Cumulative Deliveries" and when the "Actual Cumulative Deliveries" line closely tracks or overtakes "Forecast Cumulative Deliveries" line.</p>' +
+            '<p>Vaccine distribution is on-track when the "Actual Cumulative Distribution" is greater than or equal to "Forecast Cumulative Distribution" and when the "Actual Cumulative Distribution" line closely tracks or overtakes "Forecast Cumulative Distribution" line.</p>' +
 
-            '<p class="font-weight-bold">Dose Delivery Counts on: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
+            '<p class="font-weight-bold">Dose Distribution Counts on: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
-                    '<p><span class="font-weight-bold">Actual Cumulative Deliveries</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Actual Cumulative Distribution</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
-                    '<p><span class="font-weight-bold">Forecast Cumulative Deliveries</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Forecast Cumulative Distribution</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<p><span class="font-weight-bold">Actual minus Forecast</span> <br>' + netCum.toLocaleString() + '</p>' +
@@ -747,6 +747,14 @@ Promise.all([
                 },
             },
             barmode: 'relative',
+            autosize: true,
+            autoscale: false,
+            margin: {
+                l: 80,
+                r: 80,
+                b: 80,
+                t: 80
+            },
             showlegend: true,
             legend: {
                 "y": 1.07, 
@@ -754,6 +762,12 @@ Promise.all([
                 legend_title_text: "",
                 orientation: "h",
                 bgcolor: clrWhiteTransparent
+            },
+            xaxis: { 
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
             },
             yaxis: { 
                 title: {
@@ -765,22 +779,8 @@ Promise.all([
                 tickfont: {
                     size: 11
                 },
-                showgrid:false
-            },
-            xaxis: { 
-                tickfont: {
-                    size: 11
-                },
-                showgrid: false,
-            },
-            autosize: true,
-            autoscale: false,
-            margin: {
-                l: 80,
-                r: 80,
-                b: 80,
-                t: 80
-            },
+                showgrid: false
+            }
         }
 
         // create chart section text content
@@ -888,6 +888,20 @@ Promise.all([
             
             // create chart layout
             var layout = {
+                title: {
+                    text: provList[j] + ' COVID-19 Vaccine Administration <br> Actual vs Remaining Doses To Meet Sep 30 Goal',
+                    font: {
+                        size: 14
+                    },
+                },
+                autosize: true,
+                autoscale: false,
+                margin: {
+                    l: 80,
+                    r: 80,
+                    b: 80,
+                    t: 80
+                },
                 showlegend: true,
                 legend: {
                     "y": 1.07,
@@ -895,6 +909,12 @@ Promise.all([
                     legend_title_text: "",
                     orientation: "h",
                     bgcolor: clrWhiteTransparent
+                },
+                xaxis: { 
+                    tickfont: {
+                        size: 11
+                    },
+                    showgrid: false
                 },
                 yaxis: { 
                     title: {
@@ -906,28 +926,8 @@ Promise.all([
                     tickfont: {
                         size: 11
                     },
-                    showgrid:false
-                },
-                xaxis: { 
-                    tickfont: {
-                        size: 11
-                    },
-                    showgrid:false
-                },
-                autosize: true,
-                autoscale: false,
-                margin: {
-                    l: 80,
-                    r: 80,
-                    b: 80,
-                    t: 80
-                },
-                title: {
-                    text: provList[j] + ' COVID-19 Vaccine Administration <br> Actual vs Remaining Doses To Meet Sep 30 Goal',
-                    font: {
-                        size: 14
-                    },
-                },
+                    showgrid: false
+                }
             }
 
             // create chart section text content
