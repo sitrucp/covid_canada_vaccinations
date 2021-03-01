@@ -399,7 +399,7 @@ Promise.all([
 
         // create chart traces
         var trActual = {
-            name: 'Actual Distribution',
+            name: 'Actual',
             hoverlabel: {
                 namelength :-1
             },
@@ -417,7 +417,7 @@ Promise.all([
         };
         
         var trPfizer = {
-            name: 'Pfizer Forecast Distribution',
+            name: 'Pfizer Forecast',
             hoverlabel: {
                 namelength :-1
             },
@@ -431,7 +431,7 @@ Promise.all([
         };
 
         var trModerna = {
-            name: 'Moderna Forecast Distribution',
+            name: 'Moderna Forecast',
             hoverlabel: {
                 namelength :-1
             },
@@ -445,7 +445,7 @@ Promise.all([
         };
 
         var trAstra = {
-            name: 'AstraZenaca Forecast Distribution',
+            name: 'AstraZenaca Forecast',
             hoverlabel: {
                 namelength :-1
             },
@@ -459,7 +459,7 @@ Promise.all([
         };
 
         var trCumForecast = {
-            name: 'Forecast Cumulative Distribution',
+            name: 'Forecast Cumulative',
             hoverlabel: {
                 namelength :-1
             },
@@ -478,7 +478,7 @@ Promise.all([
         };
 
         var trCumActual = {
-            name: 'Actual Cumulative Distribution',
+            name: 'Actual Cumulative',
             hoverlabel: {
                 namelength :-1
             },
@@ -674,11 +674,11 @@ Promise.all([
                 '</div>' + 
             '</div>' + 
 
-            '<p>This distribution schedule has been modelled in the visualization below which compares "Actual Distribution" (blue bars) vs "Pfizer & Moderna Forecast Distribution" (orange and red bars), and "Actual Cumulative Distribution" (solid black line) vs "Forecast Cumulative Distribution" (dotted black line). </p>' +
+            '<p>This distribution schedule has been modelled in the visualization below which compares actual distribution (blue bars) vs Pfizer, Moderna & AstraZenaca forecast distributions (yellow, orange and red bars), and actual cumulative distribution (solid black line) vs forecast cumulative distribution (dotted black line). </p>' +
 
-            '<p>Vaccine distribution is on-track when the "Actual Cumulative Distribution" is greater than or equal to "Forecast Cumulative Distribution" and when the "Actual Cumulative Distribution" line closely tracks or overtakes "Forecast Cumulative Distribution" line.</p>' +
+            '<p>Vaccine distribution is on-track when the actual cumulative distribution closely tracks or overtakes forecast cumulative distribution and when the actual cumulative distribution closely tracks or overtakes forecast cumulative distribution.</p>' +
 
-            '<p class="font-weight-bold">Dose Distribution Counts on: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
+            '<p class="font-weight-bold">Dose Distribution as of: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
                     '<p><span class="font-weight-bold">Actual Cumulative Distribution</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
