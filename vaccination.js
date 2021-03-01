@@ -9,7 +9,9 @@ var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canad
 
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
 
-var file_forecast = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/forecast.csv";
+//var file_forecast = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/forecast.csv";
+
+var file_forecast = "forecast.csv";
 
 var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
 
@@ -382,7 +384,7 @@ Promise.all([
             xModerna.push(row['report_date']);
             yModerna.push(parseInt(row['daily_moderna'].replace(/,/g, '')));
             xOther.push(row['report_date']);
-            yOther.push(parseInt(row['daily_other'].replace(/,/g, '')));
+            yOther.push(parseInt(row['daily_astra'].replace(/,/g, '')));
             xCumForecast.push(row['report_date']);
             yCumForecast.push(parseInt(row['total_cumulative'].replace(/,/g, '')));
         }
@@ -394,7 +396,7 @@ Promise.all([
         var maxCumActual = Math.max(...yCumActual);
         // create string for diff between forecast and actual
         var netCum = parseInt(maxCumActual) - parseInt(maxCumForecast);
-        
+
         // create chart traces
         var trActual = {
             name: 'Actual Distribution',
@@ -442,8 +444,8 @@ Promise.all([
             },
         };
 
-        var trOther = {
-            name: 'Other Forecast',
+        var trAstra = {
+            name: 'AstraZenaca Forecast Distribution',
             hoverlabel: {
                 namelength :-1
             },
@@ -511,10 +513,10 @@ Promise.all([
                 l: 80,
                 r: 80,
                 b: 80,
-                t: 220
+                t: 260
             },
             legend: {
-                "y": 1.28, 
+                "y": 1.4, 
                 "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
@@ -555,50 +557,82 @@ Promise.all([
                 rangemode: 'tozero',
             },
             annotations: [ 
-                {x: new Date(("03/31/2021")).getTime(),
-                y: getAnnotationY(xCumForecast, yCumForecast, new Date("03/31/2021")),
-                text: '6m',
-                xref: 'x',
-                yref: 'y2',
-                showarrow: true,
-                arrowhead: 5,
-                arrowsize: 1,
-                arrowcolor: "rgba(0,0,0,0)",
-                ax: -15,
-                ay: -10},
-                {x: new Date(("06/30/2021")).getTime(),
-                y: getAnnotationY(xCumForecast, yCumForecast, new Date("06/30/2021")),
-                text: '29m',
-                xref: 'x',
-                yref: 'y2',
-                showarrow: true,
-                arrowhead: 5,
-                arrowsize: 1,
-                arrowcolor: "rgba(0,0,0,0)",
-                ax: -10,
-                ay: -10},
-                {x: new Date(("09/30/2021")).getTime(),
-                y: getAnnotationY(xCumForecast, yCumForecast, new Date("09/30/2021")),
-                text: '84m',
-                xref: 'x',
-                yref: 'y2',
-                showarrow: true,
-                arrowhead: 5,
-                arrowsize: 1,
-                arrowcolor: "rgba(0,0,0,0)",
-                ax: -30,
-                ay: 10},
-                {x: getAnnotationX(xCumForecast, yCumForecast, 61000000),
-                y: 61000000,
-                text: '18+ full vaccination',
-                xref: 'x',
-                yref: 'y2',
-                showarrow: true,
-                arrowhead: 3,
-                arrowsize: 1,
-                arrowcolor: "rgba(0,0,0,.5)",
-                ax: -100,
-                ay: -10},
+                {
+                    x: new Date(("03/31/2021")).getTime(),
+                    y: getAnnotationY(xCumForecast, yCumForecast, new Date("03/31/2021")),
+                    text: 'Mar 31<br>' + getAnnotationYText(xCumActual, xCumForecast, yCumActual, yCumForecast, new Date("03/31/2021")),
+                    font: {
+                        color: "#000",
+                        size: 10
+                    },
+                    bgcolor: '#fff',
+                    opacity: 0.7,
+                    xref: 'x',
+                    yref: 'y2',
+                    showarrow: true,
+                    arrowhead: 5,
+                    arrowsize: 1,
+                    arrowcolor: "rgba(0,0,0,.5)",
+                    ax: -15,
+                    ay: -70
+                },
+                {
+                    x: new Date(("06/30/2021")).getTime(),
+                    y: getAnnotationY(xCumForecast, yCumForecast, new Date("06/30/2021")),
+                    text: 'Jun 30<br>' + getAnnotationYText(xCumActual, xCumForecast, yCumActual,yCumForecast, new Date("06/30/2021")),
+                    font: {
+                        color: "#000",
+                        size: 10
+                    },
+                    bgcolor: '#fff',
+                    opacity: 0.7,
+                    xref: 'x',
+                    yref: 'y2',
+                    showarrow: true,
+                    arrowhead: 5,
+                    arrowsize: 1,
+                    arrowcolor: "rgba(0,0,0,.5)",
+                    ax: -35,
+                    ay: -70
+                },
+                {
+                    x: new Date(("09/30/2021")).getTime(),
+                    y: getAnnotationY(xCumForecast, yCumForecast, new Date("09/30/2021")),
+                    text: 'Sep 30<br>' + getAnnotationYText(xCumActual, xCumForecast, yCumActual, yCumForecast, new Date("09/30/2021")),
+                    font: {
+                        color: "#000",
+                        size: 10
+                    },
+                    bgcolor: '#fff',
+                    opacity: 0.7,
+                    xref: 'x',
+                    yref: 'y2',
+                    showarrow: true,
+                    arrowhead: 5,
+                    arrowsize: 1,
+                    arrowcolor: "rgba(0,0,0,.5)",
+                    ax: -100,
+                    ay: 30
+                },
+                {
+                    x: getAnnotationX(xCumForecast, yCumForecast, 61000000),
+                    y: 61000000,
+                    text: '18+ full vaccination',
+                    font: {
+                        color: "#000",
+                        size: 10
+                    },
+                    bgcolor: '#fff',
+                    opacity: 0.7,
+                    xref: 'x',
+                    yref: 'y2',
+                    showarrow: true,
+                    arrowhead: 3,
+                    arrowsize: 1,
+                    arrowcolor: "rgba(0,0,0,.5)",
+                    ax: -70,
+                    ay: -10
+                },
             ]
         }
 
@@ -661,7 +695,7 @@ Promise.all([
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
 
         // plotly data, config, create chart
-        var data = [trActual, trPfizer, trModerna, trCumActual, trCumForecast];
+        var data = [trActual, trPfizer, trModerna, trAstra, trCumActual, trCumForecast];
         var config = {responsive: true}
         Plotly.newPlot('canadaForecastDiv', data, layout, config);
 
@@ -681,9 +715,9 @@ Promise.all([
         const arrRemainForecast = equijoinWithDefault(
             arrRemaining, arrForecast, 
             "prov_date", "prov_date", 
-            ({province, report_date, prov_date, count_type, avaccine, dvaccine}, {daily_moderna, daily_pfizer, daily_other, daily_total, total_cumulative}, ) => 
-            ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_other, daily_total, total_cumulative}), 
-            {daily_moderna:"0", daily_pfizer:"0", daily_other:"0", daily_total:"0", total_cumulative:"0"});
+            ({province, report_date, prov_date, count_type, avaccine, dvaccine}, {daily_moderna, daily_pfizer, daily_astra, daily_total, total_cumulative}, ) => 
+            ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_astra, daily_total, total_cumulative}), 
+            {daily_moderna:"0", daily_pfizer:"0", daily_astra:"0", daily_total:"0", total_cumulative:"0"});
             
         // create new 'required' value for future minus remaining, if any remaining
         arrRemainForecast.forEach(function(d) {
@@ -1073,6 +1107,25 @@ Promise.all([
     function getAnnotationY(arrX, arrY, d) {
         xIndex = arrX.findIndex(x => x.toISOString().split('T')[0] === d.toISOString().split('T')[0]);
         return arrY[xIndex];
+    }
+    
+    function getAnnotationYText(arrXactual, arrXforecast, arrYactual, arrYforecast, d) {
+        // get index for desired date
+        xIndexActual = arrXactual.findIndex(x => x.toISOString().split('T')[0] === d.toISOString().split('T')[0]);
+        xIndexForecast = arrXforecast.findIndex(x => x.toISOString().split('T')[0] === d.toISOString().split('T')[0]);
+        // use index to get actual cumulative
+        var yActual = arrYactual[xIndexActual];
+        // use index to get forecast cumulative
+        var yForecast = arrYforecast[xIndexForecast];
+        if (yActual) {
+            strActual = 'Actual: ' + (yActual / 1000000).toFixed(1) + 'm<br>';
+        } else {
+            strActual = '';
+        }
+        strForecast = 'Forecast: ' + (yForecast / 1000000).toFixed(1) + 'm';
+        annoString = strActual + strForecast;
+
+        return annoString;
     }
 
     function getAnnotationX(arrX, arrY, yValue) {
