@@ -559,8 +559,8 @@ Promise.all([
             annotations: [ 
                 {
                     x: new Date(("03/31/2021")).getTime(),
-                    y: getAnnotationY(xCumForecast, yCumForecast, new Date("03/31/2021")),
-                    text: 'Mar 31<br>' + getAnnotationYText(xCumActual, xCumForecast, yCumActual, yCumForecast, new Date("03/31/2021")),
+                    y: getAnnoMilestoneY(xCumForecast, yCumForecast, new Date("03/31/2021")),
+                    text: 'Mar 31<br>' + getAnnoMilestoneText(xCumActual, xCumForecast, yCumActual, yCumForecast, new Date("03/31/2021")),
                     font: {
                         color: "#000",
                         size: 10
@@ -578,8 +578,8 @@ Promise.all([
                 },
                 {
                     x: new Date(("06/30/2021")).getTime(),
-                    y: getAnnotationY(xCumForecast, yCumForecast, new Date("06/30/2021")),
-                    text: 'Jun 30<br>' + getAnnotationYText(xCumActual, xCumForecast, yCumActual,yCumForecast, new Date("06/30/2021")),
+                    y: getAnnoMilestoneY(xCumForecast, yCumForecast, new Date("06/30/2021")),
+                    text: 'Jun 30<br>' + getAnnoMilestoneText(xCumActual, xCumForecast, yCumActual,yCumForecast, new Date("06/30/2021")),
                     font: {
                         color: "#000",
                         size: 10
@@ -597,8 +597,8 @@ Promise.all([
                 },
                 {
                     x: new Date(("09/30/2021")).getTime(),
-                    y: getAnnotationY(xCumForecast, yCumForecast, new Date("09/30/2021")),
-                    text: 'Sep 30<br>' + getAnnotationYText(xCumActual, xCumForecast, yCumActual, yCumForecast, new Date("09/30/2021")),
+                    y: getAnnoMilestoneY(xCumForecast, yCumForecast, new Date("09/30/2021")),
+                    text: 'Sep 30<br>' + getAnnoMilestoneText(xCumActual, xCumForecast, yCumActual, yCumForecast, new Date("09/30/2021")),
                     font: {
                         color: "#000",
                         size: 10
@@ -615,9 +615,9 @@ Promise.all([
                     ay: 30
                 },
                 {
-                    x: getAnnotationX(xCumForecast, yCumForecast, 61000000),
+                    x: getAnnoFullVaxX(xCumForecast, yCumForecast, 61000000),
                     y: 61000000,
-                    text: '18+ full vaccination',
+                    text: '18+ full vaccination<br>(61m) ' + getAnnoFullVaxText(xCumForecast, yCumForecast, 61000000),
                     font: {
                         color: "#000",
                         size: 10
@@ -630,7 +630,7 @@ Promise.all([
                     arrowhead: 3,
                     arrowsize: 1,
                     arrowcolor: "rgba(0,0,0,.5)",
-                    ax: -70,
+                    ax: -90,
                     ay: -10
                 },
             ]
@@ -1105,12 +1105,12 @@ Promise.all([
         return newDate
     }
 
-    function getAnnotationY(arrX, arrY, d) {
+    function getAnnoMilestoneY(arrX, arrY, d) {
         xIndex = arrX.findIndex(x => x.toISOString().split('T')[0] === d.toISOString().split('T')[0]);
         return arrY[xIndex];
     }
     
-    function getAnnotationYText(arrXactual, arrXforecast, arrYactual, arrYforecast, d) {
+    function getAnnoMilestoneText(arrXactual, arrXforecast, arrYactual, arrYforecast, d) {
         // get index for desired date
         xIndexActual = arrXactual.findIndex(x => x.toISOString().split('T')[0] === d.toISOString().split('T')[0]);
         xIndexForecast = arrXforecast.findIndex(x => x.toISOString().split('T')[0] === d.toISOString().split('T')[0]);
@@ -1125,13 +1125,20 @@ Promise.all([
         }
         strForecast = 'Forecast: ' + (yForecast / 1000000).toFixed(1) + 'm';
         annoString = strActual + strForecast;
-
         return annoString;
     }
 
-    function getAnnotationX(arrX, arrY, yValue) {
+    function getAnnoFullVaxX(arrX, arrY, yValue) {
         var yIndex = arrY.findIndex(x => x > yValue)
         return arrX[yIndex];
+    }
+
+    function getAnnoFullVaxText(arrXforecast, arrYforecast, yValue) {
+        // get index for first value greater than yValue
+        var yIndexForecast = arrYforecast.findIndex(x => x > yValue)
+        // get x value for y index
+        var xForecast = arrXforecast[yIndexForecast].toLocaleString('en-us',{month:'short', day:'numeric'});
+        return xForecast;
     }
 
     // reformat date to date object
