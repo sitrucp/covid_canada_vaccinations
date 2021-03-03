@@ -234,7 +234,7 @@ Promise.all([
             mode: 'line',
             line: {
                 dash: 'solid',
-                width: 2
+                width: 1
             },
             marker:{
                 color: clrBlack
@@ -252,7 +252,7 @@ Promise.all([
             showgrid: false,
             line: {
                 dash: 'dot',
-                width: 2
+                width: 1
             },
             marker:{
                 color: clrBlack
@@ -471,7 +471,7 @@ Promise.all([
             mode: 'line',
             line: {
                 dash: 'dot',
-                width: 2
+                width: 1
             },
             marker:{
                 color: clrBlack
@@ -489,7 +489,7 @@ Promise.all([
             showgrid: false,
             line: {
                 //dash: 'dot',
-                width: 2
+                width: 1
             },
             marker:{
                 color: clrBlack
