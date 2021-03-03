@@ -644,7 +644,7 @@ Promise.all([
         div_canada_forecast_chartItem.id = canadaForecastDiv;
         titleCanadaForecastChart.id = canadaForecastTitle;
         var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Distribution</h4>' + 
-            '<p>Following the Feb 2021 vaccine distribution disruptions the Government of Canada (GoC) has received distribution schedule commitments for 84m vaccine doses (40m Pfizer & 44m Moderna) by Sep 30.</p>' +
+            '<p>Following the Feb 2021 vaccine distribution disruptions the Government of Canada (GoC) has received distribution schedule commitments as follows:</p>' +
 
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
