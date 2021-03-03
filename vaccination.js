@@ -330,12 +330,13 @@ Promise.all([
         div_canada_Actual_chartItem.id = canadaActualDiv;
         titleCanadaActualChart.id = canadaActualTitle;
         var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Actual Doses Distributed and Administered</h4>' +
+            '<p>The visualization below shows actual daily and cumulative vaccine doses distributed and administered.</p>' + 
             '<li>Doses Distributed: ' + distCanadaTotal.toLocaleString() + '</li>' +
             '<li>Doses Administered: ' + adminCanadaTotal.toLocaleString() + '</li>' +
             '<li>Distributed Doses Administered: ' + ((adminCanadaTotal/distCanadaTotal) * 100).toFixed(1) + '%</li>' +
             '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
-            '</ul>'  +
-            '<p>The visualization below shows actual daily and cumulative vaccine doses distributed and administered.</p>';
+            '</ul>';
+            
         titleCanadaActualChart.innerHTML  = chartDetails;
         document.getElementById('div_canada_actual_chart').append(titleCanadaActualChart);
         document.getElementById('div_canada_actual_chart').append(div_canada_Actual_chartItem);
@@ -644,8 +645,8 @@ Promise.all([
         div_canada_forecast_chartItem.id = canadaForecastDiv;
         titleCanadaForecastChart.id = canadaForecastTitle;
         var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Distribution</h4>' + 
-            '<p>Following the Feb 2021 vaccine distribution disruptions the Government of Canada (GoC) has received distribution schedule commitments as follows:</p>' +
-
+            '<p>The visualization below shows a vaccine dose distribution forecast model vs actual distributions. It includes Government of Canada (GoC) distribution milestone targets presented as daily forecast vaccine dose distributions.</p>' +
+            '<p>Following the Feb 2021 vaccine distribution disruptions the GoC has received distribution schedule commitments as follows:</p>' +
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
@@ -673,8 +674,6 @@ Promise.all([
                     '<p>Cumulative total: 84.5 m</p>' +
                 '</div>' + 
             '</div>' + 
-
-            '<p>This distribution schedule has been modelled in the visualization below which compares actual distribution (blue bars) vs Pfizer, Moderna & AstraZenaca forecast distributions (yellow, orange and red bars), and actual cumulative distribution (solid black line) vs forecast cumulative distribution (dotted black line). </p>' +
 
             '<p>Vaccine distribution is on-track when the actual cumulative distribution closely tracks or overtakes forecast cumulative distribution and when the actual cumulative distribution closely tracks or overtakes forecast cumulative distribution.</p>' +
 
