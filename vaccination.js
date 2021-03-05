@@ -161,8 +161,6 @@ Promise.all([
         // define x and y axis arrays
         var xAdmin = [];
         var yAdmin = [];
-        var xDist = [];
-        var yDist = [];
         var xAdminCum = [];
         var yAdminCum = [];
         var xDistCum = [];
@@ -173,12 +171,6 @@ Promise.all([
             var row = arrDistAdminCanadaPop[i];
             xAdmin.push(row['report_date']);
             yAdmin.push(parseInt(row['avaccine']));
-        }
-
-        for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
-            var row = arrDistAdminCanadaPop[i];
-            xDist.push(row['report_date']);
-            yDist.push(parseInt(row['dvaccine']));
         }
 
         for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
@@ -205,20 +197,6 @@ Promise.all([
             type: 'bar',
             marker:{
                 color: clrBlue
-            },
-        };
-
-        var trDist = {
-            name: 'Distributed',
-            hoverlabel: {
-                namelength :-1
-            },
-            x: xDist,
-            y: yDist,
-            showgrid: false,
-            type: 'line',
-            marker:{
-                color: clrGray
             },
         };
 
@@ -575,7 +553,7 @@ Promise.all([
                     arrowsize: 1,
                     arrowcolor: "rgba(0,0,0,.5)",
                     ax: -15,
-                    ay: -70
+                    ay: -80
                 },
                 {
                     x: new Date(("06/30/2021")).getTime(),
@@ -646,29 +624,29 @@ Promise.all([
         titleCanadaForecastChart.id = canadaForecastTitle;
         var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Distribution</h4>' + 
             '<p>The visualization below shows a vaccine dose distribution forecast model vs actual distributions. It includes Government of Canada (GoC) distribution milestone targets presented as daily forecast vaccine dose distributions.</p>' +
-            '<p>Following the Feb 2021 vaccine distribution disruptions the GoC has received distribution schedule commitments as follows:</p>' +
+            '<p>Following the Feb 2021 vaccine distribution disruptions the GoC has received distribution schedule commitments as follows. Updated Mar 3 to include new .5m AstraZenaca, and Mar 5 for revised Pfizer delivery schedule:</p>' +
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
-                    '<li class="font-weight-bold">Dec 14-Mar 31 -> 6.5 m total</li>' +
-                        '<li>* Pfizer 4 m</li>' +
+                    '<li class="font-weight-bold">Dec 14-Mar 31 -> 8 m total</li>' +
+                        '<li>* Pfizer 5.5 m</li>' +
                         '<li>* Moderna 2 m</li>' +
                         '<li>* AstraZenaca .5 m</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 6.5 m</p>' +
+                    '<p>Cumulative total: 8 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' +
                         '<li class="font-weight-bold">Apr 1-Jun 30 -> 23 m total</li>' +
-                        '<li>* Pfizer 10.8 m</li>' +
+                        '<li>* Pfizer 12.8 m</li>' +
                         '<li>* Moderna 12.2 m</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 29.5 m</p>' +
+                    '<p>Cumulative total: 31.5 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
                         '<li class="font-weight-bold">Jul 1-Sep 30 -> 55 m total</li>' +
-                        '<li>* Pfizer 25.2 m</li>' +
+                        '<li>* Pfizer 21.7 m</li>' +
                         '<li>* Moderna 29.8 m</li>' +
                     '</ul>' +
                     '<p>Cumulative total: 84.5 m</p>' +
