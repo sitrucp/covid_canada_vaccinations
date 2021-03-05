@@ -637,7 +637,7 @@ Promise.all([
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' +
-                        '<li class="font-weight-bold">Apr 1-Jun 30 -> 23 m total</li>' +
+                        '<li class="font-weight-bold">Apr 1-Jun 30 -> 25 m total</li>' +
                         '<li>* Pfizer 12.8 m</li>' +
                         '<li>* Moderna 12.2 m</li>' +
                     '</ul>' +
@@ -645,7 +645,7 @@ Promise.all([
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
-                        '<li class="font-weight-bold">Jul 1-Sep 30 -> 55 m total</li>' +
+                        '<li class="font-weight-bold">Jul 1-Sep 30 -> 51.5 m total</li>' +
                         '<li>* Pfizer 21.7 m</li>' +
                         '<li>* Moderna 29.8 m</li>' +
                     '</ul>' +
