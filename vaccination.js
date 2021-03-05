@@ -641,7 +641,7 @@ Promise.all([
                         '<li>* Pfizer 12.8 m</li>' +
                         '<li>* Moderna 12.2 m</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 31.5 m</p>' +
+                    '<p>Cumulative total: 33 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
