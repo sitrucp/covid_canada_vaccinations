@@ -388,7 +388,7 @@ Promise.all([
             mode: 'markers',
             type: 'bar',
             base: 0, // exclude trace from stacking
-            width: .5*1000*3600*24, // x axis date so multiply width by ms
+            //width: .5*1000*3600*24, // x axis date multiply width by ms, exclude for bargap 0
             marker: {
                 color: clrBlue,
                 size: 5
@@ -466,7 +466,6 @@ Promise.all([
             y: yCumActual,
             showgrid: false,
             line: {
-                //dash: 'dot',
                 width: 1
             },
             marker:{
@@ -483,6 +482,7 @@ Promise.all([
                 },
             },
             barmode: 'relative',
+            bargap: 0,
             //width: 800,
             height: 620,
             showlegend: true,
@@ -571,8 +571,8 @@ Promise.all([
                     arrowhead: 5,
                     arrowsize: 1,
                     arrowcolor: "rgba(0,0,0,.5)",
-                    ax: -35,
-                    ay: -70
+                    ax: -45,
+                    ay: -55
                 },
                 {
                     x: new Date(("09/30/2021")).getTime(),
@@ -591,7 +591,7 @@ Promise.all([
                     arrowsize: 1,
                     arrowcolor: "rgba(0,0,0,.5)",
                     ax: -100,
-                    ay: 30
+                    ay: 20
                 },
                 {
                     x: getAnnoFullVaxX(xCumForecast, yCumForecast, 61000000),
