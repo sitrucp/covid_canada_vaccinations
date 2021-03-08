@@ -57,9 +57,11 @@ Promise.all([
     var clrGray = 'rgba(204,204,204,.9)';
     var clrBlack = 'rgba(0,0,0,.9)';
     var clrWhiteTransparent = 'rgba(255,255,255,0)';
-    var clrLightOrange = 'rgba(253,141,60,.6)';
-    var clrCherryRed = 'rgba(189,0,38,.6)';
-    var clrDeepOrange = 'rgba(240,59,32,.6)';
+    var clr1 = 'rgba(55, 6, 23,.6)';
+    var clr2 = 'rgba(240,59,32,.6)';
+    var clr3 = 'rgba(189,0,38,.6)';
+    var clr4 = 'rgba(253,141,60,.6)';
+
 
     // filter province arrPopulation dataset by age_group
     var sel_age_group = '18 years and over';
@@ -340,8 +342,10 @@ Promise.all([
         var yPfizer = [];
         var xModerna = [];
         var yModerna = [];
-        var xOther = [];
-        var yOther = [];
+        var xAstra = [];
+        var yAstra = [];
+        var xJJ = [];
+        var yJJ = [];
         var xCumForecast = [];
         var yCumForecast = [];
         var xCumActual = [];
@@ -362,10 +366,12 @@ Promise.all([
             yPfizer.push(parseInt(row['daily_pfizer'].replace(/,/g, '')));
             xModerna.push(row['report_date']);
             yModerna.push(parseInt(row['daily_moderna'].replace(/,/g, '')));
-            xOther.push(row['report_date']);
-            yOther.push(parseInt(row['daily_astra'].replace(/,/g, '')));
+            xAstra.push(row['report_date']);
+            yAstra.push(parseInt(row['daily_astra'].replace(/,/g, '')));
+            xJJ.push(row['report_date']);
+            yJJ.push(parseInt(row['daily_jj'].replace(/,/g, '')));
             xCumForecast.push(row['report_date']);
-            yCumForecast.push(parseInt(row['total_cumulative'].replace(/,/g, '')));
+            yCumForecast.push(parseInt(row['cumulative_total'].replace(/,/g, '')));
         }
 
         // get current yCumForecast value, by get xCumForecast current date index, then find yCumForecast value at that index
@@ -405,7 +411,7 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: clrCherryRed
+                color: clr1
             },
         };
 
@@ -419,7 +425,7 @@ Promise.all([
             showgrid: false,
             type: 'bar',
             marker:{
-                color: clrDeepOrange
+                color: clr2
             },
         };
 
@@ -428,12 +434,26 @@ Promise.all([
             hoverlabel: {
                 namelength :-1
             },
-            x: xOther,
-            y: yOther,
+            x: xAstra,
+            y: yAstra,
             showgrid: false,
             type: 'bar',
             marker:{
-                color: clrLightOrange
+                color: clr3
+            },
+        };
+
+        var trJJ = {
+            name: 'J & J Forecast',
+            hoverlabel: {
+                namelength :-1
+            },
+            x: xJJ,
+            y: yJJ,
+            showgrid: false,
+            type: 'bar',
+            marker:{
+                color: clr4
             },
         };
 
@@ -492,10 +512,10 @@ Promise.all([
                 l: 80,
                 r: 80,
                 b: 80,
-                t: 260
+                t: 290
             },
             legend: {
-                "y": 1.4, 
+                "y": 1.5, 
                 "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
@@ -553,7 +573,7 @@ Promise.all([
                     arrowsize: 1,
                     arrowcolor: "rgba(0,0,0,.5)",
                     ax: -15,
-                    ay: -80
+                    ay: -105
                 },
                 {
                     x: new Date(("06/30/2021")).getTime(),
@@ -572,7 +592,7 @@ Promise.all([
                     arrowsize: 1,
                     arrowcolor: "rgba(0,0,0,.5)",
                     ax: -45,
-                    ay: -55
+                    ay: -75
                 },
                 {
                     x: new Date(("09/30/2021")).getTime(),
@@ -609,8 +629,8 @@ Promise.all([
                     arrowhead: 3,
                     arrowsize: 1,
                     arrowcolor: "rgba(0,0,0,.5)",
-                    ax: -90,
-                    ay: -10
+                    ax: -50,
+                    ay: -60
                 },
             ]
         }
@@ -628,40 +648,48 @@ Promise.all([
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
-                    '<li class="font-weight-bold">Dec 14-Mar 31 -> 8 m total</li>' +
+                    '<li class="font-weight-bold">Dec 14-Mar 31</li>' +
+                        '<li>Total 8 m:</li>' +
                         '<li>* Pfizer 5.5 m</li>' +
                         '<li>* Moderna 2 m</li>' +
                         '<li>* AstraZenaca .5 m</li>' +
+                        '<li>* Johnson & Johnson 0 </li>' +
                     '</ul>' +
                     '<p>Cumulative total: 8 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' +
-                        '<li class="font-weight-bold">Apr 1-Jun 30 -> 25 m total</li>' +
+                        '<li class="font-weight-bold">Apr 1-Jun 30</li>' +
+                        '<li>Total 28.5 m:</li>' +
                         '<li>* Pfizer 12.8 m</li>' +
                         '<li>* Moderna 12.2 m</li>' +
+                        '<li>* AstraZenaca 3.5 m</li>' +
+                        '<li>* Johnson & Johnson 0 </li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 33 m</p>' +
+                    '<p>Cumulative total: 36.5 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
-                        '<li class="font-weight-bold">Jul 1-Sep 30 -> 51.5 m total</li>' +
+                        '<li class="font-weight-bold">Jul 1-Sep 30</li>' +
+                        '<li>Total 77.5 m:</li>' +
                         '<li>* Pfizer 21.7 m</li>' +
                         '<li>* Moderna 29.8 m</li>' +
+                        '<li>* AstraZenaca 16 m</li>' +
+                        '<li>* Johnson & Johnson 10 m</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 84.5 m</p>' +
+                    '<p>Cumulative total: 114 m</p>' +
                 '</div>' + 
             '</div>' + 
 
             '<p>Vaccine distribution is on-track when the actual cumulative distribution closely tracks or overtakes forecast cumulative distribution and when the actual cumulative distribution closely tracks or overtakes forecast cumulative distribution.</p>' +
 
-            '<p class="font-weight-bold">Dose Distribution as of: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
+            '<p class="font-weight-bold">Cumulative Dose Distribution as of: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
-                    '<p><span class="font-weight-bold">Actual Cumulative Distribution</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Actual</span> <br>' + maxCumActual.toLocaleString() + '</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
-                    '<p><span class="font-weight-bold">Forecast Cumulative Distribution</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
+                    '<p><span class="font-weight-bold">Forecast</span> <br>' + maxCumForecast.toLocaleString() + '</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<p><span class="font-weight-bold">Actual minus Forecast</span> <br>' + netCum.toLocaleString() + '</p>' +
@@ -673,7 +701,7 @@ Promise.all([
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
 
         // plotly data, config, create chart
-        var data = [trActual, trPfizer, trModerna, trAstra, trCumActual, trCumForecast];
+        var data = [trActual, trPfizer, trModerna, trAstra, trJJ, trCumActual, trCumForecast];
         var config = {responsive: true}
         Plotly.newPlot('canadaForecastDiv', data, layout, config);
 
@@ -693,9 +721,9 @@ Promise.all([
         const arrRemainForecast = equijoinWithDefault(
             arrRemaining, arrForecast, 
             "prov_date", "prov_date", 
-            ({province, report_date, prov_date, count_type, avaccine, dvaccine}, {daily_moderna, daily_pfizer, daily_astra, daily_total, total_cumulative}, ) => 
-            ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_astra, daily_total, total_cumulative}), 
-            {daily_moderna:"0", daily_pfizer:"0", daily_astra:"0", daily_total:"0", total_cumulative:"0"});
+            ({province, report_date, prov_date, count_type, avaccine, dvaccine}, {daily_moderna, daily_pfizer, daily_astra, daily_jj, daily_total, cumulative_total}, ) => 
+            ({province, report_date, prov_date, count_type, avaccine, dvaccine, daily_moderna, daily_pfizer, daily_astra, daily_jj, daily_total, cumulative_total}), 
+            {daily_moderna:"0", daily_pfizer:"0", daily_astra:"0", daily_jj:"0", daily_total:"0", cumulative_total:"0"});
             
         // create new 'required' value for future minus remaining, if any remaining
         arrRemainForecast.forEach(function(d) {
