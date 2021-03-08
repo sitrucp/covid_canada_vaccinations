@@ -58,8 +58,8 @@ Promise.all([
     var clrBlack = 'rgba(0,0,0,.9)';
     var clrWhiteTransparent = 'rgba(255,255,255,0)';
     var clr1 = 'rgba(55, 6, 23,.6)';
-    var clr2 = 'rgba(240,59,32,.6)';
-    var clr3 = 'rgba(189,0,38,.6)';
+    var clr2 = 'rgba(189,0,38,.6)';
+    var clr3 = 'rgba(240,59,32,.6)';
     var clr4 = 'rgba(253,141,60,.6)';
 
 
