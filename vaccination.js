@@ -644,7 +644,7 @@ Promise.all([
         titleCanadaForecastChart.id = canadaForecastTitle;
         var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Distribution</h4>' + 
             '<p>The visualization below shows a vaccine dose distribution forecast model vs actual distributions. It includes Government of Canada (GoC) distribution milestone targets presented as daily forecast vaccine dose distributions.</p>' +
-            '<p>Following the Feb 2021 vaccine distribution disruptions the GoC has received distribution schedule commitments as follows. Updated Mar 3 to include new .5m AstraZenaca, and Mar 5 for revised Pfizer delivery schedule:</p>' +
+            '<p>Forecast updated to include latest vaccine committments as of Mar 8, 2021 as follows.</p>' +
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
