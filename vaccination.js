@@ -57,7 +57,7 @@ Promise.all([
     var clrGray = 'rgba(204,204,204,.9)';
     var clrBlack = 'rgba(0,0,0,.9)';
     var clrWhiteTransparent = 'rgba(255,255,255,0)';
-    var clr1 = 'rgba(55, 6, 23,.6)';
+    var clr1 = 'rgba(55, 6, 23,.5)';
     var clr2 = 'rgba(189,0,38,.6)';
     var clr3 = 'rgba(240,59,32,.6)';
     var clr4 = 'rgba(253,141,60,.6)';
@@ -251,16 +251,16 @@ Promise.all([
             autosize: true,
             autoscale: false,
             //width: 800,
-            height: 500,
+            height: 600,
             margin: {
-                l: 80,
-                r: 80,
-                b: 80,
-                t: 180
+                l: 40,
+                r: 40,
+                b: 40,
+                t: 200
             },
             showlegend: true,
             legend: {
-                "y": 1.26, 
+                "y": 1.2, 
                 "x": 0.15,
                 legend_title_text: "",
                 orientation: "h",
@@ -509,14 +509,16 @@ Promise.all([
             autosize: true,
             autoscale: false,
             margin: {
-                l: 80,
-                r: 80,
-                b: 80,
-                t: 290
+                l: 40,
+                r: 40,
+                b: 40,
+                t: 300
             },
             legend: {
-                "y": 1.5, 
-                "x": 0.15,
+                xanchor: "none",
+                yanchor: "none",
+                "y": 1.47, 
+                "x": 0.10,
                 legend_title_text: "",
                 orientation: "h",
                 bgcolor: clrWhiteTransparent
@@ -781,7 +783,7 @@ Promise.all([
         // create chart layout
         var layout = {
             title: {
-                text:'Canada COVID-19 Vaccine Administration <br> Actual vs Remaining Doses To Meet Sep 30 Goal',
+                text:'Canada COVID-19 Vaccine Administration <br> Actual vs Remaining Doses <br>To Meet Sep 30 Goal',
                 font: {
                     size: 14
                 },
@@ -790,14 +792,14 @@ Promise.all([
             autosize: true,
             autoscale: false,
             margin: {
-                l: 80,
-                r: 80,
-                b: 80,
-                t: 80
+                l: 40,
+                r: 40,
+                b: 40,
+                t: 120
             },
             showlegend: true,
             legend: {
-                "y": 1.07, 
+                "y": 1.06, 
                 "x": 0.3,
                 legend_title_text: "",
                 orientation: "h",
@@ -929,7 +931,7 @@ Promise.all([
             // create chart layout
             var layout = {
                 title: {
-                    text: provList[j] + ' COVID-19 Vaccine Administration <br> Actual vs Remaining Doses To Meet Sep 30 Goal',
+                    text: provList[j] + ' COVID-19 Vaccine Administration <br> Actual vs Remaining Doses <br> To Meet Sep 30 Goal',
                     font: {
                         size: 14
                     },
@@ -937,14 +939,14 @@ Promise.all([
                 autosize: true,
                 autoscale: false,
                 margin: {
-                    l: 80,
-                    r: 80,
-                    b: 80,
-                    t: 80
+                    l: 40,
+                    r: 40,
+                    b: 40,
+                    t: 120
                 },
                 showlegend: true,
                 legend: {
-                    "y": 1.07,
+                    "y": 1.06,
                     "x": 0.3,
                     legend_title_text: "",
                     orientation: "h",
