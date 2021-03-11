@@ -8,7 +8,11 @@
     }
 
     .div_chart {
-        margin-top: 20px;
+        margin-top: 40px;
+    }
+
+    #div_canada_remain_chart {
+        margin-top: 150px;
     }
 
     .box-value {
