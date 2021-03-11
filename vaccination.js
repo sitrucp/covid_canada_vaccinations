@@ -379,6 +379,10 @@ Promise.all([
         var maxCumForecast = yCumForecast[currDateIndex];
         // get max yCumActual value
         var maxCumActual = Math.max(...yCumActual);
+        var maxCumPfizer = Math.max(...yPfizer);
+        var maxCumModerna = Math.max(...yModerna);
+        var maxCumAstra = Math.max(...yAstra);
+        var maxCumJJ = Math.max(...yJJ);
         // create string for diff between forecast and actual
         var netCum = parseInt(maxCumActual) - parseInt(maxCumForecast);
 
