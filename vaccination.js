@@ -1,23 +1,16 @@
 
-//GET DATA=================================
-// get csv files from working group github repository
+// get files from ccodwg github repository 
 var file_dist_prov = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/vaccine_distribution_timeseries_prov.csv";
-
 var file_admin_prov = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_prov/vaccine_administration_timeseries_prov.csv";
-
 var file_dist_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_distribution_timeseries_canada.csv";
-
 var file_admin_canada = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_canada/vaccine_administration_timeseries_canada.csv";
-
-//var file_forecast = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/forecast.csv";
-
-var file_forecast = "forecast.csv";
-
-var file_population = "https://raw.githubusercontent.com/sitrucp/covid_canada_vaccinations/master/population.csv";
-
 var file_update_time = "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/update_time.txt";
 
-// D3 promise to get all data at once
+// get files from my github repository
+var file_forecast = "forecast.csv";
+var file_population = "population.csv";
+
+// promise data from sources
 Promise.all([
     d3.csv(file_dist_prov),
     d3.csv(file_admin_prov),
@@ -27,7 +20,7 @@ Promise.all([
     d3.csv(file_population),
     d3.csv(file_update_time)
 ]).then(function(data) {
-    //everthing else below is in d3 promise scope
+    //everthing else below is in promise scope
 
     // get data from promise
     var arrDistProv = data[0];
@@ -38,19 +31,15 @@ Promise.all([
     var arrPopulation = data[5];
     var updateTime = data[6];
 
-    // get last updated datetime
+    // get ccodwg last updated datetime
     lastUpdated = updateTime.columns[0];
     
-    // write last update datetime
+    // write ccodwg last update datetime
     document.getElementById('last_update').innerHTML += ' <small class="text-muted">Data updated: ' + lastUpdated + '</small>';
 
     // ggt dist and admin totals by summing array values
     var distCanadaTotal = arrDistCanada.reduce((a, b) => +a + +b.dvaccine, 0);
     var adminCanadaTotal = arrAdminCanada.reduce((a, b) => +a + +b.avaccine, 0);
-    var forecastCanadaTotal = arrForecast.reduce((a, b) => +a + +b.avaccine, 0); // use this if arrForecast data is at prov level but currently it is only Canada level
-
-    // define percent population variable - could do dynamic user variable eg to see 70% pop instead of 100% (herd immunity)
-    var popPercent = 1;
 
     // define color variables 
     var clrBlue = 'rgba(49,130,189,.9)';
@@ -62,6 +51,8 @@ Promise.all([
     var clr3 = 'rgba(240,59,32,.6)';
     var clr4 = 'rgba(253,141,60,.6)';
 
+    // define percent population variable. in future, could do dynamic user variable eg to see 70% pop instead of 100% (herd immunity)
+    var popPercent = 1;
 
     // filter province arrPopulation dataset by age_group
     var sel_age_group = '18 years and over';
@@ -154,9 +145,9 @@ Promise.all([
     });
 
 
-    // CREATE CANADA ACTUAL ADMINISTRATION & DISTRIBUTION CHART
+    // CREATE CHART
     function createCanadaActualChart() {
-        
+
         // create variables
         var province = "Canada";
 
@@ -316,20 +307,18 @@ Promise.all([
             '<li>Distributed Doses Administered: ' + ((adminCanadaTotal/distCanadaTotal) * 100).toFixed(1) + '%</li>' +
             '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
             '</ul>';
-            
         titleCanadaActualChart.innerHTML  = chartDetails;
         document.getElementById('div_canada_actual_chart').append(titleCanadaActualChart);
         document.getElementById('div_canada_actual_chart').append(div_canada_Actual_chartItem);
 
-        // plotly data, config, create chart
+        // create plotly data, config, chart
         var data = [trAdmin, trAdminCum, trDistCum];
         var config = {responsive: true}
         Plotly.newPlot('canadaActualDiv', data, layout, config);
 
     }
 
-
-    // CREATE CANADA ACTUAL FORECAST DISTRIBUTION CHART
+    // CREATE CHART
     function createCanadaForecastChart() {
 
         // define location
@@ -379,10 +368,6 @@ Promise.all([
         var maxCumForecast = yCumForecast[currDateIndex];
         // get max yCumActual value
         var maxCumActual = Math.max(...yCumActual);
-        var maxCumPfizer = Math.max(...yPfizer);
-        var maxCumModerna = Math.max(...yModerna);
-        var maxCumAstra = Math.max(...yAstra);
-        var maxCumJJ = Math.max(...yJJ);
         // create string for diff between forecast and actual
         var netCum = parseInt(maxCumActual) - parseInt(maxCumForecast);
 
@@ -650,7 +635,7 @@ Promise.all([
         titleCanadaForecastChart.id = canadaForecastTitle;
         var chartDetails = '<h4>' + province + ' - Actual vs Forecast Dose Distribution</h4>' + 
             '<p>The visualization below shows a vaccine dose distribution forecast model vs actual distributions. It includes Government of Canada (GoC) distribution milestone targets presented as daily forecast vaccine dose distributions.</p>' +
-            '<p>Forecast updated to include vaccine distribution as of Mar 8, 2021.</p>' +
+            '<p>Forecast regularly updated to include most recent <a href = "https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection/prevention-risks/covid-19-vaccine-treatment/vaccine-rollout.html" target="blank">Public Health Roll-Out details</a>. <a href="forecast.csv" download> Download detailed forecast csv.</a></p>' +
             '<div class="row">' +
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
@@ -701,21 +686,21 @@ Promise.all([
                     '<p><span class="font-weight-bold">Actual minus Forecast</span> <br>' + netCum.toLocaleString() + '</p>' +
                 '</div>' + 
             '</div>';
-
         titleCanadaForecastChart.innerHTML = chartDetails;
         document.getElementById('div_canada_forecast_chart').append(titleCanadaForecastChart);
         document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
 
-        // plotly data, config, create chart
+        // create plotly data, config, chart
         var data = [trActual, trPfizer, trModerna, trAstra, trJJ, trCumActual, trCumForecast];
         var config = {responsive: true}
         Plotly.newPlot('canadaForecastDiv', data, layout, config);
 
     }
 
-    // CREATE CANADA ACTUAL REMAIN CHART
-    function createCanadaChart() {
-        // ggt dist and admin totals by summing values, and population using max
+    // CREATE CHART
+    function createCanadaRemainingChart() {
+
+        // create chart section variables
         var province = "Canada";
         var population = d3.max(arrDistAdminCanadaPop.map(d=>d.population));
         var dosePopulation = parseInt((population * 2) * popPercent);
@@ -852,16 +837,15 @@ Promise.all([
         document.getElementById('div_canada_remain_chart').append(titleCanadaChart);
         document.getElementById('div_canada_remain_chart').append(div_canada_chartItem);
 
-        // plotly data, config, create chart
+        // create plotly data, config, chart
         var data = [trActual, trFuture];
         var config = {responsive: true}
         Plotly.newPlot('canadaDiv', data, layout, config);
 
     }
 
-
-    // CREATE PROVINCE ACTUAL REMAIN CHARTS
-    function createProvChart() {
+    // CREATE CHARTS
+    function createProvRemainingCharts() {
 
         // get list of provinces 
         provListTemp = [];
@@ -1010,8 +994,8 @@ Promise.all([
     // create charts when page loads
     createCanadaActualChart();
     createCanadaForecastChart();
-    createCanadaChart();
-    createProvChart();
+    createCanadaRemainingChart();
+    createProvRemainingCharts();
 
     // create remaining data
     function createRemaining(popDose, maxDate, dist, admin, prov) {
@@ -1071,19 +1055,6 @@ Promise.all([
                 colors.push(clrGray); // gray
             } else {
                 colors.push(clrBlue); // blue
-            }
-        }
-        return colors
-    }
-
-    // assign marker color
-    function markerColor(x) {
-        colors = [];
-        for (var i=0; i<x.length; i++) {
-            if (x[i] == 0) {
-                colors.push('rgba(0, 0, 0, 0)'); // black transparent
-            } else {
-                colors.push(clrBlack);
             }
         }
         return colors
@@ -1152,33 +1123,9 @@ Promise.all([
         return xForecast;
     }
 
-    // reformat date to date object
-    function reformatDate2(d) {
-        // 17-12-2020 is working group date format
-        var parts = (d).split('-');
-        var newDate = new Date(parts[1] + '/' + parts[0] + '/' + parts[2]);
-        return newDate
-    }
-
-    // moving average function - not used 
-    function movingAverage(values, N) {
-        let i = 0;
-        let sum = 0;
-        const means = new Float64Array(values.length).fill(NaN);
-        for (let n = Math.min(N - 1, values.length); i < n; ++i) {
-            sum += values[i];
-        }
-        for (let n = values.length; i < n; ++i) {
-            sum += values[i];
-            means[i] = parseInt(sum / N);
-            sum -= values[i - N + 1];
-        }
-        return means;
-    }
-
 });
 
-//hideShowDiv('read_more_div');
+// hide show read_more_div 
 function hideShowDiv(id) {
     var e = document.getElementById(id);
     if(e.style.display == 'block')
