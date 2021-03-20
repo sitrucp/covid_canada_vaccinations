@@ -55,7 +55,7 @@ Promise.all([
     var popPercent = 1;
 
     // filter province arrPopulation dataset by age_group
-    var sel_age_group = '18 years and over';
+    var sel_age_group = '16 years and over';
     var arrPopulationFiltered = arrPopulation.filter(function(d) { 
         return d.age_group == sel_age_group;
     });
@@ -607,7 +607,7 @@ Promise.all([
                 {
                     x: getAnnoFullVaxX(xCumForecast, yCumForecast, 61000000),
                     y: 61000000,
-                    text: '18+ full vaccination<br>(61m) ' + getAnnoFullVaxText(xCumForecast, yCumForecast, 61000000),
+                    text: '16+ full vaccination<br>(61m) ' + getAnnoFullVaxText(xCumForecast, yCumForecast, 61000000),
                     font: {
                         color: "#000",
                         size: 10
@@ -643,10 +643,10 @@ Promise.all([
                         '<li>Total 8 m:</li>' +
                         '<li>* Pfizer 5.5 m</li>' +
                         '<li>* Moderna 2 m</li>' +
-                        '<li>* AstraZenaca .5 m</li>' +
+                        '<li>* AstraZenaca 2 m</li>' +
                         '<li>* Johnson & Johnson 0 </li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 8 m</p>' +
+                    '<p>Cumulative total: 9.5 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' +
@@ -657,7 +657,7 @@ Promise.all([
                         '<li>* AstraZenaca 3.5 m</li>' +
                         '<li>* Johnson & Johnson 0 </li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 36.5 m</p>' +
+                    '<p>Cumulative total: 38 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
@@ -822,7 +822,7 @@ Promise.all([
         div_canada_chartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
         var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Actual vs Remaining Dose Administration</h4>' +
-            '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + population.toLocaleString() + '</li>' + 
+            '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 16+): ' + population.toLocaleString() + '</li>' + 
             '<li>Doses Distributed: ' + distCanadaTotal.toLocaleString() + '</li>' +
             '<li>Doses Administered: ' + adminCanadaTotal.toLocaleString() + '</li>' +
             '<li>Distributed Doses Administered: ' + ((adminCanadaTotal/distCanadaTotal) * 100).toFixed(1) + '%</li>' +
@@ -832,7 +832,7 @@ Promise.all([
             '<li>' + parseInt(((dosePopulation - adminCanadaTotal) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li>' +
             '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
             '</ul>'  +
-            '<p>The visualization below compares the actual count of vaccine doses administered to-date across Canada as reported by provinces (blue bars) vs calculated remaining dose administration required to fully vaccinate age 18+ population by Sep 30, 2021 (gray bars).</p>';
+            '<p>The visualization below compares the actual count of vaccine doses administered to-date across Canada as reported by provinces (blue bars) vs calculated remaining dose administration required to fully vaccinate age 16+ population by Sep 30, 2021 (gray bars).</p>';
         titleCanadaChart.innerHTML  = chartDetails;
         document.getElementById('div_canada_remain_chart').append(titleCanadaChart);
         document.getElementById('div_canada_remain_chart').append(div_canada_chartItem);
@@ -968,7 +968,7 @@ Promise.all([
             div_prov_chartItem.id = provDiv;
             titleProvChart.id = provTitle;
             var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + ' - Actual vs Remaining Dose Administration</h4>' +
-                '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 18+): ' + population.toLocaleString() + '</li>' + 
+                '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 16+): ' + population.toLocaleString() + '</li>' + 
                 '<li>Doses Distributed: ' + distTotalProv.toLocaleString() + '</li>' +
                 '<li>Doses Administered: ' + adminTotalProv.toLocaleString() + '</li>' +
                 '<li>Distributed Doses Administered: ' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '%</li>' +
@@ -978,7 +978,7 @@ Promise.all([
                 '<li>' + parseInt(((dosePopulation - adminTotalProv) / daysToGoalDate())).toLocaleString() + ' doses must be adminstered daily, starting today, to meet Sep 30 goal.</li>' +
                 '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
                 '</ul>' +
-                '<p>The visualization below compares the actual count of vaccine doses administered to-date as reported by ' + provList[j] + ' (blue bars) vs calculated remaining dose administration required to fully vaccinate age 18+ population by Sep 30, 2021 (gray bars).</p>';
+                '<p>The visualization below compares the actual count of vaccine doses administered to-date as reported by ' + provList[j] + ' (blue bars) vs calculated remaining dose administration required to fully vaccinate age 16+ population by Sep 30, 2021 (gray bars).</p>';
             titleProvChart.innerHTML  = chartDetails;
             document.getElementById('div_prov_remain_chart').append(titleProvChart);
             document.getElementById('div_prov_remain_chart').append(div_prov_chartItem);
