@@ -668,7 +668,7 @@ Promise.all([
                         '<li>* AstraZenaca 16 m</li>' +
                         '<li>* Johnson & Johnson 10 m</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 114 m</p>' +
+                    '<p>Cumulative total: 115.5 m</p>' +
                 '</div>' + 
             '</div>' + 
 
