@@ -640,7 +640,7 @@ Promise.all([
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
                     '<li class="font-weight-bold">Dec 14-Mar 31</li>' +
-                        '<li>Total 8 m:</li>' +
+                        '<li>Total 9.5 m:</li>' +
                         '<li>* Pfizer 5.5 m</li>' +
                         '<li>* Moderna 2 m</li>' +
                         '<li>* AstraZenaca 2 m</li>' +
