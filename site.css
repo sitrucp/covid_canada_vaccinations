@@ -1,25 +1,25 @@
-    .container { 
-        margin-top: 20px;
-        margin-bottom: 40px; 
-    }
+.container { 
+    margin-top: 20px;
+    margin-bottom: 40px; 
+}
 
-    .modebar{
-        display: none !important;
-    }
+.modebar{
+    display: none !important;
+}
 
-    .div_chart {
-        margin-top: 40px;
-    }
+.div_chart {
+    margin-top: 40px;
+}
 
-    #div_canada_remain_chart {
-        margin-top: 150px;
-    }
+#div_canada_remain_chart {
+    margin-top: 150px;
+}
 
-    .box-value {
-        vertical-align:top;
-        background-color: #F8F8FF;
-        padding: 5px 0px 5px 20px;
-        margin: 5px 10px 5px 20px;
-    }
+.box-value {
+    vertical-align:top;
+    background-color: #F8F8FF;
+    padding: 5px 0px 5px 20px;
+    margin: 5px 10px 5px 20px;
+}
 
 
