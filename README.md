@@ -1,28 +1,28 @@
-# Canada COVID-19 Vaccine Distribution and Administration
+# Canada COVID-19 Vaccination Schedule
 
-This code is used to create visualizations that provide insight into the scheduling and effort remaining to meet the Canadian government's goal of providing vaccinations for a target population, defined as age 18+ Canadians, by Sep 30, 2021.
+The following visualizations provide insight into the scheduling and effort remaining to meet the Canadian government's goal of providing vaccinations for a target population, defined as age 16+ Canadians, by Sep 30, 2021.
 
 Two types of visualization are created:
 
-*Actual Dose Delivery vs Forecast Dose Delivery*
+* Actual Doses Distributed & Administered
+* Actual vs Forecast Dose Distribution
+* Actual vs Remaining Dose Administration
 
-This visualization tries to create a realistic forecast schedule of vaccine dose deliveries based on available information. It compares actual vs forecast vaccine dose deliveries for Canada. The cumulative amounts track progress towards the complete delivery of 84 million doses.
+## Canada - Actual Doses Distributed and Administered
 
-Pfizer delivers doses weekly and Moderna every three weeks. For purpose of this visualization, these weekly deliveries were split into daily dose delivery amounts. In practice doses will be delivered across Canada in varying amounts and days so daily deliveries will not likely be equal or within delivery weeks.
+The visualization shows vaccine doses distributed and administered.
 
-*Doses Administered vs Remaining Doses To Be Administered* 
+## Canada - Actual vs Forecast Dose Distribution
 
-These visualizations try show effort remaining to achieve full vaccination. There is one visualization for Canada and one for each province, comparing actual doses administered vs a calculated count of remaining dose administrations to meet goal of vaccinating 18+ population by Sep 30 (about 30.7 million people requiring 61.5 million doses for full vaccination).
+The visualization shows a vaccine dose distribution forecast model vs actual distributions. It includes Government of Canada (GoC) distribution milestone targets presented as daily forecast vaccine dose distributions.
 
-Population x 2 is used because dose administration reporting records single doses but two doses are required for full vaccination using the available Pfizer and Moderna vaccines. This would be updated if and when single dose vaccines become available.
+Forecast regularly updated to include most recent Public Health Roll-Out details. Download detailed forecast csv.
 
-% of Target Population Doses Administered is defined as: ((Doses Administered To-Date / (Age 18+ Popluation x 2)) x 100. This is probably the best metric to gauge overall performance of vaccination program as each person requires 2 doses.
+## Actual vs Remaining Dose Administration
 
-It should be noted that the Canadian government has specifically said the goal was to provide vaccinations to "all Canadians who wanted them." Given polling demonstrating vaccine hesitancy by some Canadians, the total vaccine doses required to meet the "all Canadians who want the vaccine" goal will be less than the population x 2, but how much is not yet clear. 
+These visualizations show doses remaining to achieve full vaccination as equal daily amounts from current date to Sep 30 2021.
 
-In addition, "herd immunity" for COVID-19 is thought to be conferred if at least 70% of the population receives a vaccine.  But some fear that the extremely infectious nature of COVID-19 could require a significantly higher threshold.
-
-Given the uncertainty of both cases above it is better to use vaccination of 100% of age 18+ population as the goal.
+There is one visualization for Canada and one for each province and territory.
 
 ## View visualizations here
 
