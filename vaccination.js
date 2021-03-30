@@ -640,30 +640,30 @@ Promise.all([
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
                     '<li class="font-weight-bold">Dec 14-Mar 31</li>' +
-                        '<li>Total 8 m:</li>' +
+                        '<li>Total 9.5 m:</li>' +
                         '<li>* Pfizer 5.5 m</li>' +
                         '<li>* Moderna 2 m</li>' +
-                        '<li>* AstraZenaca .5 m</li>' +
+                        '<li>* AstraZenaca 2 m</li>' +
                         '<li>* Johnson & Johnson 0 </li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 8 m</p>' +
+                    '<p>Cumulative total: 9.5 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' +
                         '<li class="font-weight-bold">Apr 1-Jun 30</li>' +
-                        '<li>Total 28 m:</li>' +
-                        '<li>* Pfizer 12.8 m</li>' +
+                        '<li>Total 31.5 m:</li>' +
+                        '<li>* Pfizer 17.8 m</li>' +
                         '<li>* Moderna 12.2 m</li>' +
-                        '<li>* AstraZenaca 3 m</li>' +
+                        '<li>* AstraZenaca 1.5 m</li>' +
                         '<li>* Johnson & Johnson 0 </li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 36 m</p>' +
+                    '<p>Cumulative total: 39.5 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
                         '<li class="font-weight-bold">Jul 1-Sep 30</li>' +
-                        '<li>Total 78 m:</li>' +
-                        '<li>* Pfizer 21.7 m</li>' +
+                        '<li>Total 73 m:</li>' +
+                        '<li>* Pfizer 16.7 m</li>' +
                         '<li>* Moderna 29.8 m</li>' +
                         '<li>* AstraZenaca 16.5 m</li>' +
                         '<li>* Johnson & Johnson 10 m</li>' +
