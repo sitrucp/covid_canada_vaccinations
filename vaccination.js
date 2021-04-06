@@ -241,6 +241,10 @@ Promise.all([
         var config = {responsive: true}
         Plotly.newPlot('div_canada_admin_chart', data, layout, config);
 
+        if ($('#div_canada_admin_chart').length > 0) {
+            let loader = document.getElementById("loading");
+            loader.style.display = 'none';
+        }
     }
 
 
@@ -1323,3 +1327,4 @@ function hideShowDiv(id) {
     else
         e.style.display = 'block';
 }
+
