@@ -763,9 +763,9 @@ Promise.all([
                     ay: 20
                 },
                 {
-                    x: getAnnoSpecificValueX(xCumForecast, yCumForecast, 61000000),
-                    y: 61000000,
-                    text: '16+ full vaccination<br>(61m) ' + getAnnoSpecificValueText(xCumForecast, yCumForecast, 61000000),
+                    x: getAnnoSpecificValueX(xCumForecast, yCumForecast, 63000000),
+                    y: 63000000,
+                    text: '16+ full vaccination<br>(63m) ' + getAnnoSpecificValueText(xCumForecast, yCumForecast, 63000000),
                     font: {
                         color: "#000",
                         size: 10
