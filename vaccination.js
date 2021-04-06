@@ -146,7 +146,7 @@ Promise.all([
 
 
     // CREATE CHART
-    function createCanadaActualChart() {
+    function createCanadaAdminChart() {
 
         // create variables
         var province = "Canada";
@@ -154,28 +154,12 @@ Promise.all([
         // define x and y axis arrays
         var xAdmin = [];
         var yAdmin = [];
-        var xAdminCum = [];
-        var yAdminCum = [];
-        var xDistCum = [];
-        var yDistCum = [];
 
         // populate x and y axis arrays
         for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
             var row = arrDistAdminCanadaPop[i];
             xAdmin.push(row['report_date']);
             yAdmin.push(parseInt(row['avaccine']));
-        }
-
-        for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
-            var row = arrDistAdminCanadaPop[i];
-            xAdminCum.push(row['report_date']);
-            yAdminCum.push(parseInt(row['cumulative_avaccine']));
-        }
-
-        for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
-            var row = arrDistAdminCanadaPop[i];
-            xDistCum.push(row['report_date']);
-            yDistCum.push(parseInt(row['cumulative_dvaccine']));
         }
 
         // create chart traces
@@ -193,12 +177,204 @@ Promise.all([
             },
         };
 
+        // create chart layout
+        var layout = {
+            title: {
+                text:'Canada COVID-19 Vaccine <br>Actual Doses Administered',
+                font: {
+                    size: 14
+                },
+            },
+            barmode: 'relative',
+            autosize: true,
+            autoscale: false,
+            //width: 800,
+            height: 300,
+            margin: {
+                l: 40,
+                r: 40,
+                b: 40,
+                t: 40
+            },
+            showlegend: false,
+            legend: {
+                "y": 1.2, 
+                "x": 0.15,
+                legend_title_text: "",
+                orientation: "h",
+                bgcolor: clrWhiteTransparent
+            },
+            xaxis: { 
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
+            },
+            yaxis: { 
+                title: {
+                    text: 'doses',
+                    font: {
+                        size: 11,
+                    },
+                },
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
+                rangemode: 'tozero',
+            },
+        }
+
+        // create chart section text content
+        var divCanadaAdminTitle = document.createElement("p");
+        var divCanadaAdminChart = document.createElement("div");
+        divCanadaAdminChart.id = 'div_canada_admin_chart';
+        divCanadaAdminTitle.id = 'div_canada_admin_title';
+        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Actual Doses Administered</h4>' + 
+        '<p>The visualization below shows actual daily vaccine doses administered. Total doses administered to-date: ' + adminCanadaTotal.toLocaleString() + '</p>';
+        divCanadaAdminTitle.innerHTML  = chartDetails;
+        document.getElementById('div_canada_admin').append(divCanadaAdminTitle);
+        document.getElementById('div_canada_admin').append(divCanadaAdminChart);
+
+        // create plotly data, config, chart
+        var data = [trAdmin];
+        var config = {responsive: true}
+        Plotly.newPlot('div_canada_admin_chart', data, layout, config);
+
+    }
+
+
+    // CREATE CHART
+    function createCanadaDistChart() {
+
+        // create variables
+        var province = "Canada";
+
+        // define x and y axis arrays
+        var xDist = [];
+        var yDist = [];
+
+        // populate x and y axis arrays
+        for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
+            var row = arrDistAdminCanadaPop[i];
+            xDist.push(row['report_date']);
+            yDist.push(parseInt(row['dvaccine']));
+        }
+
+        // create chart traces
+        var trDist = {
+            name: 'Distributed',
+            hoverlabel: {
+                namelength :-1
+            },
+            x: xDist,
+            y: yDist,
+            showgrid: false,
+            type: 'bar',
+            marker:{
+                color: clrBlue
+            },
+        };
+
+        // create chart layout
+        var layout = {
+            title: {
+                text:'Canada COVID-19 Vaccine <br>Actual Doses Distributed',
+                font: {
+                    size: 14
+                },
+            },
+            barmode: 'relative',
+            autosize: true,
+            autoscale: false,
+            //width: 800,
+            height: 300,
+            margin: {
+                l: 40,
+                r: 40,
+                b: 40,
+                t: 40
+            },
+            showlegend: false,
+            legend: {
+                "y": 1.2, 
+                "x": 0.15,
+                legend_title_text: "",
+                orientation: "h",
+                bgcolor: clrWhiteTransparent
+            },
+            xaxis: { 
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
+            },
+            yaxis: { 
+                title: {
+                    text: 'doses',
+                    font: {
+                        size: 11,
+                    },
+                },
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
+                rangemode: 'tozero',
+            },
+        }
+
+        // create chart section text content
+        var divCanadaDistTitle = document.createElement("p");
+        var divCanadaDistChart = document.createElement("div");
+        divCanadaDistChart.id = 'div_canada_dist_chart';
+        divCanadaDistTitle.id = 'div_canada_dist_title';
+        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Actual Doses Distributed</h4>' + 
+        '<p>The visualization below shows actual daily vaccine doses distributed. Total doses distributed to-date: ' + distCanadaTotal.toLocaleString() + '</p>';
+        divCanadaDistTitle.innerHTML  = chartDetails;
+        document.getElementById('div_canada_dist').append(divCanadaDistTitle);
+        document.getElementById('div_canada_dist').append(divCanadaDistChart);
+
+        // create plotly data, config, chart
+        var data = [trDist];
+        var config = {responsive: true}
+        Plotly.newPlot('div_canada_dist_chart', data, layout, config);
+
+    }
+
+
+    // CREATE CHART
+    function createCanadaAdminDistChart() {
+
+        // create variables
+        var province = "Canada";
+
+        // define x and y axis arrays
+        var xAdminCum = [];
+        var yAdminCum = [];
+        var xDistCum = [];
+        var yDistCum = [];
+
+        // populate x and y axis arrays
+        for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
+            var row = arrDistAdminCanadaPop[i];
+            xAdminCum.push(row['report_date']);
+            yAdminCum.push(parseInt(row['cumulative_avaccine']));
+        }
+
+        for (var i=0; i<arrDistAdminCanadaPop.length; i++) {
+            var row = arrDistAdminCanadaPop[i];
+            xDistCum.push(row['report_date']);
+            yDistCum.push(parseInt(row['cumulative_dvaccine']));
+        }
+
+        // create chart traces
         var trAdminCum = {
             name: 'Administered Cumulative',
             hoverlabel: {
                 namelength :-1
             },
-            yaxis: 'y2',
+            yaxis: 'y',
             x: xAdminCum,
             y: yAdminCum,
             showgrid: false,
@@ -217,7 +393,7 @@ Promise.all([
             hoverlabel: {
                 namelength :-1
             },
-            yaxis: 'y2',
+            yaxis: 'y',
             x: xDistCum,
             y: yDistCum,
             showgrid: false,
@@ -233,7 +409,7 @@ Promise.all([
         // create chart layout
         var layout = {
             title: {
-                text:'Canada COVID-19 Vaccine Actual Doses <br> Distributed and Administered',
+                text:'Canada COVID-19 Vaccine Actual Doses <br>Cumulative Distributed and Administered',
                 font: {
                     size: 14
                 },
@@ -242,17 +418,17 @@ Promise.all([
             autosize: true,
             autoscale: false,
             //width: 800,
-            height: 600,
+            height: 450,
             margin: {
                 l: 40,
                 r: 40,
                 b: 40,
-                t: 200
+                t: 150
             },
             showlegend: true,
             legend: {
-                "y": 1.2, 
-                "x": 0.15,
+                "y": 1.15, 
+                "x": 0.18,
                 legend_title_text: "",
                 orientation: "h",
                 bgcolor: clrWhiteTransparent
@@ -265,7 +441,7 @@ Promise.all([
             },
             yaxis: { 
                 title: {
-                    text: 'daily dose count',
+                    text: 'doses',
                     font: {
                         size: 11,
                     },
@@ -276,45 +452,27 @@ Promise.all([
                 showgrid: false,
                 rangemode: 'tozero',
             },
-            yaxis2: {
-                title: {
-                    text: 'cumulative dose count',
-                    font: {
-                        size: 11,
-                    },
-                },
-                tickfont: {
-                    size: 11
-                },
-                overlaying: 'y',
-                side: 'right',
-                showgrid: false,
-                rangemode: 'tozero',
-            }
         }
 
         // create chart section text content
-        var canadaActualDiv = 'canadaActualDiv';
-        var canadaActualTitle = 'title' + canadaActualDiv;
-        var titleCanadaActualChart = document.createElement("p");
-        var div_canada_Actual_chartItem = document.createElement("div");
-        div_canada_Actual_chartItem.id = canadaActualDiv;
-        titleCanadaActualChart.id = canadaActualTitle;
-        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Actual Doses Distributed and Administered</h4>' +
-            '<p>The visualization below shows actual daily and cumulative vaccine doses distributed and administered.</p>' + 
-            '<li>Doses Distributed: ' + distCanadaTotal.toLocaleString() + '</li>' +
-            '<li>Doses Administered: ' + adminCanadaTotal.toLocaleString() + '</li>' +
-            '<li>Distributed Doses Administered: ' + ((adminCanadaTotal/distCanadaTotal) * 100).toFixed(1) + '%</li>' +
-            '<li class="small font-italic"">Click "Read More" link above for details on calculations.</li>' +
-            '</ul>';
-        titleCanadaActualChart.innerHTML  = chartDetails;
-        document.getElementById('div_canada_actual_chart').append(titleCanadaActualChart);
-        document.getElementById('div_canada_actual_chart').append(div_canada_Actual_chartItem);
+        var divCanadaAdminDistTitle = document.createElement("p");
+        var divCanadaAdminDistChart = document.createElement("div");
+        divCanadaAdminDistChart.id = 'div_canada_admin_dist_chart';
+        divCanadaAdminDistTitle.id = 'div_canada_admin_dist_title';
+        var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Cumulative Actual Doses Administered and Distributed</h4>' + 
+        '<p>The visualization below shows cumulative actual vaccine doses administered and distributed.</p>' +
+        '<li>Doses Distributed: ' + distCanadaTotal.toLocaleString() + '</li>' +
+        '<li>Doses Administered: ' + adminCanadaTotal.toLocaleString() + '</li>' +
+        '<li>Distributed Doses Administered: ' + ((adminCanadaTotal/distCanadaTotal) * 100).toFixed(1) + '%</li>' +
+        '</ul>';
+        divCanadaAdminDistTitle.innerHTML  = chartDetails;
+        document.getElementById('div_canada_admin_dist').append(divCanadaAdminDistTitle);
+        document.getElementById('div_canada_admin_dist').append(divCanadaAdminDistChart);
 
         // create plotly data, config, chart
-        var data = [trAdmin, trAdminCum, trDistCum];
+        var data = [trAdminCum, trDistCum];
         var config = {responsive: true}
-        Plotly.newPlot('canadaActualDiv', data, layout, config);
+        Plotly.newPlot('div_canada_admin_dist_chart', data, layout, config);
 
     }
 
@@ -485,7 +643,7 @@ Promise.all([
          // create chart layout
         var layout = {
             title: {
-                text:'Canada COVID-19 Vaccine Distribution <br> Actual vs Forecast Doses By Sep 30',
+                text:'Canada COVID-19 Vaccine Doses<br> Sep 30 Distribution Forecast',
                 font: {
                     size: 14
                 },
@@ -605,9 +763,28 @@ Promise.all([
                     ay: 20
                 },
                 {
-                    x: getAnnoFullVaxX(xCumForecast, yCumForecast, 61000000),
+                    x: getAnnoSpecificValueX(xCumForecast, yCumForecast, 61000000),
                     y: 61000000,
-                    text: '16+ full vaccination<br>(61m) ' + getAnnoFullVaxText(xCumForecast, yCumForecast, 61000000),
+                    text: '16+ full vaccination<br>(61m) ' + getAnnoSpecificValueText(xCumForecast, yCumForecast, 61000000),
+                    font: {
+                        color: "#000",
+                        size: 10
+                    },
+                    bgcolor: '#fff',
+                    opacity: 0.7,
+                    xref: 'x',
+                    yref: 'y2',
+                    showarrow: true,
+                    arrowhead: 3,
+                    arrowsize: 1,
+                    arrowcolor: "rgba(0,0,0,.5)",
+                    ax: -50,
+                    ay: -60
+                },
+                {
+                    x: getAnnoSpecificValueX(xCumForecast, yCumForecast, 9500000),
+                    y: 9500000,
+                    text: '9.5m doses<br>achieved ' + getAnnoSpecificValueText(xCumForecast, yCumForecast, 9500000),
                     font: {
                         color: "#000",
                         size: 10
@@ -698,11 +875,11 @@ Promise.all([
                 '</div>' + 
             '</div>';
         titleCanadaForecastChart.innerHTML = chartDetails;
-        document.getElementById('div_canada_forecast_chart').append(titleCanadaForecastChart);
-        document.getElementById('div_canada_forecast_chart').append(div_canada_forecast_chartItem);
+        document.getElementById('div_canada_forecast').append(titleCanadaForecastChart);
+        document.getElementById('div_canada_forecast').append(div_canada_forecast_chartItem);
 
         // create plotly data, config, chart
-        var data = [trActual, trPfizer, trModerna, trAstra, trJJ, trCumActual, trCumForecast];
+        var data = [trPfizer, trModerna, trAstra, trJJ, trCumActual, trCumForecast];
         var config = {responsive: true}
         Plotly.newPlot('canadaForecastDiv', data, layout, config);
 
@@ -845,8 +1022,8 @@ Promise.all([
             '</ul>'  +
             '<p>The visualization below compares the actual count of vaccine doses administered to-date across Canada as reported by provinces (blue bars) vs calculated remaining dose administration required to fully vaccinate age 16+ population by Sep 30, 2021 (gray bars).</p>';
         titleCanadaChart.innerHTML  = chartDetails;
-        document.getElementById('div_canada_remain_chart').append(titleCanadaChart);
-        document.getElementById('div_canada_remain_chart').append(div_canada_chartItem);
+        document.getElementById('div_canada_remaining').append(titleCanadaChart);
+        document.getElementById('div_canada_remaining').append(div_canada_chartItem);
 
         // create plotly data, config, chart
         var data = [trActual, trFuture];
@@ -991,8 +1168,8 @@ Promise.all([
                 '</ul>' +
                 '<p>The visualization below compares the actual count of vaccine doses administered to-date as reported by ' + provList[j] + ' (blue bars) vs calculated remaining dose administration required to fully vaccinate age 16+ population by Sep 30, 2021 (gray bars).</p>';
             titleProvChart.innerHTML  = chartDetails;
-            document.getElementById('div_prov_remain_chart').append(titleProvChart);
-            document.getElementById('div_prov_remain_chart').append(div_prov_chartItem);
+            document.getElementById('div_prov_remaining').append(titleProvChart);
+            document.getElementById('div_prov_remaining').append(div_prov_chartItem);
             
             // plotly data, config, create chart
             var data = [trActual, trFuture];
@@ -1003,7 +1180,9 @@ Promise.all([
     }
 
     // create charts when page loads
-    createCanadaActualChart();
+    createCanadaAdminChart();
+    createCanadaDistChart();
+    createCanadaAdminDistChart();
     createCanadaForecastChart();
     createCanadaRemainingChart();
     createProvRemainingCharts();
@@ -1121,12 +1300,12 @@ Promise.all([
         return annoString;
     }
 
-    function getAnnoFullVaxX(arrX, arrY, yValue) {
+    function getAnnoSpecificValueX(arrX, arrY, yValue) {
         var yIndex = arrY.findIndex(x => x > yValue)
         return arrX[yIndex];
     }
 
-    function getAnnoFullVaxText(arrXforecast, arrYforecast, yValue) {
+    function getAnnoSpecificValueText(arrXforecast, arrYforecast, yValue) {
         // get index for first value greater than yValue
         var yIndexForecast = arrYforecast.findIndex(x => x > yValue)
         // get x value for y index
