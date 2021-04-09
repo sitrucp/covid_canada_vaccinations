@@ -825,28 +825,28 @@ Promise.all([
                         '<li>* Pfizer 5.5 m</li>' +
                         '<li>* Moderna 2 m</li>' +
                         '<li>* AstraZenaca 2 m</li>' +
-                        '<li>* Johnson & Johnson 0 </li>' +
+                        '<li>* Johnson & Johnson 0</li>' +
                     '</ul>' +
                     '<p>Cumulative total: 9.5 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' +
                         '<li class="font-weight-bold">Apr 1-Jun 30</li>' +
-                        '<li>Total 33.4 m:</li>' +
+                        '<li>Total 34.5 m:</li>' +
                         '<li>* Pfizer 17.8 m</li>' +
-                        '<li>* Moderna 12.2 m</li>' +
-                        '<li>* AstraZenaca 3.4 m</li>' +
-                        '<li>* Johnson & Johnson 0 </li>' +
+                        '<li>* Moderna 12.3 m</li>' +
+                        '<li>* AstraZenaca 4.4 m</li>' +
+                        '<li>* Johnson & Johnson 0</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 42.9 m</p>' +
+                    '<p>Cumulative total: 44 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
                         '<li class="font-weight-bold">Jul 1-Sep 30</li>' +
-                        '<li>Total 71.1 m:</li>' +
+                        '<li>Total 70 m:</li>' +
                         '<li>* Pfizer 16.7 m</li>' +
-                        '<li>* Moderna 29.8 m</li>' +
-                        '<li>* AstraZenaca 14.6 m</li>' +
+                        '<li>* Moderna 29.7 m</li>' +
+                        '<li>* AstraZenaca 13.6 m</li>' +
                         '<li>* Johnson & Johnson 10 m</li>' +
                     '</ul>' +
                     '<p>Cumulative total: 114 m</p>' +
