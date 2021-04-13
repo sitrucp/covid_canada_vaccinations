@@ -1014,7 +1014,7 @@ Promise.all([
         div_canada_chartItem.id = canadaDiv;
         titleCanadaChart.id = canadaTitle;
         var chartDetails = '<ul class="list-unstyled"><li><h4>' + province + ' - Actual vs Remaining Dose Administration</h4>' +
-            '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 16+): ' + population.toLocaleString() + '</li>' + 
+            '</li><li>Target Population ('+ parseInt(popPercent * 100) + '% Age 16+): ' + population.toLocaleString() + '</li>' + 
             '<li>Doses Distributed: ' + distCanadaTotal.toLocaleString() + '</li>' +
             '<li>Doses Administered: ' + adminCanadaTotal.toLocaleString() + '</li>' +
             '<li>Distributed Doses Administered: ' + ((adminCanadaTotal/distCanadaTotal) * 100).toFixed(1) + '%</li>' +
@@ -1160,7 +1160,7 @@ Promise.all([
             div_prov_chartItem.id = provDiv;
             titleProvChart.id = provTitle;
             var chartDetails = '<ul class="list-unstyled"><li><h4>' + provList[j] + ' - Actual vs Remaining Dose Administration</h4>' +
-                '</li><li>Target Popluation ('+ parseInt(popPercent * 100) + '% Age 16+): ' + population.toLocaleString() + '</li>' + 
+                '</li><li>Target Population ('+ parseInt(popPercent * 100) + '% Age 16+): ' + population.toLocaleString() + '</li>' + 
                 '<li>Doses Distributed: ' + distTotalProv.toLocaleString() + '</li>' +
                 '<li>Doses Administered: ' + adminTotalProv.toLocaleString() + '</li>' +
                 '<li>Distributed Doses Administered: ' + ((adminTotalProv/distTotalProv) * 100).toFixed(1) + '%</li>' +
