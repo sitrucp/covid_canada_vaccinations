@@ -864,7 +864,7 @@ Promise.all([
             '</div>' + 
             '</div>' + 
 
-            '<p>Vaccine distribution is on-track when the actual cumulative distribution closely tracks or overtakes forecast cumulative distribution and when the actual cumulative distribution closely tracks or overtakes forecast cumulative distribution.</p>' +
+            '<p>Vaccine distribution can be considered to be on-track when the actual cumulative distribution closely matches the forecast cumulative distribution. The "Actual minus Forecast" value below is a snapshot of current status, which ideally is zero or positive, but if negative, only by relatively small amount for short durations.</p>' +
 
             '<p class="font-weight-bold">Cumulative Dose Distribution as of: ' + maxAdminDate.toISOString().split('T')[0] +'</p>' +
             '<div class="row">' +
