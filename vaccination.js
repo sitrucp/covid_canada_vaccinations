@@ -832,24 +832,24 @@ Promise.all([
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' +
                         '<li class="font-weight-bold">Apr 1-Jun 30</li>' +
-                        '<li>Total 39.2 m:</li>' +
+                        '<li>Total 38.9 m:</li>' +
                         '<li>* Pfizer 24.2 m</li>' +
                         '<li>* Moderna 10.3 m</li>' +
                         '<li>* AstraZenaca 4.4 m</li>' +
-                        '<li>* Johnson & Johnson 0.3 m</li>' +
+                        '<li>* Johnson & Johnson 0</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 48.7 m</p>' +
+                    '<p>Cumulative total: 38.9 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                     '<ul class="list-unstyled">' + 
                         '<li class="font-weight-bold">Jul 1-Sep 30</li>' +
-                        '<li>Total 73.3 m:</li>' +
+                        '<li>Total 63.6 m:</li>' +
                         '<li>* Pfizer 18.3 m</li>' +
                         '<li>* Moderna 31.7 m</li>' +
                         '<li>* AstraZenaca 13.6 m</li>' +
-                        '<li>* Johnson & Johnson 9.7 m</li>' +
+                        '<li>* Johnson & Johnson 0</li>' +
                     '</ul>' +
-                    '<p>Cumulative total: 122 m</p>' +
+                    '<p>Cumulative total: 112 m</p>' +
                 '</div>' + 
                 '<div class="col-sm box-value">' +
                 '<ul class="list-unstyled">' + 
@@ -858,9 +858,9 @@ Promise.all([
                     '<li>* Pfizer 48 m</li>' +
                     '<li>* Moderna 44 m</li>' +
                     '<li>* AstraZenaca 20 m</li>' +
-                    '<li>* Johnson & Johnson 10 m</li>' +
+                    '<li>* Johnson & Johnson 0</li>' +
                 '</ul>' +
-                '<p>Overall Total: 122 m</p>' +
+                '<p>Overall Total: 112 m</p>' +
             '</div>' + 
             '</div>' + 
 
@@ -888,6 +888,165 @@ Promise.all([
         Plotly.newPlot('canadaForecastDiv', data, layout, config);
 
     }
+
+/////////////////////////
+
+
+    // CREATE CHART
+    function createCanadaVaccineLineChart() {
+
+        // define location
+        var province = "Canada";
+        
+        // define x and y axis arrays
+        var xCumPfizer = [];
+        var yCumPfizer = [];
+        var xCumModerna = [];
+        var yCumModerna = [];
+        var xCumAstra = [];
+        var yCumAstra = [];
+        var xCumJJ = [];
+        var yCumJJ = [];
+
+        for (var i=0; i<arrForecast.length; i++) {
+            var row = arrForecast[i];
+            xCumPfizer.push(row['report_date']);
+            yCumPfizer.push(parseInt(row['cumulative_pfizer'].replace(/,/g, '')));
+            xCumModerna.push(row['report_date']);
+            yCumModerna.push(parseInt(row['cumulative_moderna'].replace(/,/g, '')));
+            xCumAstra.push(row['report_date']);
+            yCumAstra.push(parseInt(row['cumulative_astra'].replace(/,/g, '')));
+            xCumJJ.push(row['report_date']);
+            yCumJJ.push(parseInt(row['cumulative_jj'].replace(/,/g, '')));
+        }
+
+        // create chart traces
+        var trPfizer = {
+            name: 'Pfizer Forecast',
+            hoverlabel: {
+                namelength :-1
+            },
+            x: xCumPfizer,
+            y: yCumPfizer,
+            showgrid: false,
+            type: 'line',
+            marker:{
+                color: clr1
+            },
+        };
+
+        var trModerna = {
+            name: 'Moderna Forecast',
+            hoverlabel: {
+                namelength :-1
+            },
+            x: xCumModerna,
+            y: yCumModerna,
+            showgrid: false,
+            type: 'line',
+            marker:{
+                color: clr2
+            },
+        };
+
+        var trAstra = {
+            name: 'AstraZenaca Forecast',
+            hoverlabel: {
+                namelength :-1
+            },
+            x: xCumAstra,
+            y: yCumAstra,
+            showgrid: false,
+            type: 'line',
+            marker:{
+                color: clr3
+            },
+        };
+
+        var trJJ = {
+            name: 'J & J Forecast',
+            hoverlabel: {
+                namelength :-1
+            },
+            x: xCumJJ,
+            y: yCumJJ,
+            showgrid: false,
+            type: 'line',
+            marker:{
+                color: clr4
+            },
+        };
+
+         // create chart layout
+        var layout = {
+            title: {
+                text:'Canada COVID-19 Vaccine Doses<br> Cumulative Doses',
+                font: {
+                    size: 14
+                },
+            },
+            barmode: 'relative',
+            bargap: 0,
+            //width: 800,
+            height: 620,
+            showlegend: true,
+            autosize: true,
+            autoscale: false,
+            margin: {
+                l: 40,
+                r: 40,
+                b: 40,
+                t: 300
+            },
+            legend: {
+                xanchor: "none",
+                yanchor: "none",
+                "y": 1.47, 
+                "x": 0.10,
+                legend_title_text: "",
+                orientation: "h",
+                bgcolor: clrWhiteTransparent
+            },
+            xaxis: { 
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
+            },
+            yaxis: { 
+                title: {
+                    text: 'cumulative doses',
+                    font: {
+                        size: 11,
+                    },
+                },
+                tickfont: {
+                    size: 11
+                },
+                showgrid: false,
+                rangemode: 'tozero',
+            },
+        }
+
+        // create chart section text content
+        var divCanadaVaccineLineTitle = document.createElement("p");
+        var divCanadaAdminChart = document.createElement("div");
+        divCanadaAdminChart.id = 'div_canada_vaccine_line_chart';
+        divCanadaVaccineLineTitle.id = 'div_canada_vaccine_line_title';
+        var chartDetails = '<h4>' + province + ' - Cumulative Forecast Dose Distribution</h4>' + '<p>The visualization below shows cumulative vaccine dose distribution forecasts  <a href="forecast.csv" download> Download detailed forecast csv.</a></p>';
+        divCanadaVaccineLineTitle.innerHTML  = chartDetails;
+        document.getElementById('div_canada_vaccine_line').append(divCanadaVaccineLineTitle);
+        document.getElementById('div_canada_vaccine_line').append(divCanadaAdminChart);
+
+        // create plotly data, config, chart
+        var data = [trPfizer, trModerna, trAstra, trJJ];
+        var config = {responsive: true}
+        Plotly.newPlot('div_canada_vaccine_line_chart', data, layout, config);
+
+    }
+
+//////////////////////////
+
 
     // CREATE CHART
     function createCanadaRemainingChart() {
@@ -1188,6 +1347,7 @@ Promise.all([
     createCanadaDistChart();
     createCanadaAdminDistChart();
     createCanadaForecastChart();
+    createCanadaVaccineLineChart();
     createCanadaRemainingChart();
     createProvRemainingCharts();
 
