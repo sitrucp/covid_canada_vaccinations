@@ -527,8 +527,14 @@ Promise.all([
 
         // get current yCumForecast value, by get xCumForecast current date index, then find yCumForecast value at that index
         var currDateIndex = xCumForecast.findIndex(x => x.toISOString().split('T')[0] === maxAdminDate.toISOString().split('T')[0]);
-        var maxCumForecast = yCumForecast[currDateIndex];
-        // get max yCumActual value
+        
+        if (yCumForecast[currDateIndex]) {
+            var maxCumForecast = yCumForecast[currDateIndex];
+        } else {
+            var maxCumForecast = 0;
+        }
+        console.log(maxCumForecast);
+            // get max yCumActual value
         var maxCumActual = Math.max(...yCumActual);
         // create string for diff between forecast and actual
         var netCum = parseInt(maxCumActual) - parseInt(maxCumForecast);
